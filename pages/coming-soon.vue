@@ -1,12 +1,10 @@
 <script lang="ts" setup>
-
 useSeoMeta({
   title: 'Coming Soon | MS. CHING 蜜絲晴烘焙手作坊',
   ogTitle: 'Coming Soon | MS. CHING 蜜絲晴烘焙手作坊',
   description: '即將推出，追蹤我們的社交平台，掌握最新資訊。',
   ogDescription: '即將推出，追蹤我們的社交平台，掌握最新資訊。'
 })
-
 </script>
 
 <!-- Home -->
@@ -28,20 +26,32 @@ useSeoMeta({
           class="-z-[1] absolute inset-0 mx-auto breathing w-10/12 sm:w-[300px]"
           src="/images/soon/ellipse.png"
         />
-        <NuxtImg class="absolute top-1/2 right-0 w-13" src="/images/soon/border_2.png" />
+        <NuxtImg
+          class="absolute top-1/2 right-0 w-13"
+          src="/images/soon/border_2.png"
+        />
       </div>
       <div class="relative flex flex-col items-center px-4 pt-12 py-5">
         <span class="text-slate-800 text-3xl text-center leading-snug">
           追蹤我們的社交平台，掌握最新資訊。
         </span>
-        <div class="container flex justify-center py-3"><div class="w-8 border-2 border-t border-primary-20 rounded-full"/></div>
-        <NuxtImg class="absolute -top-3 left-0 w-16" src="/images/soon/border_3.png" />
+        <div class="container flex justify-center py-3">
+          <div class="w-8 border-2 border-t border-primary-20 rounded-full" />
+        </div>
+        <NuxtImg
+          class="absolute -top-3 left-0 w-16"
+          src="/images/soon/border_3.png"
+        />
         <div class="flex gap-4 mt-3">
-          <NuxtLink to="https://www.instagram.com/msching_2022/"
-            ><NuxtImg src="/images/footer/icon_ig.png" class=""
+          <NuxtLink
+            to="https://www.instagram.com/msching_2022?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+            target="_blank"
+            ><NuxtImg src="/images/footer/icon_ig.png"
           /></NuxtLink>
-          <NuxtLink to="https://www.instagram.com/msching_2022/"
-            ><NuxtImg src="/images/footer/icon_line.png" class=""
+          <NuxtLink
+            to="https://liff.line.me/1645278921-kWRPP32q/?accountId=984gfwdr"
+            target="_blank"
+            ><NuxtImg src="/images/footer/icon_line.png"
           /></NuxtLink>
         </div>
       </div>
@@ -55,6 +65,7 @@ useSeoMeta({
 </template>
 
 <style scoped>
+@import url(http://fonts.googleapis.com/earlyaccess/cwtexhei.css);
 @keyframes breathing {
   0% {
     -webkit-transform: scale(0.9);
@@ -81,8 +92,6 @@ useSeoMeta({
   }
 }
 
-@import url(http://fonts.googleapis.com/earlyaccess/cwtexhei.css);
-
 main {
   font-family: 'cwTeXYen', sans-serif;
 }
@@ -91,6 +100,4 @@ main {
   -webkit-animation: breathing 5s infinite;
   animation: breathing 5s infinite;
 }
-
-
 </style>
