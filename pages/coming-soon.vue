@@ -1,4 +1,13 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+
+useSeoMeta({
+  title: 'Coming Soon | MS. CHING 蜜絲晴烘焙手作坊',
+  ogTitle: 'Coming Soon | MS. CHING 蜜絲晴烘焙手作坊',
+  description: '即將推出，追蹤我們的社交平台，掌握最新資訊。',
+  ogDescription: '即將推出，追蹤我們的社交平台，掌握最新資訊。'
+})
+
+</script>
 
 <!-- Home -->
 <template>
