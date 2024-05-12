@@ -65,7 +65,7 @@ useSeoMeta({
 </template>
 
 <style scoped>
-@import url(http://fonts.googleapis.com/earlyaccess/cwtexhei.css);
+@import url(https://fonts.googleapis.com/earlyaccess/cwtexhei.css);
 @keyframes breathing {
   0% {
     -webkit-transform: scale(0.9);
