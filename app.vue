@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-col min-h-screen">
-    <AppHeader />
+  <div class="flex flex-col min-h-screen bg-white">
+    <!-- <AppHeader /> -->
 
     <!-- <Transition name="slide-from-right">
       <LazyCart v-if="isShowingCart" />
@@ -12,6 +12,6 @@
 
     <NuxtPage />
 
-    <LazyAppFooter />
+    <!-- <LazyAppFooter /> -->
   </div>
 </template>
