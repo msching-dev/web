@@ -2,7 +2,7 @@
 </script>
 <template>
   <div class="flex flex-col h-dvh">
-    <!-- <AppHeader /> -->
+    <AppHeader />
 
     <!-- <Transition name="slide-from-right">
       <LazyCart v-if="isShowingCart" />
@@ -14,7 +14,7 @@
 
     <NuxtPage />
 
-    <!-- <LazyAppFooter /> -->
+    <LazyAppFooter />
   </div>
 </template>
 <style lang="postcss">

@@ -10,9 +10,6 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
 })
 
-// to coming soon
-await navigateTo('/coming-soon')
-
 </script>
 
 <!-- Home -->
