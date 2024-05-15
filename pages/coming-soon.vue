@@ -11,16 +11,16 @@ useSeoMeta({
 <template>
   <dev class="relative flex flex-col min-h-screen bg-[#FDFCF8] overflow-hidden">
     <div>
-      <NuxtImg class="absolute -top-[3px] -left-[35px]" src="/images/soon/almond_tuiles.png" />
-      <NuxtImg class="absolute top-[6.2%] -right-[29px] -rotate-[22deg]" src="/images/soon/cupcake.png" />
+      <NuxtImg class="absolute -top-[3px] -left-[35px] md:left-4 md:top-1" src="/images/soon/almond_tuiles.png" />
+      <NuxtImg class="absolute top-[6.2%] -right-[29px] -rotate-[22deg] md:right-5" src="/images/soon/cupcake.png" />
       <NuxtImg width="40" height="40" class="absolute top-[14.5%] -left-[7px]" src="/images/soon/c_1.png" />
       <NuxtImg width="40" height="40" class="absolute top-[29%] -right-[19px]" src="/images/soon/c_1.png" />
-      <NuxtImg class="absolute top-[31.8%] -left-[37px] rotate-[46.55deg]" src="/images/soon/madeleine.png" />
-      <NuxtImg class="absolute top-[41.2%] -right-[19px]" src="/images/soon/almond_tuiles.png" />
+      <NuxtImg class="absolute top-[31.8%] -left-[37px] rotate-[46.55deg] md:left-[11%]" src="/images/soon/madeleine.png" />
+      <NuxtImg class="absolute top-[41.2%] -right-[19px] md:right-[14%]" src="/images/soon/almond_tuiles.png" />
       <NuxtImg class="absolute top-[52.5%] -left-[12px]" src="/images/soon/c_2.png" />
-      <NuxtImg class="absolute bottom-[27.9%] -right-[17px] -rotate-[30.06deg]" src="/images/soon/madeleine.png" />
+      <NuxtImg class="absolute bottom-[27.9%] -right-[17px] -rotate-[30.06deg] md:bottom-[18%] md:right-[2%]" src="/images/soon/madeleine.png" />
       <NuxtImg class="absolute bottom-[32.2%] right-[70px]" src="/images/soon/c_3.png" />
-      <NuxtImg class="absolute bottom-[21%] -left-[4.9px] -rotate-[22deg]" src="/images/soon/cupcake.png" />
+      <NuxtImg class="absolute bottom-[21%] -left-[4.9px] -rotate-[22deg] md:left-[5%]" src="/images/soon/cupcake.png" />
     </div>
     <header class="flex items-center justify-center pt-8"><Logo /></header>
     <main class="relative flex-1 flex flex-col">
@@ -28,7 +28,7 @@ useSeoMeta({
         class="grow pt-14 text-center"
       >
         <NuxtImg
-          class="mx-auto w-[55%] sm:w-[360px] floating"
+          class="mx-auto w-[60%] sm:w-[360px] floating"
           src="/images/soon/coming_soon.svg"
         />
         <NuxtImg

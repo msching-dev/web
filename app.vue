@@ -1,5 +1,19 @@
+<script setup lang="ts">
+const onResize = () => {
+  document.documentElement.style.setProperty(
+    '--100vh',
+    `${window.innerHeight}px`
+  )
+  console.log('Resized', window.innerHeight)
+}
+
+onMounted(() => {
+  onResize()
+  window.addEventListener('resize', onResize, true)
+})
+</script>
 <template>
-  <div class="flex flex-col min-h-screen bg-white">
+  <div class="app">
     <!-- <AppHeader /> -->
 
     <!-- <Transition name="slide-from-right">
@@ -15,3 +29,22 @@
     <!-- <LazyAppFooter /> -->
   </div>
 </template>
+<style lang="postcss">
+html,
+body {
+  @apply bg-white;
+  scroll-behavior: smooth;
+}
+
+img {
+  image-rendering: crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+
+.app {
+  @apply flex flex-col;
+  height: 100vh; /* fallback for Js load */
+  height: var(--100vh);
+}
+</style>
