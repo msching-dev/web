@@ -9,7 +9,7 @@ useSeoMeta({
 
 <!-- Home -->
 <template>
-  <dev class="relative flex flex-col min-h-screen bg-[#FDFCF8] overflow-hidden">
+  <dev class="relative flex flex-col h-full bg-[#FDFCF8] overflow-hidden">
     <div>
       <NuxtImg class="absolute -top-[3px] -left-[35px] md:left-4 md:top-1" src="/images/soon/almond_tuiles.png" />
       <NuxtImg class="absolute top-[6.2%] -right-[29px] -rotate-[22deg] md:right-5" src="/images/soon/cupcake.png" />
@@ -18,17 +18,17 @@ useSeoMeta({
       <NuxtImg class="absolute top-[31.8%] -left-[37px] rotate-[46.55deg] md:left-[11%]" src="/images/soon/madeleine.png" />
       <NuxtImg class="absolute top-[41.2%] -right-[19px] md:right-[14%]" src="/images/soon/almond_tuiles.png" />
       <NuxtImg class="absolute top-[52.5%] -left-[12px]" src="/images/soon/c_2.png" />
-      <NuxtImg class="absolute bottom-[27.9%] -right-[17px] -rotate-[30.06deg] md:bottom-[18%] md:right-[2%]" src="/images/soon/madeleine.png" />
+      <NuxtImg class="absolute bottom-[8%] -right-[17px] -rotate-[30.06deg] md:bottom-[18%] md:right-[2%]" src="/images/soon/madeleine.png" />
       <NuxtImg class="absolute bottom-[32.2%] right-[70px]" src="/images/soon/c_3.png" />
       <NuxtImg class="absolute bottom-[21%] -left-[4.9px] -rotate-[22deg] md:left-[5%]" src="/images/soon/cupcake.png" />
     </div>
-    <header class="flex items-center justify-center pt-8"><Logo /></header>
-    <main class="relative flex-1 flex flex-col">
+    <header class="flex items-center justify-center flex-[100px] flex-grow-0"><Logo /></header>
+    <main class="relative grow flex flex-col">
       <div
-        class="grow pt-14 text-center"
+        class="grow flex flex-col items-center justify-center text-center"
       >
         <NuxtImg
-          class="mx-auto w-[60%] sm:w-[360px] floating"
+          class="mx-auto w-[66%] sm:w-[360px] floating"
           src="/images/soon/coming_soon.svg"
         />
         <NuxtImg

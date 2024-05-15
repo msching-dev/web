@@ -1,19 +1,7 @@
 <script setup lang="ts">
-const onResize = () => {
-  document.documentElement.style.setProperty(
-    '--100vh',
-    `${window.innerHeight}px`
-  )
-  console.log('Resized', window.innerHeight)
-}
-
-onMounted(() => {
-  onResize()
-  window.addEventListener('resize', onResize, true)
-})
 </script>
 <template>
-  <div class="app">
+  <div class="flex flex-col h-dvh">
     <!-- <AppHeader /> -->
 
     <!-- <Transition name="slide-from-right">
@@ -39,12 +27,5 @@ body {
 img {
   image-rendering: crisp-edges;
   image-rendering: -webkit-optimize-contrast;
-}
-
-
-.app {
-  @apply flex flex-col;
-  height: 100vh; /* fallback for Js load */
-  height: var(--100vh);
 }
 </style>
