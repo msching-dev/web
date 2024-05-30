@@ -29,7 +29,7 @@ useSeoMeta({
       >
         <NuxtImg
           class="mx-auto w-[66%] sm:w-[360px] floating"
-          src="/images/soon/coming_soon.svg"
+          src="/images/soon/coming_soon.png"
         />
         <NuxtImg
           class="mx-auto mt-4 sm:h-[36px]"
