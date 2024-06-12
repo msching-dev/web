@@ -1,4 +1,5 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+</script>
 
 <template>
   <footer class="bg-white order-last">
@@ -12,7 +13,7 @@
       <div class="text-base font-bold text-[#4C3232]">
         <div>聯繫我們</div>
         <div class="mt-3">Email</div>
-        <div class="font-normal">needhelp@misching.com</div>
+        <div class="font-normal">msching.handmade@gmail.com</div>
       </div>
       <div class="grid grid-cols-2 gap-5">
         <NuxtLink
@@ -25,7 +26,11 @@
           target="_blank"
           ><NuxtImg src="/images/footer/icon_ig.png"
         /></NuxtLink>
-        <NuxtImg src="/images/footer/icon_kristy_ad.png" class="" />
+          <NuxtLink
+                  to="https://www.behance.net/yiy510"
+                  target="_blank"
+          ><NuxtImg src="/images/footer/icon_kristy_ad.png" class=""
+          /></NuxtLink>
       </div>
     </div>
     <p class="ml-6 mt-6 mb-3 text-xs text-left font-normal text-gray-500">
