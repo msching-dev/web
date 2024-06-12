@@ -4,7 +4,10 @@ useSeoMeta({
   title: 'MS. CHING 蜜絲晴烘焙手作坊',
   ogTitle: 'MS. CHING 蜜絲晴烘焙手作坊',
   description: '入口即是愛的滋味，不定時限時限量手作甜點',
-  ogDescription: '入口即是愛的滋味，不定時限時限量手作甜點'
+  ogDescription: '入口即是愛的滋味，不定時限時限量手作甜點',
+  ogUrl: 'https://msching.com',
+  ogImage: '/images/logo_c.png',
+  twitterCard: 'summary_large_image',
 })
 
 // to coming soon
