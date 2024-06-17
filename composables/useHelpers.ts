@@ -1,4 +1,4 @@
-// import pkg from '~/woonuxt_base/package.json'
+import pkg from '~/package.json'
 
 // A collection of helper functions.
 export function useHelpers() {
@@ -9,7 +9,7 @@ export function useHelpers() {
     'isShowingMobileMenu',
     () => false
   )
-  // const wooNuxtVersionInfo: string = pkg.version || '0.0.0'
+  const appVersionInfo: string = pkg.version || '0.0.0'
   // const productsPerPage: number = runtimeConfig.public?.PRODUCTS_PER_PAGE || 24
   // const wooNuxtSEO = runtimeConfig.public?.WOO_NUXT_SEO as WooNuxtSEOItem[]
   // const frontEndUrl =
@@ -87,23 +87,23 @@ export function useHelpers() {
   //   )
   // }
 
-  // /**
-  //  * Removes a class from the body element.
-  //  * @param {string} className - The class to remove.
-  //  */
-  // function removeBodyClass(className: string): void {
-  //   const body = document.querySelector('body')
-  //   body?.classList.remove(className)
-  // }
+  /**
+   * Removes a class from the body element.
+   * @param {string} className - The class to remove.
+   */
+  function removeBodyClass(className: string): void {
+    const body = document.querySelector('body')
+    body?.classList.remove(className)
+  }
 
-  // /**
-  //  * Adds a class to the body element.
-  //  * @param {string} className - The class to add.
-  //  */
-  // function addBodyClass(className: string): void {
-  //   const body = document.querySelector('body')
-  //   body?.classList.add(className)
-  // }
+  /**
+   * Adds a class to the body element.
+   * @param {string} className - The class to add.
+   */
+  function addBodyClass(className: string): void {
+    const body = document.querySelector('body')
+    body?.classList.add(className)
+  }
 
   // /**
   //  * Toggles a class on the body element.
@@ -202,8 +202,8 @@ export function useHelpers() {
   // }
 
   return {
-    // isShowingMobileMenu,
-    // wooNuxtVersionInfo,
+    isShowingMobileMenu,
+    appVersionInfo,
     // productsPerPage,
     // isQueryEmpty,
     // wooNuxtSEO,
@@ -214,8 +214,8 @@ export function useHelpers() {
     // arraysEqual,
     // clearAllCookies,
     // replaceQueryParam,
-    // addBodyClass,
-    // removeBodyClass,
+    addBodyClass,
+    removeBodyClass,
     // toggleBodyClass,
     toggleMobileMenu,
     // checkForVariationTypeOfAny,

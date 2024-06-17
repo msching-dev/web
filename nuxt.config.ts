@@ -5,13 +5,19 @@ export default defineNuxtConfig({
   components: [
     {
       path: '~/components',
-      pathPrefix: false
-    }
+      pathPrefix: false,
+    },
   ],
   image: {
     format: ['avif', 'webp', 'png']
   },
   colorMode: {
-    preference: 'light'
-  }
+    preference: 'light',
+  },
+  typescript: {
+    typeCheck: true,
+  },
+  imports: {
+    dirs: ['config/*.ts'],
+  },
 })

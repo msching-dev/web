@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+const { setProducts } = useProducts()
+const { data: products, error } = await useFetch<Product[]>('/api/products')
+setProducts(products.value as Product[])
+console.log('productsData', products)
 
 useSeoMeta({
   title: 'MS. CHING 蜜絲晴烘焙手作坊',
@@ -10,65 +14,119 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
 })
 
-const categories = useState<Array<any>>(
-    'categories',
-    () => [{name: '手作杏仁片', value: 1}, {name: '|', value: 0}, {name: '瑪德蓮', value: 2}, {
-        name: '|',
-        value: 0
-    }, {name: '禮盒相關', value: 3}]
-)
-const currentCategory = useState<number>(
-    'currentCategory',
-    () => 2
-)
+const selectedCategory = ref(Category.Hot)
 
-function changeCategory(state: number | undefined = undefined): void {
-    if (state === 0) return
-    currentCategory.value = state || 1
+const categoriesTabs = [
+  { label: '熱賣中', value: Category.Hot },
+  { label: '餅乾', value: Category.Cookie },
+  { label: '瑪德蓮', value: Category.Madeleine },
+  { label: '節慶禮盒', value: Category.Festival },
+]
+function onTabChange(index: number) {
+  console.log('index', index)
+  selectedCategory.value = categoriesTabs[index]?.value
 }
 
+const filteredProducts = computed(() => {
+  if (!products.value) return []
+  return products.value?.filter((product) =>
+    product.categories?.includes(selectedCategory.value)
+  )
+})
 </script>
 
 <!-- Home -->
 <template>
-    <main>
-        <!-- Banner -->
+  <main>
+    <!-- Banner -->
+    <Banner />
 
-        <!-- Category / Items -->
-        <section class="container my-8">
-            <div class="flex flex-col justify-center text-center mb-[21px] text-[#4C3232] text-2xl font-extrabold">
-                產品分類
+    <!-- Category / Items -->
+    <section class="container my-8">
+      <div class="text-center my-6 text-[#4C3232] text-2xl font-extrabold">
+        產品分類
+      </div>
+      <div class="container px-4">
+        <UTabs
+          :items="categoriesTabs"
+          :ui="{
+            wrapper: 'mt-2',
+            list: {
+              background: 'bg-transparent',
+              marker: {
+                shadow: 'shadow-none',
+              },
+            },
+            tab: {
+              active: 'text-[#2C9AF0] font-semibold',
+              inactive: 'text-[#B8B8B8] font-semibold',
+              size: 'text-base',
+            },
+          }"
+          @change="onTabChange"
+        >
+          <template #default="{ item, selected }">
+            <div :class="{ 'underline underline-offset-4': selected }">
+              {{ item.label }}
             </div>
-            <div class="flex items-end justify-center">
-                <div v-for="(item) in categories" class="text-black font-semibold text-l mx-2">
-                    <u v-if="currentCategory === item.value" @click="changeCategory(item.value)">
-                        <div class="w-full text-center">{{ item.name }}</div>
-                    </u>
-                    <div v-else class="w-full text-center" @click="changeCategory(item.value)">{{ item.name }}</div>
-                </div>
+          </template>
+          <template #item>
+            <div
+              class="grid justify-center grid-cols-2 gap-5 mt-8 md:grid-cols-3 lg:grid-cols-6"
+            >
+              <ProductCard
+                v-for="product in filteredProducts"
+                :key="product.key"
+                class="w-full"
+                :node="product"
+              />
             </div>
-            <div class="mt-[7px] p-8 flex justify-between flex-wrap">
-                <!-- 商品json 跑迴圈 -->
-                <div class="w-[48%] rounded shadow-lg h-[240px] mt-4 relative flex justify-center">
-                    <NuxtImg class="absolute z-10 right-2 top-[14px]" src="/images/products/common/top_1.png"/>
-                    <NuxtImg class="absolute z-10 top-[18px]" src="/images/products/earlGaryTeaMadeleine.png"/>
-                    <NuxtImg class="absolute z-0 top-[18px]" src="/images/products/common/card_bg.png"/>
-                    <div class="absolute left-[14px] bottom-10 text-4 font-semibold text-[#4C3232]">伯爵茶</div>
-                    <NuxtImg class="absolute right-3 bottom-12 w-[30px] h-[30px]" src="/images/products/common/buy.png"/>
-                    <UDivider class="absolute bottom-8 px-2"/>
-                    <div class="absolute bottom-[6px] flex justify-between w-[100%] px-2 items-center">
-                        <div>
-                            <span class="text-[#B8B8B8] font-semibold text-[12px] line-through">$70</span>
-                            <span class="text-[#4C3232] text-4 font-semibold ml-1">$60</span>
-                        </div>
-                        <div class="text-[#B8B8B8] font-semibold text-[12px]">高貴</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-</template>s
+          </template>
+        </UTabs>
+      </div>
 
-<style scoped>
+      <!-- <div class="mt-[7px] p-8 flex justify-between flex-wrap">
+        <div
+          class="w-[48%] rounded shadow-lg h-[240px] mt-4 relative flex justify-center"
+        >
+          <NuxtImg
+            class="absolute z-10 right-2 top-[14px]"
+            src="/images/products/common/top_1.png"
+          />
+          <NuxtImg
+            class="absolute z-10 top-[18px]"
+            src="/images/products/earlGaryTeaMadeleine.png"
+          />
+          <NuxtImg
+            class="absolute z-0 top-[18px]"
+            src="/images/products/common/card_bg.png"
+          />
+          <div
+            class="absolute left-[14px] bottom-10 text-4 font-semibold text-[#4C3232]"
+          >
+            伯爵茶
+          </div>
+          <NuxtImg
+            class="absolute right-3 bottom-12 w-[30px] h-[30px]"
+            src="/images/products/common/buy.png"
+          />
+          <UDivider class="absolute bottom-8 px-2" />
+          <div
+            class="absolute bottom-[6px] flex justify-between w-[100%] px-2 items-center"
+          >
+            <div>
+              <span
+                class="text-[#B8B8B8] font-semibold text-[12px] line-through"
+                >$70</span
+              >
+              <span class="text-[#4C3232] text-4 font-semibold ml-1">$60</span>
+            </div>
+            <div class="text-[#B8B8B8] font-semibold text-[12px]">高貴</div>
+          </div>
+        </div>
+      </div> -->
+    </section>
+  </main>
+</template>
 
-</style>
+<style scoped></style>

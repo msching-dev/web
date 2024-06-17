@@ -1,7 +1,9 @@
 {
-  "name": "nuxt-app",
+  "name": "ms.ching",
+  "version": "0.0.1",
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@9.0.4",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
