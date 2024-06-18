@@ -6,7 +6,7 @@ const props = defineProps({
 const img = useImage();
 const tagUrl = img(`/images/products/tags/${props.node.tag}.png`)
 
-const fallbackImage = '/images/logo_s.png'
+const fallbackImage = '/images/products/common/default.png'
 </script>
 
 <template>
@@ -19,19 +19,12 @@ const fallbackImage = '/images/logo_s.png'
       src="/images/products/common/card_bg.png"
     />
     <img width="52" v-if="tagUrl" :src="tagUrl" alt="tag" class="absolute top-4 right-4 object-cover w-[28%] h-auto" />
-    <NuxtImg
-      width="30"
-      height="30"
-      placeholder
-      placeholder-class="blur-xl rounded-full"
-      class="absolute bottom-[22%] right-[13px] object-cover w-[30px] h-[30px]"
-      src="/images/products/common/cart.png"
-    />
+    <CartIcon class="absolute bottom-[22%] right-[13px] shadow-sm" />
     <div class="relative w-full aspect-[4/5]">
       <NuxtImg
         width="264"
-        :height="Math.round(264 * 1.378)"
-        class="absolute bottom-[5.5%] left-1/2 transform -translate-x-1/2 object-cover w-4/5 h-auto"
+        :height="Math.round(194 * 1.378)"
+        class="absolute bottom-[10.5%] left-1/2 transform -translate-x-1/2 object-cover w-4/5 h-auto"
         :src="node.banner?.src || fallbackImage"
         :alt="node.banner?.altText || node.name"
         :title="node.banner?.title || node.name"
@@ -45,7 +38,7 @@ const fallbackImage = '/images/logo_s.png'
     <div class="flex justify-between items-center">
       <div class="flex items-center">
         <span class="text-[#B8B8B8] font-semibold text-[12px] line-through"
-          >${{ node.maxCount }}元</span
+          >${{ node.price + 10 }}元</span
         >
         <span class="text-[#4C3232] text-4 font-semibold ml-[6px]"
           >${{ node.price }}元</span

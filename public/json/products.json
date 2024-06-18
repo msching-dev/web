@@ -1,14 +1,22 @@
 {
   "almondCookie": {
     "id": 1,
-    "categories": ["hot", "cookie"],
+    "categories": [
+      "hot",
+      "cookie"
+    ],
     "name": "手作杏仁瓦片",
     "banner": {
       "src": "/images/products/almond_cookie.png",
       "altText": "手作杏仁瓦片",
       "title": "手作杏仁瓦片"
     },
-    "images": ["", "", "", ""],
+    "images": [
+      "",
+      "",
+      "",
+      ""
+    ],
     "price": 85,
     "descriptions": {
       "desc": "我們精心製作的手工杏仁片是一種精緻的甜點，具有脆脆的質地和濃郁的杏仁味道，每包7片。",
@@ -28,203 +36,94 @@
     "tag": "hot",
     "alias": "純粹",
     "productImage": "",
-    "portionSize": 30,
+    "portionSize": 70,
     "includeSize": 1,
     "everyNutrientContent": [
       {
-        "key": "脂肪",
-        "value": 20
+        "key": "熱量",
+        "value": 1129.1
       },
       {
         "key": "蛋白質",
-        "value": 20
+        "value": 30.9
       },
       {
         "key": "脂肪",
-        "value": 20
-      },
-      {
-        "key": "反式脂肪",
-        "value": 20
+        "value": 55.5
       },
       {
         "key": "飽和脂肪",
-        "value": 20
+        "value": 7.8
       },
       {
         "key": "反式脂肪",
-        "value": 20
+        "value": 2.2
       },
       {
         "key": "碳水化合物",
-        "value": 20
+        "value": 136.4
       },
       {
         "key": "糖",
-        "value": 20
+        "value": 0.1
       },
       {
         "key": "鈉",
-        "value": 20
+        "value": 24.5
       }
     ],
     "everyHundredNutrientContent": [
       {
-        "key": "脂肪",
-        "value": 20
+        "key": "熱量",
+        "value": 1613
       },
       {
         "key": "蛋白質",
-        "value": 20
+        "value": 44.1
       },
       {
         "key": "脂肪",
-        "value": 20
-      },
-      {
-        "key": "反式脂肪",
-        "value": 20
+        "value": 79.3
       },
       {
         "key": "飽和脂肪",
-        "value": 20
+        "value": 11.2
       },
       {
         "key": "反式脂肪",
-        "value": 20
+        "value": 3.1
       },
       {
         "key": "碳水化合物",
-        "value": 20
+        "value": 194.9
       },
       {
         "key": "糖",
-        "value": 20
+        "value": 0.1
       },
       {
         "key": "鈉",
-        "value": 20
-      }
-    ]
-  },
-  "originalMadeleine": {
-    "id": 2,
-    "categories": ["madeleine"],
-    "name": "原味瑪德蓮",
-    "banner": {
-      "src": "/images/products/original_madeleine.png",
-      "altText": "原味瑪德蓮",
-      "title": "原味瑪德蓮"
-    },
-    "images": ["", "", "", ""],
-    "price": 50,
-    "descriptions": {
-      "desc": "新鮮的檸檬汁和天然蜂蜜的完美結合，呈現了這款蜂蜜檸檬瑪德蓮的極致美味。每一口都帶來清新風味和甜蜜滋味。",
-      "nonAdditive": "本產品採用天然食材製作，不添加人工色素、香料或防腐劑，讓您安心享受每一口。",
-      "howToEat": "可直接食用作為甜點或下午茶的美味選擇，也可搭配您喜歡的飲品一同享用，如茶或咖啡。",
-      "preservationMethod": "請存放於陰涼乾燥處，避免陽光直射。建議於開封後盡快食用以保持最佳口感。由於無添加劑，請注意保存期限，避免長時間存放。常溫可存放7天，冷凍可存放14天，建議用烤箱180度回烤1~2分鐘再食用。",
-      "precautions": "本產品含有蜂蜜成分，可能引起過敏反應。請在購買前仔細閱讀產品成分標籤，並避免食用者對任何成分過敏的情況。本產品含有動物性奶油及蛋，並非適合素食者食用。",
-      "tastePeriod": "請參考包裝上標示的賞味期限，以保證最佳品質和口感。本產品的賞味期限為製造日期起7~14天"
-    },
-    "specifications": [
-      {
-        "key": "原味",
-        "value": 1
-      }
-    ],
-    "maxCount": 50,
-    "tag": "top_1",
-    "alias": "平凡",
-    "productImage": "",
-    "portionSize": 30,
-    "includeSize": 1,
-    "everyNutrientContent": [
-      {
-        "key": "脂肪",
-        "value": 20
-      },
-      {
-        "key": "蛋白質",
-        "value": 20
-      },
-      {
-        "key": "脂肪",
-        "value": 20
-      },
-      {
-        "key": "反式脂肪",
-        "value": 20
-      },
-      {
-        "key": "飽和脂肪",
-        "value": 20
-      },
-      {
-        "key": "反式脂肪",
-        "value": 20
-      },
-      {
-        "key": "碳水化合物",
-        "value": 20
-      },
-      {
-        "key": "糖",
-        "value": 20
-      },
-      {
-        "key": "鈉",
-        "value": 20
-      }
-    ],
-    "everyHundredNutrientContent": [
-      {
-        "key": "脂肪",
-        "value": 20
-      },
-      {
-        "key": "蛋白質",
-        "value": 20
-      },
-      {
-        "key": "脂肪",
-        "value": 20
-      },
-      {
-        "key": "反式脂肪",
-        "value": 20
-      },
-      {
-        "key": "飽和脂肪",
-        "value": 20
-      },
-      {
-        "key": "反式脂肪",
-        "value": 20
-      },
-      {
-        "key": "碳水化合物",
-        "value": 20
-      },
-      {
-        "key": "糖",
-        "value": 20
-      },
-      {
-        "key": "鈉",
-        "value": 20
+        "value": 35
       }
     ]
   },
   "honeyLemonMadeleine": {
     "id": 3,
-    "categories": ["madeleine"],
+    "categories": [
+      "madeleine"
+    ],
     "name": "蜂蜜檸檬瑪德蓮",
     "banner": {
       "src": "/images/products/honeyLemon_madeleine.png",
       "altText": "蜂蜜檸檬瑪德蓮",
       "title": "蜂蜜檸檬瑪德蓮"
     },
-    "images": ["", "", "", ""],
+    "images": [
+      "",
+      "",
+      "",
+      ""
+    ],
     "price": 50,
     "descriptions": {
       "desc": "新鮮的檸檬汁和天然蜂蜜的完美結合，呈現了這款蜂蜜檸檬瑪德蓮的極致美味。每一口都帶來清新風味和甜蜜滋味。",
@@ -241,98 +140,98 @@
       }
     ],
     "maxCount": 50,
-    "tag": "top_2",
+    "tag": "top_3",
     "alias": "",
     "productImage": "",
-    "portionSize": 30,
+    "portionSize": 35,
     "includeSize": 1,
     "everyNutrientContent": [
       {
-        "key": "脂肪",
-        "value": 20
+        "key": "熱量",
+        "value": 475.7
       },
       {
         "key": "蛋白質",
-        "value": 20
+        "value": 7.3
       },
       {
         "key": "脂肪",
-        "value": 20
-      },
-      {
-        "key": "反式脂肪",
-        "value": 20
+        "value": 8.7
       },
       {
         "key": "飽和脂肪",
-        "value": 20
+        "value": 3.9
       },
       {
         "key": "反式脂肪",
-        "value": 20
+        "value": 0.2
       },
       {
         "key": "碳水化合物",
-        "value": 20
+        "value": 100.7
       },
       {
         "key": "糖",
-        "value": 20
+        "value": 64.1
       },
       {
         "key": "鈉",
-        "value": 20
+        "value": 173.2
       }
     ],
     "everyHundredNutrientContent": [
       {
-        "key": "脂肪",
-        "value": 20
+        "key": "熱量",
+        "value": 1359
       },
       {
         "key": "蛋白質",
-        "value": 20
+        "value": 20.9
       },
       {
         "key": "脂肪",
-        "value": 20
-      },
-      {
-        "key": "反式脂肪",
-        "value": 20
+        "value": 24.9
       },
       {
         "key": "飽和脂肪",
-        "value": 20
+        "value": 11.1
       },
       {
         "key": "反式脂肪",
-        "value": 20
+        "value": 0.6
       },
       {
         "key": "碳水化合物",
-        "value": 20
+        "value": 287.7
       },
       {
         "key": "糖",
-        "value": 20
+        "value": 183.2
       },
       {
         "key": "鈉",
-        "value": 20
+        "value": 494.9
       }
     ]
   },
   "earlGaryTeaMadeleine": {
     "id": 4,
-    "categories": ["hot", "madeleine"],
+    "categories": [
+      "hot",
+      "madeleine"
+    ],
     "name": "伯爵茶瑪德蓮",
     "banner": {
       "src": "/images/products/earlGaryTea_madeleine.png",
       "altText": "伯爵茶瑪德蓮",
       "title": "伯爵茶瑪德蓮"
     },
-    "images": ["", "", "", ""],
+    "images": [
+      "",
+      "",
+      "",
+      ""
+    ],
     "price": 60,
     "descriptions": {
       "desc": "伯爵茶瑪德蓮是一款結合了經典法式甜點與濃郁伯爵茶香的糕點。其鬆軟細緻的口感和獨特的香氣讓人難以抗拒。",
@@ -349,98 +248,98 @@
       }
     ],
     "maxCount": 50,
-    "tag": "top_3",
+    "tag": "top_1",
     "alias": "高貴",
     "productImage": "",
-    "portionSize": 30,
+    "portionSize": 35,
     "includeSize": 1,
     "everyNutrientContent": [
       {
-        "key": "脂肪",
-        "value": 20
+        "key": "熱量",
+        "value": 379.8
       },
       {
         "key": "蛋白質",
-        "value": 20
+        "value": 8.3
       },
       {
         "key": "脂肪",
-        "value": 20
-      },
-      {
-        "key": "反式脂肪",
-        "value": 20
+        "value": 8.3
       },
       {
         "key": "飽和脂肪",
-        "value": 20
+        "value": 4.2
       },
       {
         "key": "反式脂肪",
-        "value": 20
+        "value": 0.2
       },
       {
         "key": "碳水化合物",
-        "value": 20
+        "value": 74
       },
       {
         "key": "糖",
-        "value": 20
+        "value": 50.7
       },
       {
         "key": "鈉",
-        "value": 20
+        "value": 37.3
       }
     ],
     "everyHundredNutrientContent": [
       {
-        "key": "脂肪",
-        "value": 20
+        "key": "熱量",
+        "value": 1085
       },
       {
         "key": "蛋白質",
-        "value": 20
+        "value": 23.8
       },
       {
         "key": "脂肪",
-        "value": 20
-      },
-      {
-        "key": "反式脂肪",
-        "value": 20
+        "value": 23.8
       },
       {
         "key": "飽和脂肪",
-        "value": 20
+        "value": 11.9
       },
       {
         "key": "反式脂肪",
-        "value": 20
+        "value": 0.7
       },
       {
         "key": "碳水化合物",
-        "value": 20
+        "value": 211.4
       },
       {
         "key": "糖",
-        "value": 20
+        "value": 144.9
       },
       {
         "key": "鈉",
-        "value": 20
+        "value": 106.7
       }
     ]
   },
   "chocolateMadeleine": {
     "id": 5,
-    "categories": ["hot", "madeleine"],
+    "categories": [
+      "hot",
+      "madeleine"
+    ],
     "name": "巧克力瑪德蓮",
     "banner": {
       "src": "/images/products/chocolate_madeleine.png",
       "altText": "巧克力瑪德蓮",
       "title": "巧克力瑪德蓮"
     },
-    "images": ["", "", "", ""],
+    "images": [
+      "",
+      "",
+      "",
+      ""
+    ],
     "price": 60,
     "descriptions": {
       "desc": "巧克力瑪德蓮是一款精緻的法式小蛋糕，完美融合濃郁巧克力的香氣與鬆軟口感，帶來極致的甜點享受。",
@@ -457,98 +356,97 @@
       }
     ],
     "maxCount": 50,
-    "tag": "new",
+    "tag": "top_2",
     "alias": "浪漫",
     "productImage": "",
-    "portionSize": 30,
+    "portionSize": 35,
     "includeSize": 1,
     "everyNutrientContent": [
       {
-        "key": "脂肪",
-        "value": 20
+        "key": "熱量",
+        "value": 485.1
       },
       {
         "key": "蛋白質",
-        "value": 20
+        "value": 15.4
       },
       {
         "key": "脂肪",
-        "value": 20
-      },
-      {
-        "key": "反式脂肪",
-        "value": 20
+        "value": 13.2
       },
       {
         "key": "飽和脂肪",
-        "value": 20
+        "value": 6.9
       },
       {
         "key": "反式脂肪",
-        "value": 20
+        "value": 0.2
       },
       {
         "key": "碳水化合物",
-        "value": 20
+        "value": 123
       },
       {
         "key": "糖",
-        "value": 20
+        "value": 66.2
       },
       {
         "key": "鈉",
-        "value": 20
+        "value": 37.3
       }
     ],
     "everyHundredNutrientContent": [
       {
-        "key": "脂肪",
-        "value": 20
+        "key": "熱量",
+        "value": 1386
       },
       {
         "key": "蛋白質",
-        "value": 20
+        "value": 44.1
       },
       {
         "key": "脂肪",
-        "value": 20
-      },
-      {
-        "key": "反式脂肪",
-        "value": 20
+        "value": 37.8
       },
       {
         "key": "飽和脂肪",
-        "value": 20
+        "value": 19.6
       },
       {
         "key": "反式脂肪",
-        "value": 20
+        "value": 0.7
       },
       {
         "key": "碳水化合物",
-        "value": 20
+        "value": 351.4
       },
       {
         "key": "糖",
-        "value": 20
+        "value": 189
       },
       {
         "key": "鈉",
-        "value": 20
+        "value": 106.7
       }
     ]
   },
   "matchaMadeleine": {
     "id": 6,
-    "categories": ["madeleine"],
+    "categories": [
+      "madeleine"
+    ],
     "name": "抹茶瑪德蓮",
     "banner": {
       "src": "",
       "altText": "抹茶瑪德蓮",
       "title": "抹茶瑪德蓮"
     },
-    "images": ["", "", "", ""],
+    "images": [
+      "",
+      "",
+      "",
+      ""
+    ],
     "price": 60,
     "descriptions": {
       "desc": "抹茶瑪德蓮是一款融合了經典法式甜點與濃郁抹茶香氣的小蛋糕，特別選用日本宇治抹茶粉製作，其鬆軟口感和獨特風味帶來絕佳的味覺享受。",
@@ -568,95 +466,95 @@
     "tag": "new",
     "alias": "綠意",
     "productImage": "",
-    "portionSize": 30,
+    "portionSize": 35,
     "includeSize": 1,
     "everyNutrientContent": [
       {
-        "key": "脂肪",
-        "value": 20
+        "key": "熱量",
+        "value": 379.8
       },
       {
         "key": "蛋白質",
-        "value": 20
+        "value": 8.3
       },
       {
         "key": "脂肪",
-        "value": 20
-      },
-      {
-        "key": "反式脂肪",
-        "value": 20
+        "value": 8.3
       },
       {
         "key": "飽和脂肪",
-        "value": 20
+        "value": 4.2
       },
       {
         "key": "反式脂肪",
-        "value": 20
+        "value": 0.2
       },
       {
         "key": "碳水化合物",
-        "value": 20
+        "value": 74
       },
       {
         "key": "糖",
-        "value": 20
+        "value": 50.7
       },
       {
         "key": "鈉",
-        "value": 20
+        "value": 37.3
       }
     ],
     "everyHundredNutrientContent": [
       {
-        "key": "脂肪",
-        "value": 20
+        "key": "熱量",
+        "value": 1085
       },
       {
         "key": "蛋白質",
-        "value": 20
+        "value": 23.8
       },
       {
         "key": "脂肪",
-        "value": 20
-      },
-      {
-        "key": "反式脂肪",
-        "value": 20
+        "value": 23.8
       },
       {
         "key": "飽和脂肪",
-        "value": 20
+        "value": 11.9
       },
       {
         "key": "反式脂肪",
-        "value": 20
+        "value": 0.7
       },
       {
         "key": "碳水化合物",
-        "value": 20
+        "value": 211.4
       },
       {
         "key": "糖",
-        "value": 20
+        "value": 144.9
       },
       {
         "key": "鈉",
-        "value": 20
+        "value": 106.7
       }
     ]
   },
   "cranBerryMadeleine": {
     "id": 7,
-    "categories": ["hot", "madeleine"],
+    "categories": [
+      "hot",
+      "madeleine"
+    ],
     "name": "蔓越莓瑪德蓮",
     "banner": {
       "src": "",
       "altText": "蔓越莓瑪德蓮",
       "title": "蔓越莓瑪德蓮"
     },
-    "images": ["", "", "", ""],
+    "images": [
+      "",
+      "",
+      "",
+      ""
+    ],
     "price": 60,
     "descriptions": {
       "desc": "蔓越莓瑪德蓮是一款結合經典法式小蛋糕與酸甜蔓越莓的美味甜點，口感鬆軟，果香濃郁，帶來清新愉悅的味覺體驗。",
@@ -673,85 +571,185 @@
       }
     ],
     "maxCount": 50,
-    "tag": "new",
+    "tag": "top_2",
     "alias": "嫵媚",
     "productImage": "",
-    "portionSize": 30,
+    "portionSize": 35,
     "includeSize": 1,
     "everyNutrientContent": [
       {
-        "key": "脂肪",
-        "value": 20
+        "key": "熱量",
+        "value": 538.7
       },
       {
         "key": "蛋白質",
-        "value": 20
+        "value": 7.4
       },
       {
         "key": "脂肪",
-        "value": 20
-      },
-      {
-        "key": "反式脂肪",
-        "value": 20
+        "value": 8.8
       },
       {
         "key": "飽和脂肪",
-        "value": 20
+        "value": 3.9
       },
       {
         "key": "反式脂肪",
-        "value": 20
+        "value": 0.2
       },
       {
         "key": "碳水化合物",
-        "value": 20
+        "value": 105
       },
       {
         "key": "糖",
-        "value": 20
+        "value": 65.5
       },
       {
         "key": "鈉",
-        "value": 20
+        "value": 37.5
       }
     ],
     "everyHundredNutrientContent": [
       {
-        "key": "脂肪",
-        "value": 20
+        "key": "熱量",
+        "value": 1539
       },
       {
         "key": "蛋白質",
-        "value": 20
+        "value": 21.3
       },
       {
         "key": "脂肪",
-        "value": 20
-      },
-      {
-        "key": "反式脂肪",
-        "value": 20
+        "value": 25
       },
       {
         "key": "飽和脂肪",
-        "value": 20
+        "value": 11.1
       },
       {
         "key": "反式脂肪",
-        "value": 20
+        "value": 0.6
       },
       {
         "key": "碳水化合物",
-        "value": 20
+        "value": 299.9
       },
       {
         "key": "糖",
-        "value": 20
+        "value": 187.2
       },
       {
         "key": "鈉",
-        "value": 20
+        "value": 107
+      }
+    ]
+  },
+  "poloCookie": {
+    "id": 7,
+    "categories": [
+      "hot",
+      "cookie"
+    ],
+    "name": "菠蘿小餅乾",
+    "banner": {
+      "src": "/images/products/polo_cookie.png",
+      "altText": "菠蘿小餅乾",
+      "title": "菠蘿小餅乾"
+    },
+    "images": [
+      "",
+      "",
+      "",
+      ""
+    ],
+    "price": 60,
+    "descriptions": {
+      "desc": "波羅小餅乾是一款口感外脆內鬆、香甜可口的小點心。每一口都帶有濃郁的奶油香氣和微微的甜味，令人愛不釋手。餅乾的外觀呈現金黃色澤，表面有細緻的格子紋理，增添視覺上的享受。每包6顆",
+      "nonAdditive": "本產品選用高品質天然原料製作，不添加人工色素、香精和防腐劑。讓您在享受美味的同時，也能放心品嚐每一口。",
+      "howToEat": "可搭配牛奶或豆漿，作為美味的早餐。也可以配上一杯熱茶或咖啡作為理想的下午茶點心。也可以隨時隨地當作解饞的小零食，無論在家中還是辦公室，都能輕鬆享用。",
+      "preservationMethod": "開封後請放置於密封容器中，保持乾燥，避免受潮。建議於開封後盡快食用以保持最佳口感。由於無添加劑，請注意保存期限，避免長時間存放。",
+      "precautions": "本產品含有小麥、奶製品及雞蛋，不適合對上述成分過敏者食用。請在購買前仔細閱讀產品成分標籤，並避免食用者對任何成分過敏的情況。本產品含有動物性奶油及蛋，並非適合素食者食用。",
+      "tastePeriod": "本產品賞味期限為製造日期起一個月。請於包裝上的有效日期前食用，以確保最佳品質和風味。"
+    },
+    "specifications": [
+      {
+        "key": "原味",
+        "value": 1
+      }
+    ],
+    "maxCount": 50,
+    "tag": "new",
+    "alias": "甜在心",
+    "productImage": "",
+    "portionSize": 60,
+    "includeSize": 1,
+    "everyNutrientContent": [
+      {
+        "key": "熱量",
+        "value": 379.2
+      },
+      {
+        "key": "蛋白質",
+        "value": 11.4
+      },
+      {
+        "key": "脂肪",
+        "value": 15.6
+      },
+      {
+        "key": "飽和脂肪",
+        "value": 6.9
+      },
+      {
+        "key": "反式脂肪",
+        "value": 0.4
+      },
+      {
+        "key": "碳水化合物",
+        "value": 48.6
+      },
+      {
+        "key": "糖",
+        "value": 9.4
+      },
+      {
+        "key": "鈉",
+        "value": 467.4
+      }
+    ],
+    "everyHundredNutrientContent": [
+      {
+        "key": "熱量",
+        "value": 632
+      },
+      {
+        "key": "蛋白質",
+        "value": 19
+      },
+      {
+        "key": "脂肪",
+        "value": 26
+      },
+      {
+        "key": "飽和脂肪",
+        "value": 11.5
+      },
+      {
+        "key": "反式脂肪",
+        "value": 0.6
+      },
+      {
+        "key": "碳水化合物",
+        "value": 81
+      },
+      {
+        "key": "糖",
+        "value": 15.1
+      },
+      {
+        "key": "鈉",
+        "value": 779
       }
     ]
   }

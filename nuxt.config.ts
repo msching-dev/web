@@ -14,6 +14,9 @@ export default defineNuxtConfig({
   colorMode: {
     preference: 'light',
   },
+  routeRules: {
+    '/': { prerender: true },
+  },
   typescript: {
     typeCheck: true,
   },

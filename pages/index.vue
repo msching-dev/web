@@ -28,10 +28,12 @@ function onTabChange(index: number) {
 }
 
 const filteredProducts = computed(() => {
+  const order: Tag[] = ['hot', 'new', 'top_1', 'top_2', 'top_3']
+
   if (!products.value) return []
-  return products.value?.filter((product) =>
-    product.categories?.includes(selectedCategory.value)
-  )
+  return products.value
+    ?.filter((product) => product.categories?.includes(selectedCategory.value))
+    .sort((a, b) => order.indexOf(a.tag) - order.indexOf(b.tag))
 })
 </script>
 
