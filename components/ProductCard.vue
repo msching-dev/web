@@ -3,22 +3,46 @@ const props = defineProps({
   node: { type: Object, required: true },
 })
 
-const img = useImage();
+const isPressed = ref(false)
+const isShining = ref(false)
+
+const img = useImage()
 const tagUrl = img(`/images/products/tags/${props.node.tag}.png`)
 
 const fallbackImage = '/images/products/common/default.png'
+
+const triggerShine = () => {
+  isShining.value = true
+  setTimeout(() => {
+    isShining.value = false
+  }, 500)
+}
 </script>
 
 <template>
   <div
-    class="relative flex flex-col overflow-hidden rounded-xl w-full aspect-[0.675] shadow-[0_1.905px_10.142px_0px_rgba(185,159,133,0.2)] px-4 py-2"
+    :class="[
+      'group relative flex flex-col overflow-hidden rounded-xl w-full aspect-[0.675] shadow-[0_1.905px_10.142px_0px_rgba(185,159,133,0.2)] px-4 py-2 cursor-pointer transform transition-transform duration-200',
+      isPressed ? 'scale-95' : 'scale-100',
+    ]"
+    @touchstart="isPressed = true"
+    @touchend="() => { isPressed = false; triggerShine(); }"
+    @mousedown="isPressed = true"
+    @mouseup="() => { isPressed = false; triggerShine(); }"
+    @mouseleave="isPressed = false"
   >
     <NuxtImg
       preload
       class="absolute inset-0 object-cover w-full h-full"
       src="/images/products/common/card_bg.png"
     />
-    <img width="52" v-if="tagUrl" :src="tagUrl" alt="tag" class="absolute top-4 right-4 object-cover w-[28%] h-auto" />
+    <img
+      width="52"
+      v-if="tagUrl"
+      :src="tagUrl"
+      alt="tag"
+      class="absolute top-4 right-4 object-cover w-[28%] h-auto"
+    />
     <CartIcon class="absolute bottom-[22%] right-[13px] shadow-sm" />
     <div class="relative w-full aspect-[4/5]">
       <NuxtImg
@@ -46,7 +70,31 @@ const fallbackImage = '/images/products/common/default.png'
       </div>
       <div class="text-[#4C3232]/20 font-bold text-xs">{{ node.alias }}</div>
     </div>
+    <div v-if="isShining" class="shine"></div>
   </div>
 </template>
 
-<style lang="postcss" scoped></style>
+<style scoped>
+.shine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.6);
+  animation: shine-effect 0.5s ease;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+@keyframes shine-effect {
+  0% {
+    transform: scale(0) rotate(45deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4) rotate(45deg);
+    opacity: 0;
+  }
+}
+</style>
