@@ -31,6 +31,8 @@ watch([isShowingMobileMenu], () => {
       />
     </Transition>
 
+    <BackToTopButton />
+
     <LazyAppFooter />
   </div>
 </template>

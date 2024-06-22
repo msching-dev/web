@@ -43,7 +43,7 @@ const triggerShine = () => {
       alt="tag"
       class="absolute top-4 right-4 object-cover w-[28%] h-auto"
     />
-    <CartIcon class="absolute bottom-[22%] right-[13px] shadow-sm" />
+    <CartIcon class="absolute bottom-[26%] right-[13px] shadow-sm" />
     <div class="relative w-full aspect-[4/5]">
       <NuxtImg
         width="264"
@@ -57,9 +57,9 @@ const triggerShine = () => {
         placeholder-class="blur-xl"
       />
     </div>
-    <span class="text-4 font-semibold text-[#4C3232]">{{ node.name }}</span>
+    <span class="text-base font-semibold text-[#4C3232] max-[350px]:text-sm  whitespace-nowrap">{{ node.name }}</span>
     <UDivider class="py-1" />
-    <div class="flex justify-between items-center">
+    <div class="flex justify-between items-center whitespace-nowrap">
       <div class="flex items-center">
         <span class="text-[#B8B8B8] font-semibold text-[12px] line-through"
           >${{ node.price + 10 }}元</span
