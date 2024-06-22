@@ -22,7 +22,7 @@ const triggerShine = () => {
 <template>
   <div
     :class="[
-      'group relative flex flex-col overflow-hidden rounded-xl w-full aspect-[0.675] shadow-[0_1.905px_10.142px_0px_rgba(185,159,133,0.2)] px-4 py-2 cursor-pointer transform transition-transform duration-200',
+      'relative flex flex-col overflow-hidden rounded-xl w-full aspect-[0.675] shadow-[0_1.905px_10.142px_0px_rgba(185,159,133,0.2)] px-4 py-2 cursor-pointer transform transition-transform duration-200',
       isPressed ? 'scale-95' : 'scale-100',
     ]"
     @touchstart="isPressed = true"
@@ -43,7 +43,7 @@ const triggerShine = () => {
       alt="tag"
       class="absolute top-4 right-4 object-cover w-[28%] h-auto"
     />
-    <CartIcon class="absolute bottom-[26%] right-[13px] shadow-sm" />
+    <CartIcon class="absolute bottom-[23%] right-[13px] shadow-sm" />
     <div class="relative w-full aspect-[4/5]">
       <NuxtImg
         width="264"
@@ -54,7 +54,7 @@ const triggerShine = () => {
         :title="node.banner?.title || node.name"
         loading="lazy"
         placeholder
-        placeholder-class="blur-xl"
+        placeholder-class="blur-xl shadow-none"
       />
     </div>
     <span class="text-base font-semibold text-[#4C3232] max-[350px]:text-sm  whitespace-nowrap">{{ node.name }}</span>

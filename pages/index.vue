@@ -48,7 +48,7 @@ const filteredProducts = computed(() => {
       <div class="text-center my-6 text-[#4C3232] text-2xl font-extrabold">
         產品分類
       </div>
-      <div class="container px-4">
+      <div class="w-full">
         <UTabs
           :items="categoriesTabs"
           :ui="{
