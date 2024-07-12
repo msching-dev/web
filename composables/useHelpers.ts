@@ -2,7 +2,7 @@ import pkg from '~/package.json'
 
 // A collection of helper functions.
 export function useHelpers() {
-  // const route = useRoute()
+  const route = useRoute()
   // const runtimeConfig = useRuntimeConfig()
 
   const isShowingMobileMenu = useState<boolean>(
@@ -140,13 +140,13 @@ export function useHelpers() {
 
   // const formatURI = (str: string): string => decodeURIComponent(str)
 
-  // /**
-  //  * Determines if the route query is empty.
-  //  * @returns {boolean} True if the route query is empty, false otherwise.
-  //  */
-  // const isQueryEmpty = computed<boolean>(
-  //   () => Object.keys(route.query).length === 0
-  // )
+  /**
+   * Determines if the route query is empty.
+   * @returns {boolean} True if the route query is empty, false otherwise.
+   */
+  const isQueryEmpty = computed<boolean>(
+    () => Object.keys(route.query).length === 0
+  )
 
   // /**
   //  * Formats a date string.
@@ -171,12 +171,12 @@ export function useHelpers() {
   //     currency: 'EUR'
   //   })
 
-  // /**
-  //  * Scrolls to the top of the page.
-  //  */
-  // const scrollToTop = () => {
-  //   window.scrollTo({ top: 0, behavior: 'smooth' })
-  // }
+  /**
+   * Scrolls to the top of the page.
+   */
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   // /**
   //  * Strips HTML tags from a string.
@@ -205,7 +205,7 @@ export function useHelpers() {
     isShowingMobileMenu,
     appVersionInfo,
     // productsPerPage,
-    // isQueryEmpty,
+    isQueryEmpty,
     // wooNuxtSEO,
     // frontEndUrl,
     // isDev,
@@ -222,7 +222,7 @@ export function useHelpers() {
     // formatURI,
     // formatDate,
     // formatPrice,
-    // scrollToTop,
+    scrollToTop,
     // stripHtml,
     // debounce
   }

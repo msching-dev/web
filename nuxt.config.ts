@@ -23,4 +23,15 @@ export default defineNuxtConfig({
   imports: {
     dirs: ['config/*.ts'],
   },
+  nitro: {
+    routeRules: {
+      '/': { prerender: true },
+    },
+  },
+  app: {
+    head: {
+      viewport:
+        'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no',
+    },
+  },
 })

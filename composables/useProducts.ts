@@ -11,5 +11,31 @@ export function useProducts() {
     allProducts = JSON.parse(JSON.stringify(newProducts))
   }
 
-  return { products, allProducts, setProducts }
+  const updateProductList = async (): Promise<void> => {
+    const { scrollToTop } = useHelpers()
+    const { isSearchActive, searchProducts } = useSearching()
+
+    // scroll to top of page
+    scrollToTop()
+
+    // return all products if no filters are active
+    if (!isSearchActive.value) {
+      products.value = allProducts
+      return
+    }
+
+    // otherwise, apply filter, search and sorting in that order
+    try {
+      let newProducts = [...allProducts]
+      if (isSearchActive.value) newProducts = searchProducts(newProducts)
+      console.log('newProducts', newProducts)
+      
+
+      products.value = newProducts
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  return { products, allProducts, setProducts, updateProductList }
 }

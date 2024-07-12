@@ -1,8 +1,12 @@
 <script lang="ts" setup>
-const { setProducts } = useProducts()
-const { data: products, error } = await useFetch<Product[]>('/api/products')
-setProducts(products.value as Product[])
-console.log('productsData', products)
+const { products, setProducts, updateProductList } = useProducts()
+const { isQueryEmpty } = useHelpers()
+const { data: allProducts, error } = await useFetch<Product[]>('/api/products')
+setProducts(allProducts.value as Product[])
+
+onMounted(() => {
+  if (!isQueryEmpty.value) updateProductList()
+})
 
 useSeoMeta({
   title: 'MS. CHING 蜜絲晴烘焙手作坊',
@@ -23,7 +27,6 @@ const categoriesTabs = [
   { label: '節慶禮盒', value: Category.Festival },
 ]
 function onTabChange(index: number) {
-  console.log('index', index)
   selectedCategory.value = categoriesTabs[index]?.value
 }
 
@@ -42,7 +45,8 @@ const filteredProducts = computed(() => {
   <main>
     <!-- Banner -->
     <Banner />
-
+    <!-- Search -->
+    <ProductSearch />
     <!-- Category / Items -->
     <section class="container my-8">
       <div class="text-center my-6 text-[#4C3232] text-2xl font-extrabold">
@@ -74,59 +78,25 @@ const filteredProducts = computed(() => {
           </template>
           <template #item>
             <div
-              class="grid justify-center grid-cols-2 gap-5 mt-8 md:grid-cols-3 lg:grid-cols-6"
+              v-if="!!filteredProducts.length"
+              key="products"
+              class="relative w-full"
             >
-              <ProductCard
-                v-for="product in filteredProducts"
-                :key="product.key"
-                class="w-full"
-                :node="product"
-              />
+              <div
+                class="grid justify-center grid-cols-2 gap-5 mt-8 md:grid-cols-3 lg:grid-cols-6 animate-fade-in"
+              >
+                <ProductCard
+                  v-for="product in filteredProducts"
+                  :key="product.key"
+                  class="w-full"
+                  :node="product"
+                />
+              </div>
             </div>
+            <NoProductsFound v-else key="no-products" />
           </template>
         </UTabs>
       </div>
-
-      <!-- <div class="mt-[7px] p-8 flex justify-between flex-wrap">
-        <div
-          class="w-[48%] rounded shadow-lg h-[240px] mt-4 relative flex justify-center"
-        >
-          <NuxtImg
-            class="absolute z-10 right-2 top-[14px]"
-            src="/images/products/common/top_1.png"
-          />
-          <NuxtImg
-            class="absolute z-10 top-[18px]"
-            src="/images/products/earlGaryTeaMadeleine.png"
-          />
-          <NuxtImg
-            class="absolute z-0 top-[18px]"
-            src="/images/products/common/card_bg.png"
-          />
-          <div
-            class="absolute left-[14px] bottom-10 text-4 font-semibold text-[#4C3232]"
-          >
-            伯爵茶
-          </div>
-          <NuxtImg
-            class="absolute right-3 bottom-12 w-[30px] h-[30px]"
-            src="/images/products/common/buy.png"
-          />
-          <UDivider class="absolute bottom-8 px-2" />
-          <div
-            class="absolute bottom-[6px] flex justify-between w-[100%] px-2 items-center"
-          >
-            <div>
-              <span
-                class="text-[#B8B8B8] font-semibold text-[12px] line-through"
-                >$70</span
-              >
-              <span class="text-[#4C3232] text-4 font-semibold ml-1">$60</span>
-            </div>
-            <div class="text-[#B8B8B8] font-semibold text-[12px]">高貴</div>
-          </div>
-        </div>
-      </div> -->
     </section>
   </main>
 </template>

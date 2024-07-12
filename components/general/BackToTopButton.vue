@@ -1,3 +1,25 @@
+<script setup lang="ts">
+const nuxtApp = useNuxtApp()
+const { scrollToTop } = useHelpers()
+const isVisible = ref(false)
+
+const toggleVisibility = () => {
+  if (window.scrollY > 250) {
+    isVisible.value = true
+  } else {
+    isVisible.value = false
+  }
+}
+
+nuxtApp.hook('app:mounted', () => {
+  window.addEventListener('scroll', toggleVisibility)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', toggleVisibility)
+})
+</script>
+
 <template>
   <transition name="fade-up">
     <div
@@ -24,33 +46,6 @@
     </div>
   </transition>
 </template>
-<script setup lang="ts">
-const nuxtApp = useNuxtApp()
-const isVisible = ref(false)
-
-const toggleVisibility = () => {
-  if (window.scrollY > 250) {
-    isVisible.value = true
-  } else {
-    isVisible.value = false
-  }
-}
-
-const scrollToTop = () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth',
-  })
-}
-
-nuxtApp.hook('app:mounted', () => {
-  window.addEventListener('scroll', toggleVisibility)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', toggleVisibility)
-})
-</script>
 
 <style scoped>
 .fade-up-enter-active, .fade-up-leave-active {
