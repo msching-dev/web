@@ -1,8 +1,18 @@
 let allProducts = [] as Product[]
 
 export function useProducts() {
+  const route = useRoute()
+  const router = useRouter()
 
   const products = useState<Product[]>('products')
+
+  function getCategoryQuery(): string {
+    return route.query.category as string
+  }
+
+  function setCategoryQuery(value: string): void {
+    router.push({ query: { ...route.query, category: value || undefined } })
+  }
 
   function setProducts(newProducts: Product[]): void {
     if (!Array.isArray(newProducts))
@@ -37,5 +47,12 @@ export function useProducts() {
     }
   }
 
-  return { products, allProducts, setProducts, updateProductList }
+  return {
+    products,
+    allProducts,
+    getCategoryQuery,
+    setCategoryQuery,
+    setProducts,
+    updateProductList,
+  }
 }

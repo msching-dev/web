@@ -4,7 +4,7 @@
 </script>
 
 <template>
-  <NuxtLink to="/" class="inline-flex aspect-square items-center">
+  <NuxtLink to="/account" class="inline-flex aspect-square items-center">
     <NuxtImg
       src="/images/avatar/unlogin.png"
       class="rounded-full my-auto"

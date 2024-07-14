@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const { products, setProducts, updateProductList } = useProducts()
+const { products, getCategoryQuery, setCategoryQuery, setProducts, updateProductList } = useProducts()
 const { isQueryEmpty } = useHelpers()
 const { data: allProducts, error } = await useFetch<Product[]>('/api/products')
 setProducts(allProducts.value as Product[])
@@ -18,24 +18,34 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
 })
 
-const selectedCategory = ref(Category.Hot)
-
 const categoriesTabs = [
   { label: '熱賣中', value: Category.Hot },
   { label: '餅乾', value: Category.Cookie },
   { label: '瑪德蓮', value: Category.Madeleine },
   { label: '節慶禮盒', value: Category.Festival },
 ]
-function onTabChange(index: number) {
-  selectedCategory.value = categoriesTabs[index]?.value
-}
+
+const selectedCategory = computed({
+  get () {
+    const index = categoriesTabs.findIndex((item) => item.value ===  getCategoryQuery())
+    if (index === -1) {
+      return 0
+    }
+
+    return index
+  },
+  set(index) {
+    setCategoryQuery(categoriesTabs[index].value)
+  }
+})
 
 const filteredProducts = computed(() => {
   const order: Tag[] = ['hot', 'new', 'top_1', 'top_2', 'top_3']
+  const currentCategory = categoriesTabs[selectedCategory.value].value
 
   if (!products.value) return []
   return products.value
-    ?.filter((product) => product.categories?.includes(selectedCategory.value))
+    ?.filter((product) => product.categories?.includes(currentCategory))
     .sort((a, b) => order.indexOf(a.tag) - order.indexOf(b.tag))
 })
 </script>
@@ -54,6 +64,7 @@ const filteredProducts = computed(() => {
       </div>
       <div class="w-full">
         <UTabs
+          v-model="selectedCategory"
           :items="categoriesTabs"
           :ui="{
             wrapper: 'mt-2',
@@ -69,7 +80,6 @@ const filteredProducts = computed(() => {
               size: 'text-base',
             },
           }"
-          @change="onTabChange"
         >
           <template #default="{ item, selected }">
             <div :class="{ 'underline underline-offset-4': selected }">

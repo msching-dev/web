@@ -1,7 +1,6 @@
 // Example: ?search=shirt
 
 export function useSearching() {
-  const isShowingSearch = useState<boolean>('isShowingSearch', () => false)
   const route = useRoute()
   const router = useRouter()
   const { updateProductList } = useProducts()

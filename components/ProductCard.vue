@@ -26,9 +26,19 @@ const triggerShine = () => {
       isPressed ? 'scale-95' : 'scale-100',
     ]"
     @touchstart="isPressed = true"
-    @touchend="() => { isPressed = false; triggerShine(); }"
+    @touchend="
+      () => {
+        isPressed = false
+        triggerShine()
+      }
+    "
     @mousedown="isPressed = true"
-    @mouseup="() => { isPressed = false; triggerShine(); }"
+    @mouseup="
+      () => {
+        isPressed = false
+        triggerShine()
+      }
+    "
     @mouseleave="isPressed = false"
   >
     <NuxtImg
@@ -45,19 +55,27 @@ const triggerShine = () => {
     />
     <CartIcon class="absolute bottom-[23%] right-[13px] shadow-sm" />
     <div class="relative w-full aspect-[4/5]">
-      <NuxtImg
-        width="264"
-        :height="Math.round(194 * 1.378)"
-        class="absolute bottom-[10.5%] left-1/2 transform -translate-x-1/2 object-cover w-4/5 h-auto"
-        :src="node.banner?.src || fallbackImage"
-        :alt="node.banner?.altText || node.name"
-        :title="node.banner?.title || node.name"
-        loading="lazy"
-        placeholder
-        placeholder-class="blur-xl shadow-none"
-      />
+      <NuxtLink
+        :to="`/products/${decodeURIComponent(node.name)}`"
+        :title="node.name"
+      >
+        <NuxtImg
+          width="264"
+          :height="Math.round(194 * 1.378)"
+          class="absolute bottom-[10.5%] left-1/2 transform -translate-x-1/2 object-cover w-4/5 h-auto"
+          :src="node.banner?.src || fallbackImage"
+          :alt="node.banner?.altText || node.name"
+          :title="node.banner?.title || node.name"
+          loading="lazy"
+          placeholder
+          placeholder-class="blur-xl shadow-none"
+        />
+      </NuxtLink>
     </div>
-    <span class="text-base font-semibold text-[#4C3232] max-[350px]:text-sm  whitespace-nowrap">{{ node.name }}</span>
+    <span
+      class="text-base font-semibold text-[#4C3232] max-[350px]:text-sm whitespace-nowrap"
+      >{{ node.name }}</span
+    >
     <UDivider class="py-1" />
     <div class="flex justify-between items-center whitespace-nowrap">
       <div class="flex items-center">

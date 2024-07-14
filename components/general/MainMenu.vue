@@ -8,67 +8,67 @@ const menus = [
   {
     id: 'news',
     label: '最新消息',
-    to: '/',
+    to: '/news',
   },
   {
     id: 'onlineOrder',
     label: '線上訂購',
-    to: '/',
+    to: '',
     children: [
       {
         id: 'hotItems',
         icon: 'heroicons-outline:fire',
         label: '熱賣中',
-        to: '/',
+        to: `/?category=${Category.Hot}`,
       },
       {
         id: 'cookies',
         icon: 'heroicons-outline:lifebuoy',
         label: '餅乾',
-        to: '/',
+        to: `/?category=${Category.Cookie}`,
       },
       {
         id: 'madeleines',
         icon: 'heroicons-outline:cake',
         label: '瑪德蓮',
-        to: '/',
+        to: `/?category=${Category.Madeleine}`,
       },
       {
         id: 'festiveGifts',
         icon: 'heroicons-outline:archive',
         label: '節慶禮盒',
-        to: '/',
+        to: `/?category=${Category.Festival}`,
       },
     ],
   },
   {
     id: 'orderHelp',
     label: '訂購QA/條款',
-    to: '/',
+    to: '',
     children: [
       {
         id: 'orderQa',
         icon: 'heroicons-outline:clipboard-document-list',
         label: '訂購Q&A',
-        to: '/',
+        to: '/faq',
       },
       {
         id: 'purchaseTerms',
         icon: 'heroicons-outline:shopping-bag',
         label: '購買條款',
-        to: '/',
+        to: '/terms',
       },
     ],
   },
   {
     id: 'aboutUs',
     label: '關於我們',
-    to: '/',
+    to: '/about',
   },
 ]
 
 const openMenus = ref<number[]>([])
-const selectedId = ref({ parent: '', child: '' })
+const selectedId = ref<{ parent: string; child: string }>({ parent: '', child: '' })
 
 const toggleMenu = (index: number) => {
   if (openMenus.value.includes(index)) {
@@ -78,38 +78,34 @@ const toggleMenu = (index: number) => {
   }
 }
 
-const isMenuOpen = (index: number) => {
-  return openMenus.value.includes(index)
-}
+const isMenuOpen = (index: number) => openMenus.value.includes(index)
 
-function onEnter(_el: Element, done: () => void) {
-  const el = _el as HTMLElement
-  el.style.height = '0'
-  el.offsetHeight // Trigger a reflow, flushing the CSS changes
-  el.style.height = el.scrollHeight + 'px'
+// function onEnter(_el: Element, done: () => void) {
+//   const el = _el as HTMLElement
+//   el.style.height = '0'
+//   el.offsetHeight // Trigger a reflow, flushing the CSS changes
+//   el.style.height = el.scrollHeight + 'px'
+//   el.addEventListener('transitionend', done, { once: true })
+// }
 
-  el.addEventListener('transitionend', done, { once: true })
-}
+// function onBeforeLeave(_el: Element) {
+//   const el = _el as HTMLElement
+//   el.style.height = el.scrollHeight + 'px'
+//   el.offsetHeight // Trigger a reflow, flushing the CSS changes
+// }
 
-function onBeforeLeave(_el: Element) {
-  const el = _el as HTMLElement
-  el.style.height = el.scrollHeight + 'px'
-  el.offsetHeight // Trigger a reflow, flushing the CSS changes
-}
+// function onAfterEnter(_el: Element) {
+//   const el = _el as HTMLElement
+//   el.style.height = 'auto'
+// }
 
-function onAfterEnter(_el: Element) {
-  const el = _el as HTMLElement
-  el.style.height = 'auto'
-}
+// function onLeave(_el: Element, done: () => void) {
+//   const el = _el as HTMLElement
+//   el.style.height = '0'
+//   el.addEventListener('transitionend', done, { once: true })
+// }
 
-function onLeave(_el: Element, done: () => void) {
-  const el = _el as HTMLElement
-  el.style.height = '0'
-
-  el.addEventListener('transitionend', done, { once: true })
-}
-
-const isSelected = (id: { parent?: string, child?: string }) => {
+const isSelected = (id: { parent?: string; child?: string }) => {
   if (id.child) {
     return selectedId.value.parent === id.parent && selectedId.value.child === id.child
   } else {
@@ -117,11 +113,14 @@ const isSelected = (id: { parent?: string, child?: string }) => {
   }
 }
 
-const selectMenu = (id: { parent?: string, child?: string }) => {
-  id.parent && (selectedId.value.parent = id.parent)
-  id.child && (selectedId.value.child = id.child)
+const selectMenu = (id: { parent?: string; child?: string }) => {
+  if (id.parent) {
+    selectedId.value.parent = id.parent
+  }
+  if (id.child) {
+    selectedId.value.child = id.child
+  }
 }
-
 </script>
 
 <template>
@@ -147,7 +146,7 @@ const selectMenu = (id: { parent?: string, child?: string }) => {
             :class="{ 'rotate-0': isMenuOpen(index) }"
           ></span>
         </div>
-        <transition
+        <!-- <transition
           @enter="onEnter"
           @after-enter="onAfterEnter"
           @before-leave="onBeforeLeave"
@@ -158,19 +157,19 @@ const selectMenu = (id: { parent?: string, child?: string }) => {
           leave-active-class="transition transition-all duration-300 ease-in"
           leave-from-class="opacity-100"
           leave-to-class="opacity-0"
-        >
+        > -->
           <ul
             v-if="menu.children && isMenuOpen(index)"
             class="pl-4 mt-2"
           >
-            <li v-for="(child, i) in menu.children" :key="i" class="mb-1 mr-3">
+            <li v-for="child in menu.children" :key="child.id" class="mb-1 mr-3">
               <UIcon v-if="child.icon" :name="child.icon" />
               <NuxtLink :to="child.to" class="block px-4 py-2 rounded-lg" :class="{ 'bg-[#BAA086]/10 text-[#BAA086] font-bold': isSelected({ parent: menu.id, child: child.id }) }" @click.stop="selectMenu({ parent: menu.id, child: child.id })">{{
                 child.label
               }}</NuxtLink>
             </li>
           </ul>
-        </transition>
+        <!-- </transition> -->
       </li>
     </ul>
   </nav>

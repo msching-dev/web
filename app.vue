@@ -1,8 +1,9 @@
 <script setup lang="ts">
+const route = useRoute()
 const { isShowingMobileMenu, toggleMobileMenu } = useHelpers()
 const { addBodyClass, removeBodyClass } = useHelpers()
 
-const closeCartAndMenu = () => {
+const closeMenu = () => {
   toggleMobileMenu(false)
 }
 
@@ -11,13 +12,21 @@ watch([isShowingMobileMenu], () => {
     ? addBodyClass('overflow-hidden')
     : removeBodyClass('overflow-hidden')
 })
+
+watch(
+  () => [route.path, route.query.category],
+  async () => {
+    await nextTick()
+    closeMenu()
+  }
+)
 </script>
 <template>
   <div class="flex flex-col h-dvh">
     <AppHeader />
 
     <Transition name="slide-from-left">
-      <MobileMenu v-if="isShowingMobileMenu" />
+      <MobileMenu v-show="isShowingMobileMenu" />
     </Transition>
 
     <NuxtPage />
@@ -25,9 +34,9 @@ watch([isShowingMobileMenu], () => {
     <!-- overlay -->
     <Transition name="fade">
       <div
-        v-if="isShowingMobileMenu"
-        class="fixed inset-0 z-40 fixed bg-black/20 backdrop-blur-sm"
-        @click="closeCartAndMenu"
+        v-show="isShowingMobileMenu"
+        class="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm"
+        @click="closeMenu"
       />
     </Transition>
 
@@ -64,5 +73,41 @@ img {
 .slide-from-left-enter-from,
 .slide-from-left-leave-to {
   transform: translateX(-500px);
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.3s;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  filter: blur(1rem);
+}
+
+
+/* custom scrollbar */
+:root {
+  --scrollbar-primary: #f0ece4;
+  --scrollbar-secondary: #ccbba5;
+}
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-secondary) var(--scrollbar-primary);
+}
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 15px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-primary);
+  border-radius: 5px;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-secondary);
+  border-radius: 14px;
+  border: 3px solid var(--scrollbar-primary);
 }
 </style>
