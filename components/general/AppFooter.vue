@@ -5,9 +5,7 @@
     <div class="container flex items-center justify-center my-3">
       <NuxtImg src="/images/logo_s.png" class="" />
     </div>
-    <div class="container px-4">
-      <div class="container border-t border-primary-20" />
-    </div>
+    <UDivider :ui="{ wrapper: { base: 'px-4' } }" />
     <div
       class="container flex items-start justify-between gap-3 pt-4 pl-6 pr-3"
     >
@@ -31,7 +29,10 @@
           target="_blank"
           ><NuxtImg src="/images/footer/icon_ig.png"
         /></NuxtLink>
-        <NuxtLink class="col-span-full justify-self-end" to="https://www.behance.net/yiy510" target="_blank"
+        <NuxtLink
+          class="col-span-full justify-self-end"
+          to="https://www.behance.net/yiy510"
+          target="_blank"
           ><NuxtImg src="/images/footer/icon_kristy_ad.png" class=""
         /></NuxtLink>
       </div>

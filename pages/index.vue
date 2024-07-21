@@ -54,7 +54,7 @@ const filteredProducts = computed(() => {
 <template>
   <main>
     <!-- Banner -->
-    <Banner />
+    <Banner type="home" />
     <!-- Search -->
     <ProductSearch />
     <!-- Category / Items -->

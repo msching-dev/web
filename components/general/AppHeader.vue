@@ -14,7 +14,7 @@
         <NuxtLink to="/cart" class="mr-4 cursor-pointer">
           <NuxtImg src="/images/header_cart.png" />
         </NuxtLink>
-        <SignIn />
+        <User />
       </div>
     </div>
   </header>
