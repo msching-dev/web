@@ -10,8 +10,8 @@ export default defineNuxtConfig({
   ],
   image: {
     format: ['avif', 'webp', 'png']
+  },
+  colorMode: {
+    preference: 'light'
   }
-  // colorMode: {
-  //   preference: 'light'
-  // }
 })
