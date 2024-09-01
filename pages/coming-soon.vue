@@ -13,13 +13,14 @@ const isLargeScreen = useMediaQuery('(min-width: 1024px)')
 const carouselRef = ref()
 const mainRef = ref<HTMLElement | null>(null)
 const carouselContainerStyle = ref({ container: {}, carousel: {} })
+let autoplayTimer: ReturnType<typeof setInterval> | null
 
 const carouselItems = [
-  {
-    src: '/images/carousel/mid_autumn_gift_box_sale.png',
-    to: 'https://www.instagram.com/p/C_Xx0AHSpjN/',
-    alt: '中秋禮盒預購'
-  },
+  // {
+  //   src: '/images/carousel/mid_autumn_gift_box_sale.png',
+  //   to: 'https://www.instagram.com/p/C_Xx0AHSpjN/',
+  //   alt: '中秋禮盒預購'
+  // },
   {
     src: '/images/carousel/click_to_visit_ig_official.png',
     to: 'https://www.instagram.com/msching_2022?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
@@ -32,8 +33,10 @@ const carouselItems = [
   }
 ]
 
-onMounted(() => {
-  setInterval(() => {
+// 自动播放的函数
+const startAutoplay = () => {
+  console.log('resume');
+  autoplayTimer = setInterval(() => {
     if (!carouselRef.value) return
 
     if (carouselRef.value.page === carouselRef.value.pages) {
@@ -41,7 +44,24 @@ onMounted(() => {
     }
 
     carouselRef.value.next()
-  }, 3000)
+  }, 6000)
+}
+
+const stopAutoplay = () => {
+  if (autoplayTimer) {
+    console.log('stop');
+    
+    clearInterval(autoplayTimer)
+    autoplayTimer = null
+  }
+}
+
+onMounted(() => {
+  startAutoplay()
+})
+
+onBeforeUnmount(() => {
+  stopAutoplay()
 })
 
 useResizeObserver(mainRef, (entries) => {
@@ -131,6 +151,8 @@ useResizeObserver(mainRef, (entries) => {
       <div
         class="relative grow-0 px-2"
         :style="carouselContainerStyle.container"
+        @touchstart="stopAutoplay"
+        @touchend="startAutoplay"
       >
         <UCarousel
           ref="carouselRef"
@@ -152,6 +174,7 @@ useResizeObserver(mainRef, (entries) => {
             item: 'basis-full justify-center rounded-2xl',
             indicators: {
               wrapper: 'bottom-2',
+              base: 'h-2 w-2',
               active: 'w-5 bg-[#A96929]',
               inactive: 'bg-[#ECD6C7]'
             }
@@ -171,15 +194,6 @@ useResizeObserver(mainRef, (entries) => {
               placeholder-class="blur-xl"
               class="rounded-lg shadow max-w-full max-h-full"
             />
-            <!-- <NuxtPicture
-              :src="item"
-              width="390"
-              height="312"
-              preload
-              :placeholder="[390, 312]"
-              placeholder-class="blur-xl"
-              :imgAttrs="{class:'rounded-lg w-full h-full'}"
-            /> -->
           </NuxtLink>
         </UCarousel>
       </div>
