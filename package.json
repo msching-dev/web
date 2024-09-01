@@ -10,13 +10,17 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@nuxt/image": "^1.6.0",
-    "@nuxt/ui": "^2.15.2",
-    "@pinia/nuxt": "^0.5.1",
+    "@nuxt/image": "^1.8.0",
+    "@nuxt/ui": "^2.18.4",
+    "@pinia/nuxt": "^0.5.4",
     "@vueuse/core": "^11.0.3",
     "@vueuse/nuxt": "^11.0.3",
     "nuxt": "^3.13.0",
-    "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "vue": "^3.4.38",
+    "vue-router": "^4.4.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4",
+    "vue-tsc": "^2.1.4"
   }
 }

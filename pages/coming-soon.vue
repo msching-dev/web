@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { vResizeObserver } from '@vueuse/components'
 
 useSeoMeta({
   title: 'Coming Soon | MS. CHING 蜜絲晴烘焙手作坊',
