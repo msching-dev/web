@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-
 useSeoMeta({
   title: 'Coming Soon | MS. CHING 蜜絲晴烘焙手作坊',
   ogTitle: 'Coming Soon | MS. CHING 蜜絲晴烘焙手作坊',
@@ -11,8 +10,10 @@ useSeoMeta({
 })
 
 const isLargeScreen = useMediaQuery('(min-width: 1024px)')
-
 const carouselRef = ref()
+const mainRef = ref<HTMLElement | null>(null)
+const carouselContainerStyle = ref({ container: {}, carousel: {} })
+
 const carouselItems = [
   {
     src: '/images/carousel/mid_autumn_gift_box_sale.png',
@@ -31,18 +32,35 @@ const carouselItems = [
   }
 ]
 
-const containerRef = ref<HTMLElement | null>(null)
-const carouselStyle = ref({})
-useResizeObserver(containerRef, (entries) => {
+onMounted(() => {
+  setInterval(() => {
+    if (!carouselRef.value) return
+
+    if (carouselRef.value.page === carouselRef.value.pages) {
+      return carouselRef.value.select(0)
+    }
+
+    carouselRef.value.next()
+  }, 3000)
+})
+
+useResizeObserver(mainRef, (entries) => {
   const entry = entries[0]
   const { height } = entry.contentRect
+  const containerHeight = (height * 2) / 5
   const carouselImgAspectRatio = 5 / 4 // 390 / 312
   const carouselArrowsArea = isLargeScreen.value ? 48 * 2 : 0
-  carouselStyle.value = {
-    height: `${height}px`,
-    width: `${height * carouselImgAspectRatio + carouselArrowsArea}px`
+  carouselContainerStyle.value = {
+    container: {
+      'flex-basis': `${containerHeight}px` // basis-2/5
+    },
+    carousel: {
+      height: `${containerHeight}px`,
+      width: `${
+        containerHeight * carouselImgAspectRatio + carouselArrowsArea
+      }px`
+    }
   }
-  console.log('carouselStyle', carouselStyle.value)
 })
 </script>
 
@@ -98,7 +116,7 @@ useResizeObserver(containerRef, (entries) => {
     <header class="flex items-center justify-center flex-[100px] flex-grow-0">
       <Logo />
     </header>
-    <main class="relative flex-1 flex flex-col">
+    <main ref="mainRef" class="relative flex-1 flex flex-col">
       <div class="grow flex flex-col items-center justify-center text-center">
         <NuxtImg
           class="mx-auto w-[64%] sm:w-[300px] floating"
@@ -110,11 +128,14 @@ useResizeObserver(containerRef, (entries) => {
         />
       </div>
       <!-- 輪播區, 圖寬高比 390:312 (5:4) -->
-      <div ref="containerRef" class="relative basis-2/5 px-2">
+      <div
+        class="relative grow-0 px-2"
+        :style="carouselContainerStyle.container"
+      >
         <UCarousel
           ref="carouselRef"
           class="mx-auto h-full rounded-2xl overflow-hidden"
-          :style="carouselStyle"
+          :style="carouselContainerStyle.carousel"
           v-slot="{ item }"
           :items="carouselItems"
           :prev-button="{
@@ -128,7 +149,6 @@ useResizeObserver(containerRef, (entries) => {
             class: 'bg-[#A96929] text-white -right-0'
           }"
           :ui="{
-            container: 'h-full w-[calc(100%_*_5_/_4)] max-w-full',
             item: 'basis-full justify-center rounded-2xl',
             indicators: {
               wrapper: 'bottom-2',
@@ -149,7 +169,7 @@ useResizeObserver(containerRef, (entries) => {
               preload
               :placeholder="[390, 312]"
               placeholder-class="blur-xl"
-              class="rounded-lg shadow w-auto h-full"
+              class="rounded-lg shadow max-w-full max-h-full"
             />
             <!-- <NuxtPicture
               :src="item"
