@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { vResizeObserver } from '@vueuse/components'
+
 useSeoMeta({
   title: 'Coming Soon | MS. CHING 蜜絲晴烘焙手作坊',
   ogTitle: 'Coming Soon | MS. CHING 蜜絲晴烘焙手作坊',
@@ -6,7 +8,42 @@ useSeoMeta({
   ogDescription: '即將推出，追蹤我們的社交平台，掌握最新資訊。',
   ogUrl: 'https://msching.com/coming-soon',
   ogImage: '/images/logo_c.png',
-  twitterCard: 'summary_large_image',
+  twitterCard: 'summary_large_image'
+})
+
+const isLargeScreen = useMediaQuery('(min-width: 1024px)')
+
+const carouselRef = ref()
+const carouselItems = [
+  {
+    src: '/images/carousel/mid_autumn_gift_box_sale.png',
+    to: 'https://www.instagram.com/p/C_Xx0AHSpjN/',
+    alt: '中秋禮盒預購'
+  },
+  {
+    src: '/images/carousel/click_to_visit_ig_official.png',
+    to: 'https://www.instagram.com/msching_2022?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
+    alt: '點擊前往IG官方'
+  },
+  {
+    src: '/images/carousel/click_to_visit_line_official.png',
+    to: 'https://liff.line.me/1645278921-kWRPP32q/?accountId=984gfwdr',
+    alt: '點擊前往LINE官方'
+  }
+]
+
+const containerRef = ref<HTMLElement | null>(null)
+const carouselStyle = ref({})
+useResizeObserver(containerRef, (entries) => {
+  const entry = entries[0]
+  const { height } = entry.contentRect
+  const carouselImgAspectRatio = 5 / 4 // 390 / 312
+  const carouselArrowsArea = isLargeScreen.value ? 48 * 2 : 0
+  carouselStyle.value = {
+    height: `${height}px`,
+    width: `${height * carouselImgAspectRatio + carouselArrowsArea}px`
+  }
+  console.log('carouselStyle', carouselStyle.value)
 })
 </script>
 
@@ -14,24 +51,58 @@ useSeoMeta({
 <template>
   <dev class="relative flex flex-col h-full bg-[#FDFCF8] overflow-hidden">
     <div>
-      <NuxtImg class="absolute -top-[3px] -left-[35px] md:left-4 md:top-1" src="/images/soon/almond_tuiles.png" />
-      <NuxtImg class="absolute top-[6.2%] -right-[29px] -rotate-[22deg] md:right-5" src="/images/soon/cupcake.png" />
-      <NuxtImg width="40" height="40" class="absolute top-[14.5%] -left-[7px]" src="/images/soon/c_1.png" />
-      <NuxtImg width="40" height="40" class="absolute top-[29%] -right-[19px]" src="/images/soon/c_1.png" />
-      <NuxtImg class="absolute top-[31.8%] -left-[37px] rotate-[46.55deg] md:left-[11%]" src="/images/soon/madeleine.png" />
-      <NuxtImg class="absolute top-[41.2%] -right-[19px] md:right-[14%]" src="/images/soon/almond_tuiles.png" />
-      <NuxtImg class="absolute top-[52.5%] -left-[12px]" src="/images/soon/c_2.png" />
-      <NuxtImg class="absolute bottom-[8%] -right-[17px] -rotate-[30.06deg] md:bottom-[18%] md:right-[2%]" src="/images/soon/madeleine.png" />
-      <NuxtImg class="absolute bottom-[32.2%] right-[70px]" src="/images/soon/c_3.png" />
-      <NuxtImg class="absolute bottom-[21%] -left-[4.9px] -rotate-[22deg] md:left-[5%]" src="/images/soon/cupcake.png" />
+      <NuxtImg
+        class="absolute -top-[3px] -left-[35px] md:left-4 md:top-1"
+        src="/images/soon/almond_tuiles.png"
+      />
+      <NuxtImg
+        class="absolute top-[6.2%] -right-[29px] -rotate-[22deg] md:right-5"
+        src="/images/soon/cupcake.png"
+      />
+      <NuxtImg
+        width="40"
+        height="40"
+        class="absolute top-[14.5%] -left-[7px]"
+        src="/images/soon/c_1.png"
+      />
+      <NuxtImg
+        width="40"
+        height="40"
+        class="absolute top-[29%] -right-[19px]"
+        src="/images/soon/c_1.png"
+      />
+      <NuxtImg
+        class="absolute top-[31.8%] -left-[37px] rotate-[46.55deg] md:left-[11%]"
+        src="/images/soon/madeleine.png"
+      />
+      <NuxtImg
+        class="absolute top-[41.2%] -right-[19px] md:right-[14%]"
+        src="/images/soon/almond_tuiles.png"
+      />
+      <NuxtImg
+        class="absolute top-[52.5%] -left-[12px]"
+        src="/images/soon/c_2.png"
+      />
+      <NuxtImg
+        class="absolute bottom-[8%] -right-[17px] -rotate-[30.06deg] md:bottom-[18%] md:right-[2%]"
+        src="/images/soon/madeleine.png"
+      />
+      <NuxtImg
+        class="absolute bottom-[32.2%] right-[70px]"
+        src="/images/soon/c_3.png"
+      />
+      <NuxtImg
+        class="absolute bottom-[21%] -left-[4.9px] -rotate-[22deg] md:left-[5%]"
+        src="/images/soon/cupcake.png"
+      />
     </div>
-    <header class="flex items-center justify-center flex-[100px] flex-grow-0"><Logo /></header>
-    <main class="relative grow flex flex-col">
-      <div
-        class="grow flex flex-col items-center justify-center text-center"
-      >
+    <header class="flex items-center justify-center flex-[100px] flex-grow-0">
+      <Logo />
+    </header>
+    <main class="relative flex-1 flex flex-col">
+      <div class="grow flex flex-col items-center justify-center text-center">
         <NuxtImg
-          class="mx-auto w-[66%] sm:w-[360px] floating"
+          class="mx-auto w-[64%] sm:w-[300px] floating"
           src="/images/soon/coming_soon.png"
         />
         <NuxtImg
@@ -39,29 +110,63 @@ useSeoMeta({
           src="/images/soon/coming_soon_zh.png"
         />
       </div>
-      <div class="relative flex flex-col items-center px-4 pt-12 py-5">
-        <p class="text-[#867156] text-xl text-center leading-snug sm:text-2xl sm:flex">
-          追蹤我們的社交平台
-          <p>
-            掌握最新資訊
-          </p>
-        </p>
-        <div class="flex gap-5 mt-8">
-          <NuxtLink
-            to="https://www.instagram.com/msching_2022?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
-            target="_blank"
-            ><NuxtImg class="sm:h-[50px]" src="/images/footer/icon_ig.png"
-          /></NuxtLink>
-          <NuxtLink
-            to="https://liff.line.me/1645278921-kWRPP32q/?accountId=984gfwdr"
-            target="_blank"
-            ><NuxtImg class="sm:h-[50px]" src="/images/footer/icon_line.png"
-          /></NuxtLink>
-        </div>
+      <!-- 輪播區, 圖寬高比 390:312 (5:4) -->
+      <div ref="containerRef" class="relative basis-2/5 px-2">
+        <UCarousel
+          ref="carouselRef"
+          class="mx-auto h-full rounded-2xl overflow-hidden"
+          :style="carouselStyle"
+          v-slot="{ item }"
+          :items="carouselItems"
+          :prev-button="{
+            icon: 'i-heroicons-arrow-left-20-solid',
+            variant: 'soft',
+            class: 'bg-[#A96929] text-white -left-0'
+          }"
+          :next-button="{
+            icon: 'i-heroicons-arrow-right-20-solid',
+            variant: 'soft',
+            class: 'bg-[#A96929] text-white -right-0'
+          }"
+          :ui="{
+            container: 'h-full w-[calc(100%_*_5_/_4)] max-w-full',
+            item: 'basis-full justify-center rounded-2xl',
+            indicators: {
+              wrapper: 'bottom-2',
+              active: 'w-5 bg-[#A96929]',
+              inactive: 'bg-[#ECD6C7]'
+            }
+          }"
+          :indicators="!isLargeScreen"
+          :arrows="isLargeScreen"
+        >
+          <NuxtLink :to="item.to" target="_blank" class="h-full">
+            <NuxtImg
+              :src="item.src"
+              :alt="item.alt"
+              width="390"
+              height="312"
+              cover="contain"
+              preload
+              :placeholder="[390, 312]"
+              placeholder-class="blur-xl"
+              class="rounded-lg shadow w-auto h-full"
+            />
+            <!-- <NuxtPicture
+              :src="item"
+              width="390"
+              height="312"
+              preload
+              :placeholder="[390, 312]"
+              placeholder-class="blur-xl"
+              :imgAttrs="{class:'rounded-lg w-full h-full'}"
+            /> -->
+          </NuxtLink>
+        </UCarousel>
       </div>
     </main>
-    <footer>
-      <p class="pb-10 text-xs text-center font-normal text-black">
+    <footer class="shrink-0 flex items-center justify-center py-4">
+      <p class="text-xs text-center font-normal text-black">
         Copyright © 2024 msching.com 保留所有權利
       </p>
     </footer>
@@ -96,18 +201,18 @@ useSeoMeta({
 }
 
 @keyframes float {
-	0% {
-		transform: translatey(0px);
-	}
-	50% {
-		transform: translatey(-20px);
-	}
-	100% {
-		transform: translatey(0px);
-	}
+  0% {
+    transform: translatey(0px);
+  }
+  50% {
+    transform: translatey(-20px);
+  }
+  100% {
+    transform: translatey(0px);
+  }
 }
 
 .floating {
-	animation: float 6s ease-in-out infinite;
+  animation: float 6s ease-in-out infinite;
 }
 </style>
