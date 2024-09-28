@@ -16,11 +16,11 @@ const carouselContainerStyle = ref({ container: {}, carousel: {} })
 let autoplayTimer: ReturnType<typeof setInterval> | null
 
 const carouselItems = [
-  {
-    src: '/images/carousel/mid_autumn_gift_box_sale.png',
-    to: 'https://www.instagram.com/p/C_Xx0AHSpjN/',
-    alt: '中秋禮盒預購'
-  },
+  // {
+  //   src: '/images/carousel/mid_autumn_gift_box_sale.png',
+  //   to: 'https://www.instagram.com/p/C_Xx0AHSpjN/',
+  //   alt: '中秋禮盒預購'
+  // },
   {
     src: '/images/carousel/click_to_visit_ig_official.png',
     to: 'https://www.instagram.com/msching_2022?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
