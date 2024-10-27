@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-const { products, getCategoryQuery, setCategoryQuery, setProducts, updateProductList } = useProducts()
+import type { Tag } from '~/types'
+
+const { products, getCategoryQuery, setCategoryQuery, updateProductList, fetchProducts } = useProducts()
 const { isQueryEmpty } = useHelpers()
-const { data: allProducts, error } = await useFetch<Product[]>('/api/products')
-setProducts(allProducts.value as Product[])
+fetchProducts()
 
 onMounted(() => {
   if (!isQueryEmpty.value) updateProductList()

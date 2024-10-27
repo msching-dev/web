@@ -1,38 +1,38 @@
-interface ProductsJson {
-  almondCookie: ProductDetail
-  originalMadeleine: ProductDetail
-  earlGaryTeaMadeleine: ProductDetail
-  chocolateMadeleine: ProductDetail
-  matchaMadeleine: ProductDetail
-  cranBerryMadeleine: ProductDetail
-}
+export type ProductKey =
+  | keyof 'almondCookie'
+  | 'originalMadeleine'
+  | 'earlGaryTeaMadeleine'
+  | 'chocolateMadeleine'
+  | 'matchaMadeleine'
+  | 'cranBerryMadeleine'
 
-interface Product extends ProductDetail {
+export type Tag = 'hot' | 'new' | 'top_1' | 'top_2' | 'top_3'
+
+export interface ProductInfo {
   key: string
+  name: string
+  price: number
+  tag: Tag
+  alias: string
+  categories: Category[]
+  banner: ImageInfo
 }
 
-interface ProductDetail {
+export interface ProductDetail {
   id: number
-  categories: Category[]
-  name: string
-  banner: ImageInfo
   images: string[]
-  price: number
+  productImage: string
   descriptions: Descriptions
   specifications: Content[]
   maxCount: number
-  tag: Tag
-  alias: string
-  productImage: string
   portionSize: number
-  includeSize: number
+  includeSize: string
+  unit: string
   everyNutrientContent: Content[]
   everyHundredNutrientContent: Content[]
 }
 
-type Tag = 'hot' | 'new' | 'top_1' | 'top_2' | 'top_3'
-
-interface Descriptions {
+export interface Descriptions {
   desc: string
   nonAdditive: string
   howToEat: string
@@ -41,12 +41,12 @@ interface Descriptions {
   tastePeriod: string
 }
 
-interface Content {
+export interface Content {
   key: string
   value: number
 }
 
-interface ImageInfo {
+export interface ImageInfo {
   src: string
   altText: string
   title: string

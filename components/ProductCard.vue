@@ -17,48 +17,56 @@ const triggerShine = () => {
     isShining.value = false
   }, 500)
 }
+
+const handleAddCart = (event: MouseEvent) => {
+  console.log('handleToCart')
+}
 </script>
 
 <template>
-  <div
-    :class="[
-      'relative flex flex-col overflow-hidden rounded-xl w-full aspect-[0.675] shadow-[0_1.905px_10.142px_0px_rgba(185,159,133,0.2)] px-4 py-2 cursor-pointer transform transition-transform duration-200',
-      isPressed ? 'scale-95' : 'scale-100',
-    ]"
-    @touchstart="isPressed = true"
-    @touchend="
-      () => {
-        isPressed = false
-        triggerShine()
-      }
-    "
-    @mousedown="isPressed = true"
-    @mouseup="
-      () => {
-        isPressed = false
-        triggerShine()
-      }
-    "
-    @mouseleave="isPressed = false"
+  <NuxtLink
+    :to="`/products/${decodeURIComponent(node.key)}`"
+    :title="node.name"
   >
-    <NuxtImg
-      preload
-      class="absolute inset-0 object-cover w-full h-full"
-      src="/images/products/common/card_bg.png"
-    />
-    <img
-      width="52"
-      v-if="tagUrl"
-      :src="tagUrl"
-      alt="tag"
-      class="absolute top-4 right-4 object-cover w-[28%] h-auto"
-    />
-    <CartIcon class="absolute bottom-[23%] right-[13px] shadow-sm" />
-    <div class="relative w-full aspect-[4/5]">
-      <NuxtLink
-        :to="`/products/${decodeURIComponent(node.name)}`"
-        :title="node.name"
-      >
+    <div
+      :class="[
+        'relative flex flex-col overflow-hidden rounded-xl w-full aspect-[0.675] shadow-[0_1.905px_10.142px_0px_rgba(185,159,133,0.2)] px-4 py-2 cursor-pointer transform transition-transform duration-200',
+        isPressed ? 'scale-95' : 'scale-100',
+      ]"
+      @touchstart="isPressed = true"
+      @touchend="
+        () => {
+          isPressed = false
+          triggerShine()
+        }
+      "
+      @mousedown="isPressed = true"
+      @mouseup="
+        () => {
+          isPressed = false
+          triggerShine()
+        }
+      "
+      @mouseleave="isPressed = false"
+    >
+      <NuxtImg
+        preload
+        class="absolute inset-0 object-cover w-full h-full"
+        src="/images/products/common/card_bg.png"
+      />
+      <img
+        width="52"
+        v-if="tagUrl"
+        :src="tagUrl"
+        alt="tag"
+        class="absolute top-4 right-4 object-cover w-[28%] h-auto"
+      />
+      <!-- TODO: 購物相關排候實作 -->
+      <!-- <CartIcon
+        class="absolute bottom-[23%] right-[13px] shadow-sm"
+        @click="handleAddCart"
+      /> -->
+      <div class="relative w-full aspect-[4/5]">
         <NuxtImg
           width="264"
           :height="Math.round(194 * 1.378)"
@@ -70,26 +78,26 @@ const triggerShine = () => {
           placeholder
           placeholder-class="blur-xl shadow-none"
         />
-      </NuxtLink>
-    </div>
-    <span
-      class="text-base font-semibold text-[#4C3232] max-[350px]:text-sm whitespace-nowrap"
-      >{{ node.name }}</span
-    >
-    <UDivider class="py-1" />
-    <div class="flex justify-between items-center whitespace-nowrap">
-      <div class="flex items-center">
-        <span class="text-[#B8B8B8] font-semibold text-[12px] line-through"
-          >${{ node.price + 10 }}元</span
-        >
-        <span class="text-[#4C3232] text-4 font-semibold ml-[6px]"
-          >${{ node.price }}元</span
-        >
       </div>
-      <div class="text-[#4C3232]/20 font-bold text-xs">{{ node.alias }}</div>
+      <span
+        class="text-base font-semibold text-[#4C3232] max-[350px]:text-sm whitespace-nowrap"
+        >{{ node.name }}</span
+      >
+      <UDivider class="py-1" />
+      <div class="flex justify-between items-center whitespace-nowrap">
+        <div class="flex items-center">
+          <span class="text-[#B8B8B8] font-semibold text-[12px] line-through"
+            >${{ node.price + 10 }}元</span
+          >
+          <span class="text-[#4C3232] text-4 font-semibold ml-[6px]"
+            >${{ node.price }}元</span
+          >
+        </div>
+        <div class="text-[#4C3232]/20 font-bold text-xs">{{ node.alias }}</div>
+      </div>
+      <div v-if="isShining" class="shine"></div>
     </div>
-    <div v-if="isShining" class="shine"></div>
-  </div>
+  </NuxtLink>
 </template>
 
 <style scoped>

@@ -1,0 +1,93 @@
+[
+  {
+    "key": "almondCookie",
+    "name": "手作杏仁瓦片",
+    "price": 85,
+    "tag": "hot",
+    "alias": "純粹",
+    "categories": ["hot", "cookie"],
+    "banner": {
+      "src": "/images/products/almond_cookie.png",
+      "altText": "手作杏仁瓦片",
+      "title": "手作杏仁瓦片"
+    }
+  },
+  {
+    "key": "honeyLemonMadeleine",
+    "name": "蜂蜜檸檬瑪德蓮",
+    "price": 50,
+    "tag": "top_3",
+    "alias": "",
+    "categories": ["madeleine"],
+    "banner": {
+      "src": "/images/products/honeyLemon_madeleine.png",
+      "altText": "蜂蜜檸檬瑪德蓮",
+      "title": "蜂蜜檸檬瑪德蓮"
+    }
+  },
+  {
+    "key": "earlGreyTeaMadeleine",
+    "name": "伯爵茶瑪德蓮",
+    "price": 60,
+    "tag": "top_1",
+    "alias": "高貴",
+    "categories": ["hot", "madeleine"],
+    "banner": {
+      "src": "/images/products/earlGaryTea_madeleine.png",
+      "altText": "伯爵茶瑪德蓮",
+      "title": "伯爵茶瑪德蓮"
+    }
+  },
+  {
+    "key": "chocolateMadeleine",
+    "name": "巧克力瑪德蓮",
+    "price": 60,
+    "tag": "top_2",
+    "alias": "浪漫",
+    "categories": ["hot", "madeleine"],
+    "banner": {
+      "src": "/images/products/chocolate_madeleine.png",
+      "altText": "巧克力瑪德蓮",
+      "title": "巧克力瑪德蓮"
+    }
+  },
+  {
+    "key": "matchaMadeleine",
+    "name": "抹茶瑪德蓮",
+    "price": 60,
+    "tag": "new",
+    "alias": "綠意",
+    "categories": ["madeleine"],
+    "banner": {
+      "src": "/images/products/matcha_madeleine.png",
+      "altText": "抹茶瑪德蓮",
+      "title": "抹茶瑪德蓮"
+    }
+  },
+  {
+    "key": "cranberryMadeleine",
+    "name": "蔓越莓瑪德蓮",
+    "price": 60,
+    "tag": "top_2",
+    "alias": "嫵媚",
+    "categories": ["hot", "madeleine"],
+    "banner": {
+      "src": "/images/products/cranberry_madeleine.png",
+      "altText": "蔓越莓瑪德蓮",
+      "title": "蔓越莓瑪德蓮"
+    }
+  },
+  {
+    "key": "poloCookie",
+    "name": "菠蘿小餅乾",
+    "price": 60,
+    "tag": "new",
+    "alias": "甜在心",
+    "categories": ["hot", "cookie"],
+    "banner": {
+      "src": "/images/products/polo_cookie.png",
+      "altText": "菠蘿小餅乾",
+      "title": "菠蘿小餅乾"
+    }
+  }
+]

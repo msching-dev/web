@@ -1,10 +1,12 @@
-let allProducts = [] as Product[]
+import type { ProductDetail, ProductInfo } from "~/types"
+
+let allProducts = [] as ProductInfo[]
 
 export function useProducts() {
   const route = useRoute()
   const router = useRouter()
 
-  const products = useState<Product[]>('products')
+  const products = useState<ProductInfo[]>('products')
 
   function getCategoryQuery(): string {
     return route.query.category as string
@@ -14,7 +16,7 @@ export function useProducts() {
     router.push({ query: { ...route.query, category: value || undefined } })
   }
 
-  function setProducts(newProducts: Product[]): void {
+  function setProducts(newProducts: ProductInfo[]): void {
     if (!Array.isArray(newProducts))
       throw new Error('Products must be an array.')
     products.value = newProducts ?? []
@@ -39,12 +41,38 @@ export function useProducts() {
       let newProducts = [...allProducts]
       if (isSearchActive.value) newProducts = searchProducts(newProducts)
       console.log('newProducts', newProducts)
-      
 
       products.value = newProducts
     } catch (error) {
       console.error(error)
     }
+  }
+
+  function getProduct(name: string) {
+    return products.value.find((product) => product.name === name) || null
+  }
+
+  async function fetchProducts() {
+    const { data, error } = await useFetch<ProductInfo[]>('/api/products')
+    if (data.value) setProducts(data.value)
+    if (error.value) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'Failed to fetch product list',
+      })
+    }
+    return products.value
+  }
+
+  async function fetchProductDetail(key: string) {
+    const { data: productDetail, error } = await useFetch<
+      Partial<ProductDetail>
+    >(`/api/products/${key}`)
+
+    if (error.value) {
+      throw createError({ statusCode: 404, statusMessage: 'Product not found' })
+    }
+    return productDetail.value
   }
 
   return {
@@ -54,5 +82,8 @@ export function useProducts() {
     setCategoryQuery,
     setProducts,
     updateProductList,
+    getProduct,
+    fetchProducts,
+    fetchProductDetail,
   }
 }

@@ -14,7 +14,7 @@
         <div class="mt-3">Email</div>
         <NuxtLink
           to="mailto:msching.handmade@gmail.com"
-          class="font-normal font-medium"
+          class="font-medium"
           >msching.handmade@gmail.com</NuxtLink
         >
       </div>

@@ -1,4 +1,4 @@
-// Example: ?search=shirt
+import type { ProductInfo } from "~/types"
 
 export function useSearching() {
   const route = useRoute()
@@ -27,7 +27,7 @@ export function useSearching() {
 
   const isSearchActive = computed<boolean>(() => !!searchQuery.value)
 
-  function searchProducts(products: Product[]): Product[] {
+  function searchProducts(products: ProductInfo[]): ProductInfo[] {
     // const name = route.name ?? 'products'
     const search = getSearchQuery()
 
@@ -47,10 +47,10 @@ export function useSearching() {
     // }
 
     return search
-      ? products.filter((product: Product) => {
+      ? products.filter((product: ProductInfo) => {
           const name = product.name?.toLowerCase()
           const alias = product.alias ? product.alias.toLowerCase() : null
-          
+
           const query = search.toLowerCase()
           return name?.includes(query) || alias?.includes(query)
         })

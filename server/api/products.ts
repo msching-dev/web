@@ -1,13 +1,7 @@
 // server/api/products.ts
-import productsInfo from '@/public/json/products.json'
+import productsList from '@/public/json/productsList.json'
 
 export default defineEventHandler(() => {
 
-  const products = Object.keys(productsInfo).map((key) => {
-    return {
-      key,
-      ...productsInfo[key as keyof typeof productsInfo],
-    }
-  })
-  return products || []
+  return productsList || []
 })
