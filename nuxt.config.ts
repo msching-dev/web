@@ -27,6 +27,11 @@ export default defineNuxtConfig({
     routeRules: {
       '/': { prerender: true },
     },
+    experimental: {
+      // Enable Server API documentation within NuxtHub
+      openAPI: true,
+    },
+    preset: 'cloudflare',
   },
   app: {
     head: {

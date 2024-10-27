@@ -14,14 +14,10 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  
-  const productPath = resolve(
-    process.cwd(),
-    `public/json/productDetails/${key}.json`
-  )
+  const productUrl = `/json/productDetails/${key}.json`
   try {
-    const productData = await fs.readFile(productPath, 'utf-8')
-    return JSON.parse(productData)
+    const response = await $fetch(productUrl)
+    return response
   } catch (error) {
     throw createError({ statusCode: 404, statusMessage: 'Product not found' })
   }
