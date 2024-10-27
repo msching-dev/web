@@ -1,4 +1,4 @@
-import type { ProductDetail, ProductInfo } from "~/types"
+import type { ProductDetail, ProductInfo } from '~/types'
 
 let allProducts = [] as ProductInfo[]
 
@@ -65,9 +65,11 @@ export function useProducts() {
   }
 
   async function fetchProductDetail(key: string) {
+    // 站不使用 server/api 動態取得 public json
+    // const { data: productDetail, error } = await useFetch<Partial<ProductDetail>>(`/api/products/${key}`)
     const { data: productDetail, error } = await useFetch<
       Partial<ProductDetail>
-    >(`/api/products/${key}`)
+    >(`/json/productDetails/${key}.json`)
 
     if (error.value) {
       throw createError({ statusCode: 404, statusMessage: 'Product not found' })
