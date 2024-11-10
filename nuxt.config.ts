@@ -14,9 +14,6 @@ export default defineNuxtConfig({
   colorMode: {
     preference: 'light',
   },
-  routeRules: {
-    '/': { prerender: true },
-  },
   typescript: {
     typeCheck: true,
   },
@@ -24,9 +21,6 @@ export default defineNuxtConfig({
     dirs: ['config/*.ts'],
   },
   nitro: {
-    routeRules: {
-      '/': { prerender: true },
-    },
     experimental: {
       // Enable Server API documentation within NuxtHub
       openAPI: true,
