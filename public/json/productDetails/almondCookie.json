@@ -13,79 +13,79 @@
     "howToEat": "這款手工製作的杏仁片是一種絕佳的甜點選擇，可供單獨享用，也可以搭配咖啡、茶或其他飲品一起品嘗。您還可以將它們加入麥片、優格或冰淇淋中，增添一份香脆美味。",
     "preservationMethod": "請將杏仁片存放在密封的容器中，避免陽光直射和潮濕的環境，以保持其新鮮度和脆度。建議在開封後盡快食用，以充分享受其美味。",
     "precautions": "本產品含有堅果成分，可能引起過敏反應。請在購買前仔細閱讀產品成分標籤，並避免食用者對任何成分過敏的情況。本產品含有動物性奶油及蛋，並非適合素食者食用。",
-    "tastePeriod": "請參考包裝上標示的賞味期限，以保證最佳品質和口感。本產品的賞味期限為製造日期起14天"
+    "tastePeriod": "請參考包裝上標示的賞味期限，以保證最佳品質和口感。本產品的賞味期限為製造日期起20天"
   },
   "specifications": [{ "key": "原味", "value": 1 }],
-  "maxCount": 40,
-  "portionSize": 70,
+  "maxCount": 20,
+  "portionSize": 90,
   "includeSize": "7片",
   "unit": "包",
   "everyNutrientContent": [
     {
       "key": "熱量",
-      "value": 1129.1
+      "value": 138.3
     },
     {
       "key": "蛋白質",
-      "value": 30.9
+      "value": 2.9
     },
     {
       "key": "脂肪",
-      "value": 55.5
+      "value": 9.3
     },
     {
       "key": "飽和脂肪",
-      "value": 7.8
+      "value": 5.9
     },
     {
       "key": "反式脂肪",
-      "value": 2.2
+      "value": 0.031
     },
     {
       "key": "碳水化合物",
-      "value": 136.4
+      "value": 11.5
     },
     {
       "key": "糖",
-      "value": 0.1
+      "value": 0.7
     },
     {
       "key": "鈉",
-      "value": 24.5
+      "value": 0.182
     }
   ],
   "everyHundredNutrientContent": [
     {
       "key": "熱量",
-      "value": 1613
+      "value": 153.7
     },
     {
       "key": "蛋白質",
-      "value": 44.1
+      "value": 3.3
     },
     {
       "key": "脂肪",
-      "value": 79.3
+      "value": 10.3
     },
     {
       "key": "飽和脂肪",
-      "value": 11.2
+      "value": 6.6
     },
     {
       "key": "反式脂肪",
-      "value": 3.1
+      "value": 3.4
     },
     {
       "key": "碳水化合物",
-      "value": 194.9
+      "value": 12.8
     },
     {
       "key": "糖",
-      "value": 0.1
+      "value": 0.7
     },
     {
       "key": "鈉",
-      "value": 35
+      "value": 0.203
     }
   ]
 }

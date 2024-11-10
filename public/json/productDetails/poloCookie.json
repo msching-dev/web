@@ -1,6 +1,11 @@
 {
   "key": "poloCookie",
-  "images": ["", "", "", ""],
+  "images": [    
+    "/images/products/poloCookie/1.png",
+    "/images/products/poloCookie/2.png",
+    "/images/products/poloCookie/3.png",
+    "/images/products/poloCookie/4.png"
+  ],
   "productImage": "",
   "descriptions": {
     "desc": "波羅小餅乾是一款口感外脆內鬆、香甜可口的小點心。每一口都帶有濃郁的奶油香氣和微微的甜味，令人愛不釋手。餅乾的外觀呈現金黃色澤，表面有細緻的格子紋理，增添視覺上的享受。每包6顆",

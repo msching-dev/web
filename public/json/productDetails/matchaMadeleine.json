@@ -17,21 +17,21 @@
     }
   ],
   "maxCount": 50,
-  "portionSize": 35,
+  "portionSize": 30,
   "includeSize": "",
   "unit": "顆",
   "everyNutrientContent": [
     {
       "key": "熱量",
-      "value": 379.8
+      "value": 87.5
     },
     {
       "key": "蛋白質",
-      "value": 8.3
+      "value": 1.7
     },
     {
       "key": "脂肪",
-      "value": 8.3
+      "value": 6.4
     },
     {
       "key": "飽和脂肪",
@@ -39,53 +39,53 @@
     },
     {
       "key": "反式脂肪",
-      "value": 0.2
+      "value": 0.023
     },
     {
       "key": "碳水化合物",
-      "value": 74
+      "value": 6
     },
     {
       "key": "糖",
-      "value": 50.7
+      "value": 0.2
     },
     {
       "key": "鈉",
-      "value": 37.3
+      "value": 0.095
     }
   ],
   "everyHundredNutrientContent": [
     {
       "key": "熱量",
-      "value": 1085
+      "value": 291.6
     },
     {
       "key": "蛋白質",
-      "value": 23.8
+      "value": 5.6
     },
     {
       "key": "脂肪",
-      "value": 23.8
+      "value": 21.3
     },
     {
       "key": "飽和脂肪",
-      "value": 11.9
+      "value": 13.9
     },
     {
       "key": "反式脂肪",
-      "value": 0.7
+      "value": 0.076
     },
     {
       "key": "碳水化合物",
-      "value": 211.4
+      "value": 20.1
     },
     {
       "key": "糖",
-      "value": 144.9
+      "value": 0.47
     },
     {
       "key": "鈉",
-      "value": 106.7
+      "value": 0.318
     }
   ]
 }

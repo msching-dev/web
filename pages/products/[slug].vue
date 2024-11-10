@@ -16,6 +16,20 @@ const productDetail = await fetchProductDetail(productKey)
     class="container relative p-4 flex flex-col items-start text-[#555555]/85"
     v-if="productInfo && productDetail"
   >
+    <div class="flex relative w-full text-2xl font-bold justify-center items-center mb-2">
+      <NuxtLink
+        :to="`/`"
+        title="首頁"
+       >
+        <UIcon   name="heroicons:arrow-left-circle" class="absolute left-2 top-[-4px] w-10 h-10 opacity-80 z-20 text-[#CAAE93]" />
+      </NuxtLink>
+      <div class="flex flex-col justify-center">
+        <p class="border-[#B99F85] border-b-[3px] pb-1">{{ productInfo.name }}</p>
+        <p class="text-[#B99F85]/40 font-extrabold text-base text-right">
+        {{ productInfo.alias }}
+      </p>
+      </div>
+    </div>
     <!-- 產品圖 -->
     <UCarousel
       v-if="(productDetail.images?.length || 0) > 0"
@@ -54,13 +68,7 @@ const productDetail = await fetchProductDetail(productKey)
     </UCarousel>
 
     <div class="flex flex-col text-2xl font-bold">
-      <p class="mt-4 border-[#B99F85] border-b-[3px] pb-3">
-        {{ productInfo.name }}
-      </p>
-      <p class="text-[#B99F85]/40 font-extrabold text-base mt-3">
-        {{ productInfo.alias }}
-      </p>
-      <span class="mt-2">
+      <span class="mt-4">
         {{ `NT＄ ${productInfo.price} 元 / ${productDetail.unit}` }}
         <span class="text-[#555555]/70 text-base font-bold">{{
           productDetail.includeSize ? `( ${productDetail.includeSize} )` : ''

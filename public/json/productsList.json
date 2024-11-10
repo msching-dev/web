@@ -65,7 +65,7 @@
     }
   },
   {
-    "key": "cranberryMadeleine",
+    "key": "cranBerryMadeleine",
     "name": "蔓越莓瑪德蓮",
     "price": 60,
     "tag": "top_2",
@@ -75,6 +75,19 @@
       "src": "/images/products/cranberry_madeleine.png",
       "altText": "蔓越莓瑪德蓮",
       "title": "蔓越莓瑪德蓮"
+    }
+  },
+  {
+    "key": "thaiTeaMadeleine",
+    "name": "泰式奶茶瑪德蓮",
+    "price": 60,
+    "tag": "top_2",
+    "alias": "愜意",
+    "categories": ["hot", "madeleine"],
+    "banner": {
+      "src": "/images/products/thaiTea_madeleine.png",
+      "altText": "泰式奶茶瑪德蓮",
+      "title": "泰式奶茶瑪德蓮"
     }
   },
   {
