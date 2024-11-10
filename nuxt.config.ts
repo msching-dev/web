@@ -25,7 +25,7 @@ export default defineNuxtConfig({
       // Enable Server API documentation within NuxtHub
       openAPI: true,
     },
-    preset: 'netlify_edge',
+    preset: 'netlify',
   },
   app: {
     head: {
