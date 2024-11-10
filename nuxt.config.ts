@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ['@nuxt/ui', '@nuxt/image', '@vueuse/nuxt', '@nuxthub/core'],
+  modules: ['@nuxt/ui', '@nuxt/image', '@vueuse/nuxt'],
   components: [
     {
       path: '~/components',
@@ -25,7 +25,7 @@ export default defineNuxtConfig({
       // Enable Server API documentation within NuxtHub
       openAPI: true,
     },
-    // preset: 'cloudflare',
+    preset: 'netlify_edge',
   },
   app: {
     head: {
