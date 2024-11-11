@@ -1,6 +1,9 @@
 {
   "key": "honeyLemonMadeleine",
-  "images": ["", "", "", ""],
+  "images": [ 
+    "/images/products/honeyLemonMadeleine/1.png",
+    "/images/products/honeyLemonMadeleine/2.png"
+  ],
   "productImage": "",
   "descriptions": {
     "desc": "新鮮的檸檬汁和天然蜂蜜的完美結合，呈現了這款蜂蜜檸檬瑪德蓮的極致美味。每一口都帶來清新風味和甜蜜滋味。",

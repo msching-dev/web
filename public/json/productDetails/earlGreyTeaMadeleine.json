@@ -1,6 +1,9 @@
 {
   "key": "earlGreyTeaMadeleine",
-  "images": ["", "", "", ""],
+  "images": [
+    "/images/products/earlGreyTeaMadeleine/1.png",
+    "/images/products/earlGreyTeaMadeleine/2.png"
+  ],
   "productImage": "",
   "descriptions": {
     "desc": "伯爵茶瑪德蓮是一款結合了經典法式甜點與濃郁伯爵茶香的糕點。其鬆軟細緻的口感和獨特的香氣讓人難以抗拒。",

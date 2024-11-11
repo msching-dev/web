@@ -1,6 +1,9 @@
 {
   "key": "chocolateMadeleine",
-  "images": ["", "", "", ""],
+  "images": [
+    "/images/products/chocolateMadeleine/1.png",
+    "/images/products/chocolateMadeleine/2.png"
+  ],
   "productImage": "",
   "descriptions": {
     "desc": "巧克力瑪德蓮是一款精緻的法式小蛋糕，完美融合濃郁巧克力的香氣與鬆軟口感，帶來極致的甜點享受。",
