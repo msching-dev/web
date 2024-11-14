@@ -1,33 +1,61 @@
 <script setup lang="ts">
+import type { ProductDetail, ProductInfo } from '~/types'
+
 const route = useRoute()
 const productKey = route.params.slug as string
 
 const { products, fetchProducts, fetchProductDetail } = useProducts()
 
-// 首先嘗試取得產品列表，若不存在則會發送請求
-await fetchProducts()
+const productInfo = ref<Partial<ProductInfo>>()
+const productDetail = ref<Partial<ProductDetail> | null>()
 
-// 從產品列表中找出特定產品的基本資訊
-const productInfo = products.value.find((product) => product.key === productKey)
-const productDetail = await fetchProductDetail(productKey)
+onMounted(async () => {
+  try {
+    if (!!products.value?.length) {
+      // 從產品列表中找出特定產品的基本資訊
+      productInfo.value = products.value.find(
+        (product) => product.key === productKey
+      )
+    } else {
+      // 獲取產品列表
+      const _products = await fetchProducts()
+      productInfo.value = _products.find(
+        (product) => product.key === productKey
+      )
+    }
+
+    // 根據 productKey 獲取產品詳情
+    productDetail.value = await fetchProductDetail(productKey)
+  } catch (error) {
+    console.error('Failed to fetch product detail data:', error)
+  } finally {
+    // loading.value = false
+  }
+})
+
+console.log('productDetail', productDetail)
 </script>
 <template>
   <main
     class="container relative p-4 flex flex-col items-start text-[#555555]/85"
     v-if="productInfo && productDetail"
   >
-    <div class="flex relative w-full text-2xl font-bold justify-center items-center mb-2">
-      <NuxtLink
-        :to="`/`"
-        title="首頁"
-       >
-        <UIcon   name="heroicons:arrow-left-circle" class="absolute left-2 top-[-4px] w-10 h-10 opacity-80 z-20 text-[#CAAE93]" />
+    <div
+      class="flex relative w-full text-2xl font-bold justify-center items-center mb-2"
+    >
+      <NuxtLink :to="`/`" title="首頁">
+        <UIcon
+          name="heroicons:arrow-left-circle"
+          class="absolute left-2 top-[-4px] w-10 h-10 opacity-80 z-20 text-[#CAAE93]"
+        />
       </NuxtLink>
       <div class="flex flex-col justify-center">
-        <p class="border-[#B99F85] border-b-[3px] pb-1">{{ productInfo.name }}</p>
+        <p class="border-[#B99F85] border-b-[3px] pb-1">
+          {{ productInfo.name }}
+        </p>
         <p class="text-[#B99F85]/40 font-extrabold text-base text-right">
-        {{ productInfo.alias }}
-      </p>
+          {{ productInfo.alias }}
+        </p>
       </div>
     </div>
     <!-- 產品圖 -->
@@ -77,8 +105,8 @@ const productDetail = await fetchProductDetail(productKey)
     </div>
 
     <p class="text-base mt-4">
-      商品說明： 
-      <p>{{ productDetail.descriptions?.desc }}</p>
+      商品說明：
+      {{ productDetail.descriptions?.desc }}
     </p>
 
     <!-- TODO: 購物車區塊待實作 -->
