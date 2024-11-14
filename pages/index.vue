@@ -19,6 +19,9 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
 })
 
+// to coming soon
+await navigateTo('/coming-soon')
+
 const categoriesTabs = [
   { label: '熱賣中', value: Category.Hot },
   { label: '餅乾', value: Category.Cookie },
