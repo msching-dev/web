@@ -1,5 +1,10 @@
 import type { ProductDetail, ProductInfo } from '~/types'
 
+/**
+ * 隱藏產品清單
+ */
+const hideProductKeys = ['matchaMadeleine']
+
 let allProducts = [] as ProductInfo[]
 
 export function useProducts() {
@@ -16,11 +21,14 @@ export function useProducts() {
     router.push({ query: { ...route.query, category: value || undefined } })
   }
 
-  function setProducts(newProducts: ProductInfo[]): void {
+  function setProducts(newProducts: ProductInfo[] = []): void {
     if (!Array.isArray(newProducts))
       throw new Error('Products must be an array.')
-    products.value = newProducts ?? []
-    allProducts = JSON.parse(JSON.stringify(newProducts))
+    const _newProducts = newProducts.filter((e) =>
+      !hideProductKeys.includes(e.key)
+    )
+    products.value = _newProducts
+    allProducts = JSON.parse(JSON.stringify(_newProducts))
   }
 
   const updateProductList = async (): Promise<void> => {
@@ -70,7 +78,7 @@ export function useProducts() {
 
     const { data: productDetail, error } = await useFetch<
       Partial<ProductDetail>
-      >(`/json/productDetails/${key}.json`)
+    >(`/json/productDetails/${key}.json`)
 
     if (error.value) {
       throw createError({ statusCode: 404, statusMessage: 'Product not found' })
