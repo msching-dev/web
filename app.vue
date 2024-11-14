@@ -23,7 +23,7 @@ watch(
 </script>
 <template>
   <div class="flex flex-col h-dvh">
-    <!-- <AppHeader /> -->
+    <AppHeader />
 
     <Transition name="slide-from-left">
       <MobileMenu v-show="isShowingMobileMenu" />
@@ -42,7 +42,7 @@ watch(
 
     <BackToTopButton />
 
-    <!-- <LazyAppFooter /> -->
+    <LazyAppFooter />
   </div>
 </template>
 <style lang="postcss">

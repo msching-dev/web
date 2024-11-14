@@ -48,7 +48,7 @@ export default defineNuxtConfig({
       // Enable Server API documentation within NuxtHub
       openAPI: true,
     },
-    // preset: 'cloudflare-pages',
+    preset: 'cloudflare-pages',
   },
   app: {
     head: {
