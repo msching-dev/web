@@ -102,5 +102,18 @@
       "altText": "菠蘿小餅乾",
       "title": "菠蘿小餅乾"
     }
+  },
+  {
+    "key": "thaiAndChocolateMadeleine",
+    "name": "巧遇泰香瑪德蓮禮盒",
+    "price": 399,
+    "tag": "new",
+    "alias": "醇雅",
+    "categories": ["hot", "festival"],
+    "banner": {
+      "src": "/images/products/thai_and_chocolate_madeleine.png",
+      "altText": "巧遇泰香瑪德蓮聖誕禮盒",
+      "title": "巧遇泰香瑪德蓮聖誕禮盒"
+    }
   }
 ]
