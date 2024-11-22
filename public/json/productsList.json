@@ -115,5 +115,18 @@
       "altText": "巧遇泰香瑪德蓮聖誕禮盒",
       "title": "巧遇泰香瑪德蓮聖誕禮盒"
     }
+  },
+  {
+    "key": "earlGreyTeaAndHoneyLemonMadeleine",
+    "name": "蜜檸茶語瑪德蓮禮盒",
+    "price": 369,
+    "tag": "new",
+    "alias": "馥沁",
+    "categories": ["hot", "festival"],
+    "banner": {
+      "src": "/images/products/earl_grey_tea_and_honey_lemon_madeleine.png",
+      "altText": "蜜檸茶語瑪德蓮禮盒",
+      "title": "蜜檸茶語瑪德蓮禮盒"
+    }
   }
 ]
