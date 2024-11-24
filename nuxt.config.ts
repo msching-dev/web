@@ -4,7 +4,7 @@ const { resolve } = createResolver(import.meta.url)
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ['@nuxt/ui', '@nuxt/image', '@vueuse/nuxt', '@nuxthub/core'],
+  modules: ['@nuxt/ui', '@nuxt/image', '@vueuse/nuxt', '@nuxthub/core', 'shadcn-nuxt'],
   components: [
     {
       path: '~/components',

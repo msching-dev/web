@@ -94,7 +94,7 @@ const filteredProducts = computed(() => {
               class="relative w-full"
             >
               <div
-                class="grid justify-center grid-cols-2 gap-5 mt-8 md:grid-cols-3 lg:grid-cols-6 animate-fade-in"
+                class="grid justify-center grid-cols-2 gap-5 mt-8 md:grid-cols-3 lg:grid-cols-6 animate-in fade-in"
               >
                 <ProductCard
                   v-for="product in filteredProducts"

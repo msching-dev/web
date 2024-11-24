@@ -1,5 +1,6 @@
 import type { Config } from 'tailwindcss'
-import defaultTheme from 'tailwindcss/defaultTheme'
+import animate from 'tailwindcss-animate'
+// import defaultTheme from 'tailwindcss/defaultTheme'
 
 export default <Partial<Config>>{
   theme: {
@@ -24,19 +25,21 @@ export default <Partial<Config>>{
           '950': '#2d211d',
         },
       },
-      animation: {
-        'fade-in': 'fade-in 300ms ease-in',
-      },
       keyframes: {
-        'fade-in': {
-          from: {
-            opacity: '0',
-          },
-          to: {
-            opacity: '1',
-          },
+        'accordion-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
         },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
+        },
+      },
+      animation: {
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
       },
     },
   },
+  plugins: [animate],
 }

@@ -45,7 +45,7 @@ watch(
     <LazyAppFooter />
   </div>
 </template>
-<style lang="postcss">
+<style lang="scss">
 html,
 body {
   @apply bg-white;
@@ -91,6 +91,7 @@ img {
   --scrollbar-primary: #f0ece4;
   --scrollbar-secondary: #ccbba5;
 }
+
 /* Firefox */
 * {
   scrollbar-width: thin;
