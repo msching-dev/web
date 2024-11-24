@@ -30,6 +30,7 @@ export interface ProductDetail {
   unit: string
   everyNutrientContent: Content[]
   everyHundredNutrientContent: Content[]
+  giftBoxNutrientContent?: giftBoxContent[]
 }
 
 export interface Descriptions {
@@ -39,6 +40,11 @@ export interface Descriptions {
   preservationMethod: string
   precautions: string
   tastePeriod: string
+}
+
+export interface giftBoxContent {
+  taste: string
+  content: Content[]
 }
 
 export interface Content {
