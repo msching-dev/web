@@ -29,7 +29,9 @@ watch(
       <MobileMenu v-show="isShowingMobileMenu" />
     </Transition>
 
-    <NuxtPage />
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
 
     <!-- overlay -->
     <Transition name="fade">
@@ -84,7 +86,6 @@ img {
   opacity: 0;
   filter: blur(1rem);
 }
-
 
 /* custom scrollbar */
 :root {

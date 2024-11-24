@@ -3,7 +3,7 @@ import type { ProductDetail, ProductInfo } from '~/types'
 /**
  * 隱藏產品清單
  */
-const hideProductKeys = ['matchaMadeleine']
+const hideProductKeys = ['matchaMadeleine', 'cranBerryMadeleine']
 
 let allProducts = [] as ProductInfo[]
 
@@ -61,7 +61,9 @@ export function useProducts() {
   }
 
   async function fetchProducts() {
+    await nextTick()
     const { data, error } = await useFetch<ProductInfo[]>('/api/products')
+
     if (data.value) setProducts(data.value)
     if (error.value) {
       throw createError({

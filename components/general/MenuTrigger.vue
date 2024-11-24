@@ -4,6 +4,6 @@ const { toggleMobileMenu } = useHelpers()
 
 <template>
   <div>
-    <NuxtImg src="/images/menuburger.png" class="mr-4 cursor-pointer" @click="toggleMobileMenu" />
+    <NuxtImg src="/images/menuburger.png" class="cursor-pointer" @click="toggleMobileMenu" />
   </div>
 </template>

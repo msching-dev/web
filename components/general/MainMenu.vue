@@ -1,76 +1,7 @@
 <script setup lang="ts">
-const menus = [
-  {
-    id: 'home',
-    label: '首頁',
-    to: '/',
-    iconImg: '/images/menu/about_us.png',
-  },
-  {
-    id: 'news',
-    label: '最新消息',
-    to: '/news',
-    iconImg: '/images/menu/news.png',
-  },
-  {
-    id: 'onlineOrder',
-    label: '線上訂購',
-    to: '',
-    iconImg: '/images/menu/online_order.png',
-    children: [
-      {
-        id: 'hotItems',
-        icon: 'heroicons-outline:fire',
-        label: '熱賣中',
-        to: `/?category=${Category.Hot}`,
-      },
-      {
-        id: 'cookies',
-        icon: 'heroicons-outline:lifebuoy',
-        label: '餅乾',
-        to: `/?category=${Category.Cookie}`,
-      },
-      {
-        id: 'madeleines',
-        icon: 'heroicons-outline:cake',
-        label: '瑪德蓮',
-        to: `/?category=${Category.Madeleine}`,
-      },
-      {
-        id: 'festiveGifts',
-        icon: 'heroicons-outline:archive',
-        label: '節慶禮盒',
-        to: `/?category=${Category.Festival}`,
-      },
-    ],
-  },
-  {
-    id: 'orderHelp',
-    label: '訂購QA/條款',
-    to: '',
-    iconImg: '/images/menu/order_help.png',
-    children: [
-      {
-        id: 'orderQa',
-        icon: 'heroicons-outline:clipboard-document-list',
-        label: '訂購Q&A',
-        to: '/faq',
-      },
-      {
-        id: 'purchaseTerms',
-        icon: 'heroicons-outline:shopping-bag',
-        label: '購買條款',
-        to: '/terms',
-      },
-    ],
-  },
-  {
-    id: 'aboutUs',
-    label: '關於我們',
-    to: '/about',
-    iconImg: '/images/menu/about_us.png',
-  },
-]
+import { breakpointsTailwind } from '@vueuse/core'
+const breakpoints = useTailwindBreakpoints()
+const isGreaterThanLg = breakpoints.greaterOrEqual('lg')
 
 const openMenus = ref<number[]>([])
 const selectedId = ref<{ parent: string; child: string }>({
@@ -87,31 +18,6 @@ const toggleMenu = (index: number) => {
 }
 
 const isMenuOpen = (index: number) => openMenus.value.includes(index)
-
-// function onEnter(_el: Element, done: () => void) {
-//   const el = _el as HTMLElement
-//   el.style.height = '0'
-//   el.offsetHeight // Trigger a reflow, flushing the CSS changes
-//   el.style.height = el.scrollHeight + 'px'
-//   el.addEventListener('transitionend', done, { once: true })
-// }
-
-// function onBeforeLeave(_el: Element) {
-//   const el = _el as HTMLElement
-//   el.style.height = el.scrollHeight + 'px'
-//   el.offsetHeight // Trigger a reflow, flushing the CSS changes
-// }
-
-// function onAfterEnter(_el: Element) {
-//   const el = _el as HTMLElement
-//   el.style.height = 'auto'
-// }
-
-// function onLeave(_el: Element, done: () => void) {
-//   const el = _el as HTMLElement
-//   el.style.height = '0'
-//   el.addEventListener('transitionend', done, { once: true })
-// }
 
 const isSelected = (id: { parent?: string; child?: string }) => {
   if (id.child) {
@@ -136,13 +42,98 @@ const selectMenu = (id: { parent?: string; child?: string }) => {
 
 <template>
   <nav>
-    <ul>
+    <!-- desktop -->
+    <div class="space-x-2 hidden lg:flex">
+      <template v-for="menu in menus" :key="menu.id">
+        <!-- 一級含子菜單 -->
+        <UPopover
+          v-if="menu.children"
+          mode="click"
+          :ui="{
+            background: 'bg-white/95',
+          }"
+          :class="{ hidden: !!menu.hidden }"
+        >
+          <UButton
+            color="white"
+            variant="ghost"
+            :ui="{
+              color: { white: { ghost: 'hover:bg-[#BAA086]/10' } },
+            }"
+            :label="menu.label"
+            class="text-[#4C3232]"
+          >
+            <template #leading>
+              <img
+                v-if="menu.iconImg"
+                :src="menu.iconImg"
+                alt="icon"
+                class="w-7 h-7"
+              />
+            </template>
+            <template #trailing>
+              <UIcon name="i-heroicons-chevron-down-20-solid" class="w-5 h-5" />
+            </template>
+          </UButton>
+
+          <template #panel>
+            <div class="flex flex-col p-2 space-y-2">
+              <UButton
+                v-for="child in menu.children"
+                :key="child.id"
+                color="white"
+                variant="link"
+                :to="child.to"
+                :icon="child.icon"
+                :label="child.label"
+                class="text-[#4C3232]/70 hover:bg-[#BAA086]/10 hover:text-[#BAA086]"
+                :class="{
+                  'bg-[#BAA086]/10 text-[#BAA086] font-bold': isSelected({
+                    parent: menu.id,
+                    child: child.id,
+                  }),
+                }"
+                @click="selectMenu({ parent: menu.id, child: child.id })"
+              ></UButton>
+            </div>
+          </template>
+        </UPopover>
+
+        <!-- 單一一級菜單 -->
+        <UButton
+          v-else
+          :key="`button-menu-${menu.id}`"
+          :to="menu.to"
+          :label="menu.label"
+          class="text-[#4C3232]"
+          :class="{ hidden: !!menu.hidden }"
+          color="white"
+          variant="link"
+          :ui="{
+            color: { white: { link: 'hover:bg-[#BAA086]/10' } },
+          }"
+          @click="selectMenu({ parent: menu.id })"
+        >
+          <template #leading
+            ><img
+              v-if="menu.iconImg"
+              :src="menu.iconImg"
+              alt="icon"
+              class="w-7 h-7"
+          /></template>
+        </UButton>
+      </template>
+    </div>
+
+    <!-- mobile -->
+    <ul key="sidebar-menu" class="lg:hidden">
       <li v-for="(menu, index) in menus" :key="menu.id">
         <UDivider
           v-if="index < menus.length"
           size="xs"
-          class="py-0"
+          class="py-0 lg:hidden"
           :ui="{ border: { base: 'border-[#B8B8B8]/20' } }"
+          :class="{ hidden: !!menu.hidden }"
         />
         <div
           @click="toggleMenu(index)"
@@ -151,6 +142,7 @@ const selectMenu = (id: { parent?: string; child?: string }) => {
             'bg-[#BAA086]/10 text-[#BAA086] font-bold': isSelected({
               parent: menu.id,
             }),
+            hidden: !!menu.hidden
           }"
           class="flex items-center justify-between m-3 p-3 rounded-lg cursor-pointer"
         >
@@ -172,18 +164,6 @@ const selectMenu = (id: { parent?: string; child?: string }) => {
             :class="{ 'rotate-0': isMenuOpen(index) }"
           ></span>
         </div>
-        <!-- <transition
-          @enter="onEnter"
-          @after-enter="onAfterEnter"
-          @before-leave="onBeforeLeave"
-          @leave="onLeave"
-          enter-active-class="transition transition-all duration-200 ease-out"
-          enter-from-class="opacity-0"
-          enter-to-class="opacity-100"
-          leave-active-class="transition transition-all duration-300 ease-in"
-          leave-from-class="opacity-100"
-          leave-to-class="opacity-0"
-        > -->
         <ul v-if="menu.children && isMenuOpen(index)" class="pl-8 mt-2">
           <li
             v-for="child in menu.children"
@@ -205,7 +185,6 @@ const selectMenu = (id: { parent?: string; child?: string }) => {
             >
           </li>
         </ul>
-        <!-- </transition> -->
       </li>
     </ul>
   </nav>

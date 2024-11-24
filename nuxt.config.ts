@@ -4,7 +4,13 @@ const { resolve } = createResolver(import.meta.url)
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ['@nuxt/ui', '@nuxt/image', '@vueuse/nuxt', '@nuxthub/core', 'shadcn-nuxt'],
+  modules: [
+    '@nuxt/ui',
+    '@nuxt/image',
+    '@vueuse/nuxt',
+    '@nuxthub/core',
+    'shadcn-nuxt',
+  ],
   components: [
     {
       path: '~/components',
@@ -17,11 +23,23 @@ export default defineNuxtConfig({
   colorMode: {
     preference: 'light',
   },
+  shadcn: {
+    /**
+     * Prefix for all the imported component
+     */
+    prefix: '',
+    /**
+     * Directory that the component lives in.
+     * @default "./components/ui"
+     */
+    componentDir: './components/ui',
+  },
   routeRules: {
     '/': { prerender: true },
   },
   typescript: {
     typeCheck: true,
+    strict: false,
   },
   imports: {
     dirs: ['config/*.ts'],
