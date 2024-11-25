@@ -169,7 +169,7 @@ const giftBoxContentState = computed(() => {
                   :colspan="giftBoxContentState.hasContent ? 2 : 1"
                   class="border-b border-[#D5C1AE] py-2 px-4"
                 >
-                  30 公克
+                {{`${productDetail?.portionSize}g`}} 
                 </td>
               </tr>
               <tr>
@@ -180,7 +180,7 @@ const giftBoxContentState = computed(() => {
                   :colspan="giftBoxContentState.hasContent ? 2 : 1"
                   class="border-b border-[#D5C1AE] py-2 px-4"
                 >
-                  1 份
+                  {{productDetail?.giftBoxNutrientContent ? productDetail?.includeSize : `1${productDetail.unit}`}} 
                 </td>
               </tr>
 

@@ -107,7 +107,7 @@
     "key": "thaiAndChocolateMadeleine",
     "name": "巧遇泰香瑪德蓮禮盒",
     "price": 399,
-    "tag": "new",
+    "tag": "christmas",
     "alias": "醇雅",
     "categories": ["hot", "festival"],
     "banner": {
@@ -120,13 +120,26 @@
     "key": "earlGreyTeaAndHoneyLemonMadeleine",
     "name": "蜜檸茶語瑪德蓮禮盒",
     "price": 369,
-    "tag": "new",
+    "tag": "christmas",
     "alias": "馥沁",
     "categories": ["hot", "festival"],
     "banner": {
       "src": "/images/products/earl_grey_tea_and_honey_lemon_madeleine.png",
       "altText": "蜜檸茶語瑪德蓮禮盒",
       "title": "蜜檸茶語瑪德蓮禮盒"
+    }
+  },
+  {
+    "key": "quartetMadeleine",
+    "name": "四重奏瑪德蓮禮盒",
+    "price": 389,
+    "tag": "christmas",
+    "alias": "韻致",
+    "categories": ["hot", "festival"],
+    "banner": {
+      "src": "/images/products/quartet_madeleine.png",
+      "altText": "四重奏瑪德蓮禮盒",
+      "title": "四重奏瑪德蓮禮盒"
     }
   }
 ]

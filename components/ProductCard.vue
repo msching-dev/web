@@ -55,8 +55,15 @@ const handleAddCart = (event: MouseEvent) => {
         src="/images/products/common/card_bg.png"
       />
       <img
-        width="52"
-        v-if="tagUrl"
+        width="62"
+        v-if="['christmas'].includes(props.node.tag)"
+        :src="tagUrl"
+        alt="tag"
+        class="absolute top-2 right-1 object-cover w-[38%] h-auto"
+      />
+      <img
+        width="62"
+        v-else-if="tagUrl"
         :src="tagUrl"
         alt="tag"
         class="absolute top-4 right-4 object-cover w-[28%] h-auto"
