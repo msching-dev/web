@@ -10,7 +10,7 @@ const props = defineProps<{ class: string }>()
     xmlns="http://www.w3.org/2000/svg"
     :class="
       cn(
-        'pointer-events-none absolute inset-x-0 w-full top-[1px] transition-all text-primary flex-shrink-0 duration-[400ms] opacity-100',
+        'pointer-events-none absolute inset-x-0 w-full transition-all text-primary flex-shrink-0 duration-[400ms] opacity-100',
         props.class
       )
     "

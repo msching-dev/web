@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <footer class="bg-white order-last">
+  <footer class="relative bg-white order-last">
     <div class="container flex items-center justify-center my-3">
       <NuxtImg src="/images/logo_s.png" class="" />
     </div>
@@ -37,8 +37,9 @@
         /></NuxtLink>
       </div>
     </div>
-    <p class="ml-6 mt-6 mb-3 text-xs text-left font-normal text-gray-500">
+    <p class="ml-6 mt-6 mb-3 text-xs text-left font-medium text-gray-500">
       Copyright © 2024 msching.com 保留所有權利
     </p>
+    <TopMask class="absolute bottom-0 opacity-80 transform rotate-180" />
   </footer>
 </template>

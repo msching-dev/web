@@ -1,7 +1,13 @@
 <script lang="ts" setup>
 import type { Tag } from '~/types'
 
-const { products, getCategoryQuery, setCategoryQuery, updateProductList, fetchProducts } = useProducts()
+const {
+  products,
+  getCategoryQuery,
+  setCategoryQuery,
+  updateProductList,
+  fetchProducts,
+} = useProducts()
 const { isQueryEmpty } = useHelpers()
 fetchProducts()
 
@@ -27,8 +33,10 @@ const categoriesTabs = [
 ]
 
 const selectedCategory = computed({
-  get () {
-    const index = categoriesTabs.findIndex((item) => item.value ===  getCategoryQuery())
+  get() {
+    const index = categoriesTabs.findIndex(
+      (item) => item.value === getCategoryQuery()
+    )
     if (index === -1) {
       return 0
     }
@@ -37,7 +45,7 @@ const selectedCategory = computed({
   },
   set(index) {
     setCategoryQuery(categoriesTabs[index].value)
-  }
+  },
 })
 
 const filteredProducts = computed(() => {
@@ -53,9 +61,9 @@ const filteredProducts = computed(() => {
 
 <!-- Home -->
 <template>
-  <main>
+  <main class="relative flex flex-col">
     <!-- Banner -->
-    <Banner type="home" />
+    <BannerCarousel />
     <!-- Search -->
     <ProductSearch />
     <!-- Category / Items -->
