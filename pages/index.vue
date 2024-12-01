@@ -29,7 +29,7 @@ const categoriesTabs = [
   { label: '熱賣中', value: Category.Hot },
   { label: '餅乾', value: Category.Cookie },
   { label: '瑪德蓮', value: Category.Madeleine },
-  { label: '節慶禮盒', value: Category.Festival },
+  { label: '聖誕限定禮盒', value: Category.Festival }, /* 節慶禮盒 */
 ]
 
 const selectedCategory = computed({
@@ -52,7 +52,7 @@ const filteredProducts = computed(() => {
   const order: Tag[] = ['hot', 'new', 'top_1', 'top_2', 'top_3']
   const currentCategory = categoriesTabs[selectedCategory.value].value
 
-  if (!products.value) return []
+  if (products.value === undefined) return undefined
   return products.value
     ?.filter((product) => product.categories?.includes(currentCategory))
     .sort((a, b) => order.indexOf(a.tag) - order.indexOf(b.tag))
@@ -67,8 +67,8 @@ const filteredProducts = computed(() => {
     <!-- Search -->
     <ProductSearch />
     <!-- Category / Items -->
-    <section class="container my-8">
-      <div class="text-center my-6 text-[#4C3232] text-2xl font-extrabold">
+    <section class="container my-6">
+      <div class="text-center my-6 text-[#4C3232] text-2xl font-extrabold" id="products">
         產品分類
       </div>
       <div class="w-full">
@@ -96,8 +96,9 @@ const filteredProducts = computed(() => {
             </div>
           </template>
           <template #item>
+            <ProductListSkeleton v-if="filteredProducts === undefined" />
             <div
-              v-if="!!filteredProducts.length"
+              v-else-if="filteredProducts.length > 0"
               key="products"
               class="relative w-full"
             >

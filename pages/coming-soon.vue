@@ -23,12 +23,12 @@ const carouselItems = [
   // },
   {
     src: '/images/carousel/click_to_visit_ig_official.png',
-    to: 'https://www.instagram.com/msching_2022?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
+    to: socialMediaLinks.instagramOfficial,
     alt: '點擊前往IG官方'
   },
   {
     src: '/images/carousel/click_to_visit_line_official.png',
-    to: 'https://liff.line.me/1645278921-kWRPP32q/?accountId=984gfwdr',
+    to: socialMediaLinks.lineOfficial,
     alt: '點擊前往LINE官方'
   }
 ]

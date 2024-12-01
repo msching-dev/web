@@ -14,7 +14,7 @@ export function useHelpers() {
   // const wooNuxtSEO = runtimeConfig.public?.WOO_NUXT_SEO as WooNuxtSEOItem[]
   // const frontEndUrl =
   //   runtimeConfig.public?.FRONT_END_URL?.replace(/\/$/, '') || null
-  // const isDev: boolean = process.env.NODE_ENV === 'development'
+  const isDev: boolean = process.env.NODE_ENV === 'development'
   // const fallbackImage = '/images/placeholder.jpg'
 
   /**
@@ -178,14 +178,14 @@ export function useHelpers() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  // /**
-  //  * Strips HTML tags from a string.
-  //  * @param {string} str - The string to strip.
-  //  * @returns {string} The stripped string.
-  //  */
-  // const stripHtml = (str: string | null | undefined = ''): string => {
-  //   return str === null ? '' : str.replace(/(<([^>]+)>)/gi, '')
-  // }
+  /**
+   * Strips HTML tags from a string.
+   * @param {string} str - The string to strip.
+   * @returns {string} The stripped string.
+   */
+  const stripHtml = (str: string | null | undefined = ''): string => {
+    return str === null ? '' : str.replace(/(<([^>]+)>)/gi, '')
+  }
 
   // /**
   //  * Debounces a function.
@@ -208,7 +208,7 @@ export function useHelpers() {
     isQueryEmpty,
     // wooNuxtSEO,
     // frontEndUrl,
-    // isDev,
+    isDev,
     // fallbackImage,
     // formatArray,
     // arraysEqual,
@@ -223,7 +223,7 @@ export function useHelpers() {
     // formatDate,
     // formatPrice,
     scrollToTop,
-    // stripHtml,
+    stripHtml,
     // debounce
   }
 }

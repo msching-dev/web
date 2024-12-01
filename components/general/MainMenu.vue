@@ -48,7 +48,7 @@ const selectMenu = (id: { parent?: string; child?: string }) => {
         <!-- 一級含子菜單 -->
         <UPopover
           v-if="menu.children"
-          mode="click"
+          mode="hover"
           :ui="{
             background: 'bg-white/95',
           }"

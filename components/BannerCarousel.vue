@@ -3,29 +3,34 @@ const carouselItemsSource = [
   {
     src: '/images/banner/xmas.png',
     srcDesktop: '/images/banner/xmas_desktop.png',
-    to: '',
+    to: '/?category=festival#products',
+    target: '_self',
     alt: '聖誕節限定禮盒',
   },
   {
     src: '/images/banner/home.png',
     srcDesktop: '', // /images/banner/home_desktop.png
-    to: 'https://liff.line.me/1645278921-kWRPP32q/?accountId=984gfwdr',
+    to: '/?category=madeleine',
+    target: '_self',
     alt: '點擊前往瑪德蓮分類',
   },
   {
     src: '/images/banner/ig.png',
     srcDesktop: '/images/banner/ig_desktop.png',
-    to: 'https://www.instagram.com/msching_2022?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
+    to: socialMediaLinks.instagramOfficial,
+    target: '_blank',
     alt: '點擊前往IG官方',
   },
   {
     src: '/images/banner/line.png',
     srcDesktop: '/images/banner/line_desktop.png',
-    to: 'https://liff.line.me/1645278921-kWRPP32q/?accountId=984gfwdr',
+    to: socialMediaLinks.lineOfficial,
+    target: '_blank',
     alt: '點擊前往LINE官方',
   },
 ]
 
+const route = useRoute()
 const isLargeScreen = useMediaQuery('(min-width: 1024px)')
 const carouselRef = ref()
 const mainRef = ref<HTMLElement | null>(null)
@@ -44,6 +49,7 @@ const carouselItems = computed(() => {
       result.push({
         src,
         to: item.to,
+        target: item.target,
         alt: item.alt,
       })
     }
@@ -73,7 +79,7 @@ const stopAutoplay = () => {
 }
 
 onMounted(() => {
-  // startAutoplay()
+  startAutoplay()
 })
 
 onBeforeUnmount(() => {
@@ -114,26 +120,28 @@ useResizeObserver(mainRef, (entries) => {
       :prev-button="{
         icon: 'i-heroicons-arrow-left-20-solid',
         variant: 'soft',
-        class: 'bg-[#A96929] text-white -left-0',
+        class:
+          'bg-[#A96929]/70 hover:bg-[#A96929]/95 text-white -left-0 backdrop-blur',
       }"
       :next-button="{
         icon: 'i-heroicons-arrow-right-20-solid',
         variant: 'soft',
-        class: 'bg-[#A96929] text-white -right-0',
+        class:
+          'bg-[#A96929]/70 hover:bg-[#A96929]/95 text-white -right-0 backdrop-blur',
       }"
       :ui="{
         item: 'basis-full justify-center',
         indicators: {
           wrapper: 'bottom-1',
           base: 'h-2 w-2',
-          active: 'w-5 bg-[#A96929]',
-          inactive: 'bg-[#ECD6C7]',
+          active: 'w-5 bg-[#A96929]/70 backdrop-blur-md',
+          inactive: 'bg-[#ECD6C7]/70 backdrop-blur-md',
         },
       }"
       :indicators="!isLargeScreen"
       :arrows="isLargeScreen"
     >
-      <NuxtLink :to="item.to" target="_blank" class="w-full h-auto max-h-full">
+      <NuxtLink :to="item.to" :target="item.target" class="w-full h-auto max-h-full">
         <NuxtImg
           :src="item.src"
           :alt="item.alt"

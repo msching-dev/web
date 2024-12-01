@@ -54,12 +54,13 @@ const handleAddCart = (event: MouseEvent) => {
         class="absolute inset-0 object-cover w-full h-full"
         src="/images/products/common/card_bg.png"
       />
+      <!-- 聖誕 -->
       <img
         width="62"
-        v-if="['christmas'].includes(props.node.tag)"
+        v-if="props.node.tag === 'christmas'"
         :src="tagUrl"
         alt="tag"
-        class="absolute top-2 right-1 object-cover w-[38%] h-auto"
+        class="absolute top-2 right-1 object-cover w-[38%] h-auto animate-bell-swing"
       />
       <img
         width="62"
@@ -77,7 +78,7 @@ const handleAddCart = (event: MouseEvent) => {
         <NuxtImg
           width="264"
           :height="Math.round(194 * 1.378)"
-          class="absolute bottom-[10.5%] left-1/2 transform -translate-x-1/2 object-cover w-4/5 h-auto"
+          class="absolute bottom-[10.5%] left-1/2 transform -translate-x-1/2 object-cover w-4/5 h-auto duration-300 hover:scale-125 hover:origin-center"
           :src="node.banner?.src || fallbackImage"
           :alt="node.banner?.altText || node.name"
           :title="node.banner?.title || node.name"
