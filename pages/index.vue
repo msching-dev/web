@@ -38,7 +38,7 @@ const selectedCategory = computed({
       (item) => item.value === getCategoryQuery()
     )
     if (index === -1) {
-      return 0
+      return 3
     }
 
     return index

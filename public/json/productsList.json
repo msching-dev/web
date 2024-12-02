@@ -16,7 +16,7 @@
     "key": "honeyLemonMadeleine",
     "name": "蜂蜜檸檬瑪德蓮",
     "price": 50,
-    "tag": "top_3",
+    "tag": "top_2",
     "alias": "",
     "categories": ["madeleine"],
     "banner": {
@@ -81,7 +81,7 @@
     "key": "thaiTeaMadeleine",
     "name": "泰式奶茶瑪德蓮",
     "price": 60,
-    "tag": "top_2",
+    "tag": "new",
     "alias": "愜意",
     "categories": ["hot", "madeleine"],
     "banner": {

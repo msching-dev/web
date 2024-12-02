@@ -117,6 +117,23 @@ const giftBoxContentState = computed(() => {
             <HighlightedText :text="productDetail.descriptions?.desc" />
           </div>
 
+          <div class="text-base leading-9 mt-4">
+            <p class="font-medium">當前訂購方式：</p>
+            <p>感謝您對蜜絲晴的支持！目前檔期限定商品僅接受以下方式訂購</p>
+            <ul class="list-disc pl-4">
+              <li>官方LINE 或 Instagram 聯繫下單</li>
+              <li>訂購時請提供以下資訊</li>
+              <ul class="list-decimal pl-4">
+                <li>訂購人姓名：</li>
+                <li>訂購人手機號碼：</li>
+                <li>全家店舖名稱（取貨用）：</li>
+                <li>訂購品項與數量：</li>
+              </ul>
+            </ul>
+            <p>點擊以下兩顆按鈕均會複製上述訂購模板</p>
+            <p class="font-semibold text-[#4C3232]">當前付款方式只支援轉帳，<br>確認付款完畢訂單才才算成立哦！</p>
+          </div>
+
           <!-- TODO: 購物車區塊待實作 -->
           <div class="flex items-center justify-between space-x-4 mt-3">
             <NuxtLink
