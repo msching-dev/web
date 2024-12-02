@@ -10,7 +10,7 @@ const carouselItemsSource = [
   {
     src: '/images/banner/home.png',
     srcDesktop: '', // /images/banner/home_desktop.png
-    to: '/?category=madeleine',
+    to: '/?category=madeleine#products',
     target: '_self',
     alt: '點擊前往瑪德蓮分類',
   },
