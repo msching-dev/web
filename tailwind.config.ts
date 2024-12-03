@@ -47,11 +47,32 @@ export default <Partial<Config>>{
           '90%': { transform: 'rotate(1deg)' },
           '100%': { transform: 'rotate(0deg)' },
         },
+        'fade-in': {
+          from: { opacity: '0' },
+          to: { opacity: '1' },
+        },
+        pop: {
+          '0%': { transform: 'scale(0.8)' },
+          '50%': { transform: 'scale(1.2)' },
+          '100%': { transform: 'scale(1)' },
+        },
+        'collapsible-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-collapsible-content-height)' },
+        },
+        'collapsible-up': {
+          from: { height: 'var(--radix-collapsible-content-height)' },
+          to: { height: '0' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'bell-swing': 'bell-swing 3s ease-out infinite',
+        'fade-in': 'fade-in 0.3s ease-out',
+        pop: 'pop 0.4s ease-out',
+        'collapsible-down': 'collapsible-down 0.2s ease-in-out',
+        'collapsible-up': 'collapsible-up 0.2s ease-in-out',
       },
     },
   },

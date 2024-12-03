@@ -9,7 +9,7 @@ const carouselItemsSource = [
   },
   {
     src: '/images/banner/home.png',
-    srcDesktop: '', // /images/banner/home_desktop.png
+    srcDesktop: '/images/banner/home_desktop.png',
     to: '/?category=madeleine#products',
     target: '_self',
     alt: '點擊前往瑪德蓮分類',
@@ -66,7 +66,7 @@ const startAutoplay = () => {
     }
 
     carouselRef.value.next()
-  }, 6000)
+  }, 10000)
 }
 
 const stopAutoplay = () => {
