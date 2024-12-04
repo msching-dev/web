@@ -238,12 +238,12 @@ const giftBoxContentState = computed(() => {
                     <!-- 顯示口味 -->
                     <tr>
                       <td
-                        class="border-b-[3px] border-r border-[#D5C1AE] py-2 px-4"
+                        class="border-y-[3px] border-r border-[#D5C1AE] py-2 px-4"
                       >
                         口味
                       </td>
                       <td
-                        class="border-b-[3px] border-r border-[#D5C1AE] py-2 px-4 whitespace-nowrap"
+                        class="border-y-[3px] border-r border-[#D5C1AE] py-2 px-4 whitespace-nowrap"
                       >
                         {{
                           productDetail.giftBoxNutrientContent[
@@ -252,12 +252,12 @@ const giftBoxContentState = computed(() => {
                         }}
                       </td>
                       <td
-                        class="border-b-[3px] border-r border-[#D5C1AE] py-2 px-4"
+                        class="border-y-[3px] border-r border-[#D5C1AE] py-2 px-4"
                       >
                         口味
                       </td>
                       <td
-                        class="border-b-[3px] border-[#D5C1AE] py-2 px-4 whitespace-nowrap"
+                        class="border-y-[3px] border-[#D5C1AE] py-2 px-4 whitespace-nowrap"
                       >
                         {{
                           productDetail.giftBoxNutrientContent[
