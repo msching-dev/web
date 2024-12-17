@@ -80,7 +80,6 @@ export const menus: MenuItem[] = [
         to: '/terms',
       },
     ],
-    hidden: true,
   },
   {
     id: 'aboutUs',
