@@ -3,7 +3,14 @@ import type { ProductDetail, ProductInfo } from '~/types'
 /**
  * 隱藏產品清單
  */
-const hideProductKeys = ['matchaMadeleine', 'cranBerryMadeleine']
+const hideProductKeys = [
+  'matchaMadeleine',
+  'cranBerryMadeleine',
+  // christmas
+  'thaiAndChocolateMadeleine',
+  'earlGreyTeaAndHoneyLemonMadeleine',
+  'quartetMadeleine',
+]
 
 let allProducts = [] as ProductInfo[]
 

@@ -1,12 +1,12 @@
 <script setup lang="ts">
 const carouselItemsSource = [
-  {
-    src: '/images/banner/xmas.png',
-    srcDesktop: '/images/banner/xmas_desktop.png',
-    to: '/?category=festival#products',
-    target: '_self',
-    alt: '聖誕節限定禮盒',
-  },
+  // {
+  //   src: '/images/banner/xmas.png',
+  //   srcDesktop: '/images/banner/xmas_desktop.png',
+  //   to: '/?category=festival#products',
+  //   target: '_self',
+  //   alt: '聖誕節限定禮盒',
+  // },
   {
     src: '/images/banner/home.png',
     srcDesktop: '/images/banner/home_desktop.png',

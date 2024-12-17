@@ -29,7 +29,7 @@ const categoriesTabs = [
   { label: '熱賣中', value: Category.Hot },
   { label: '餅乾', value: Category.Cookie },
   { label: '瑪德蓮', value: Category.Madeleine },
-  { label: '聖誕限定禮盒', value: Category.Festival }, /* 節慶禮盒 */
+  { label: '節慶禮盒', value: Category.Festival },
 ]
 
 const selectedCategory = computed({
@@ -38,7 +38,7 @@ const selectedCategory = computed({
       (item) => item.value === getCategoryQuery()
     )
     if (index === -1) {
-      return 3
+      return 0
     }
 
     return index
