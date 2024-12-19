@@ -8,7 +8,7 @@ const payRules = [
   '我們尊重顧客的隱私，所有個人資料將僅用於處理顧客的訂單，並不會透露給第三方。',
   '購物過程中收集的所有資料將根據我們的隱私政策進行保護。',
   '若您##未滿18歲##，請在父母或法定監護人的同意下使用我們的網站進行訂購。',
-  '訂單狀態為##『已付款』##，無法修改或取消。\n如果需要修改或取消訂單，請於付款前盡快聯繫我們，我們將為您處理。'
+  '訂單狀態為##『已付款』##，無法修改或取消。\n如果需要修改或取消訂單，請於付款前盡快聯繫我們，我們將為您處理。',
 ]
 
 const shipRules = [
@@ -21,50 +21,57 @@ const shipRules = [
   '烘焙產品屬於食品類商品，通常不提供退換服務，除非產品存在明顯瑕疵或誤送情況。',
   '若收到的商品存在問題（如錯誤配送、破損等），\n請在##『24小時』##內與我們聯繫，提供訂單編號和問題照片，我們會處理退款或更換。',
   '若發生任何配送問題（如商品丟失、損壞、延遲等），\n請聯繫我們的客服。我們將在48小時內回應並協助處理。',
-  '在收到顧客報告後，我們將與物流公司協商解決方案。\n若確認為配送方責任，我們將提供賠償或替換商品。'
+  '在收到顧客報告後，我們將與物流公司協商解決方案。\n若確認為配送方責任，我們將提供賠償或替換商品。',
 ]
 </script>
 <template>
-  <div class="container flex flex-col justify-center my-6 text-primary-900 text-2xl font-extrabold px-6">
+  <main
+    class="container flex flex-col justify-center py-6 bg-[url('/images/watermark_1.png')] bg-center bg-no-repeat bg-fixed bg-[length:50%] sm:bg-[length:40%] md:bg-[length:30%] lg:bg-[length:20%] xl:max-w-7xl"
+  >
     <div
-        class="h-9 w-full px-3 flex items-center justify-between mt-6 bg-[#F1E1C5] rounded-lg"
+      class="h-9 px-3 flex items-center justify-between bg-[#F1E1C5] rounded-lg"
+    >
+      <img src="/images/products/detail/cake.png" class="w-5 h-5" />
+      <span class="text-base font-bold text-[#4C3232]"
+        >歡迎您蒞臨蜜絲晴MS.CHING官方網站</span
       >
-        <img src="/images/products/detail/cake.png" class="w-5 h-5" />
-        <span class="text-base font-bold text-[#4C3232]">歡迎您蒞臨蜜絲晴MS.CHING官方網站</span>
-        <img src="/images/products/detail/cake.png" class="w-5 h-5" />
+      <img src="/images/products/detail/cake.png" class="w-5 h-5" />
     </div>
-    <div class="flex items-center mt-8 mx-2 pb-1 border-b-[1px] border-solid border-[#B99F85]">
-       <NuxtImg
-          src="/images/terms/paper.png"
-          width="26"
-          height="26"
-          alt=""
-        />
-        <div class="ml-1 text-[#A38669] font-bold text-base">訂購條款</div>
+    <div
+      class="flex items-center mt-6 pb-1 border-b-[1px] border-solid border-[#B99F85]"
+    >
+      <img src="/images/terms/paper.png" width="26" height="26" alt="paper" />
+      <span class="ml-1 text-[#A38669] font-bold text-base">訂購條款</span>
     </div>
     <div class="flex mx-8 mt-2 text-[#4C3232] text-sm">
       <ul class="list-disc">
-        <li class="mt-3" v-for="(rule, index) in payRules" :key="`pay_${index}`"><HighlightedText :text="rule" /></li>
+        <li
+          class="mt-3"
+          v-for="(rule, index) in payRules"
+          :key="`pay_${index}`"
+        >
+          <HighlightedText :text="rule" />
+        </li>
       </ul>
     </div>
-    <div class="flex items-center mt-12 mx-2 pb-1 border-b-[1px] border-solid border-[#B99F85]">
-       <NuxtImg
-          src="/images/terms/store.png"
-          width="26"
-          height="26"
-          alt=""
-        />
-        <div class="ml-1 text-[#A38669] font-bold text-base">商品配送風險相關</div>
+    <div
+      class="flex items-center mt-6 pb-1 border-b-[1px] border-solid border-[#B99F85]"
+    >
+      <img src="/images/terms/store.png" width="26" height="26" alt="" />
+      <div class="ml-1 text-[#A38669] font-bold text-base">
+        商品配送風險相關
+      </div>
     </div>
     <div class="flex mx-8 mt-2 text-[#4C3232] text-sm">
       <ul class="list-disc">
-        <li class="mt-3" v-for="(rule,index) in shipRules" :key="`ship_${index}`"><HighlightedText :text="rule" /></li>
+        <li
+          class="mt-3"
+          v-for="(rule, index) in shipRules"
+          :key="`ship_${index}`"
+        >
+          <HighlightedText :text="rule" />
+        </li>
       </ul>
     </div>
-  </div>
+  </main>
 </template>
-<style scoped>
-.container{
-  background: url('../public/images/watermark_1.png') center/50% no-repeat fixed; /*背景需要浮水印*/
-}
-</style>

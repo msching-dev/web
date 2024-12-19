@@ -56,11 +56,7 @@ export default defineNuxtConfig({
         './pages/products/[slug].vue',
       )
 
-      addPage(
-        'order-page',
-        '/order/:orderSlug',
-        './pages/order/[orderSlug].vue',
-      )
+      addPage('order-page', '/order/:orderSlug', './pages/order/[slug].vue')
     },
   },
   nitro: {

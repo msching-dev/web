@@ -86,7 +86,7 @@ const selectMenu = (id: { parent?: string; child?: string }) => {
                 :to="child.to"
                 :icon="child.icon"
                 :label="child.label"
-                class="text-[#4C3232]/70 hover:bg-[#BAA086]/10 hover:text-[#BAA086]"
+                class="text-[#4C3232]/70 hover:text-[#BAA086]"
                 :class="{
                   'bg-[#BAA086]/10 text-[#BAA086] font-bold': isSelected({
                     parent: menu.id,

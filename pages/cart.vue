@@ -1,7 +1,7 @@
 <script setup lang="ts">
 </script>
 <template>
-  <div class="text-center my-6 text-primary-900 text-2xl font-extrabold">
+  <main class="container relative py-6 xl:max-w-7xl">
     Cart
-  </div>
+  </main>
 </template>

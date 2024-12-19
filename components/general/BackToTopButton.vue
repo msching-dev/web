@@ -25,7 +25,7 @@ onUnmounted(() => {
     <div
       v-show="isVisible"
       @click="scrollToTop"
-      class="fixed bottom-[186px] right-[5%] p-3 bg-[#EEE4D9]/30 backdrop-blur-md flex items-center justify-center rounded-full shadow-lg cursor-pointer transition-opacity duration-300 hover:backdrop-blur-xl hover:shadow-xl"
+      class="fixed bottom-[186px] right-[5%] p-3 bg-[#EEE4D9]/30 backdrop-blur-md flex items-center justify-center rounded-full shadow-lg cursor-pointer transition-opacity duration-300 hover:backdrop-blur-xl hover:shadow-xl z-40"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
