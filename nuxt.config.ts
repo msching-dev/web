@@ -53,7 +53,13 @@ export default defineNuxtConfig({
       addPage(
         'products-page',
         '/products/:productSlug',
-        './pages/products/[slug].vue'
+        './pages/products/[slug].vue',
+      )
+
+      addPage(
+        'order-page',
+        '/order/:orderSlug',
+        './pages/order/[orderSlug].vue',
       )
     },
   },
@@ -61,6 +67,7 @@ export default defineNuxtConfig({
     routeRules: {
       '/': { prerender: true },
       '/products/**': { swr: 3600 },
+      '/order/**': { swr: 3600 },
     },
     experimental: {
       // Enable Server API documentation within NuxtHub
