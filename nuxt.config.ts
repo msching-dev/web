@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxthub/core',
     'shadcn-nuxt',
+    '@nuxt/eslint',
   ],
   components: [
     {
