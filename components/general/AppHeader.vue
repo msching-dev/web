@@ -11,11 +11,10 @@
         class="items-center hidden gap-6 text-sm text-gray-500 lg:flex lg:flex-1 lg:px-5"
       />
       <div class="flex items-center mx-3">
-        <!-- TODO: 待開發，完成後復原 flex -->
-        <NuxtLink to="/cart" class="mr-4 cursor-pointer hidden">
+        <NuxtLink to="/cart" class="mr-4 cursor-pointer flex">
           <NuxtImg src="/images/header_cart.png" />
         </NuxtLink>
-        <User class="hidden" />
+        <User />
       </div>
     </div>
   </header>
