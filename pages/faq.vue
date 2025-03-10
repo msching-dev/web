@@ -54,14 +54,14 @@ const questionsAndAnswers = [
     <div
       class="flex justify-center items-center text-center text-primary-900 text-xl font-extrabold"
     >
-      <img src="/images/faq/qa.svg" width="26" height="26" alt="qa" />
+      <img src="/images/faq/q&a.svg" width="26" height="26" alt="q&a" />
       <span class="ml-2 text-[#A38669]">訂購Q&A</span>
     </div>
     <Accordion class="w-full text-[#A38669]" type="multiple" collapsible>
       <AccordionItem
         v-for="item in questionsAndAnswers"
-        :value="item.value"
         :key="item.value"
+        :value="item.value"
       >
         <AccordionTrigger>
           <div class="flex items-center space-x-1 text-base font-bold">

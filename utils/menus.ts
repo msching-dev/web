@@ -63,7 +63,7 @@ export const menus: MenuItem[] = [
   },
   {
     id: 'orderHelp',
-    label: '訂購QA/條款',
+    label: '訂購QA/相關條款',
     to: '',
     iconImg: '/images/menu/order_help.png',
     children: [
@@ -78,6 +78,12 @@ export const menus: MenuItem[] = [
         icon: 'heroicons-outline:shopping-bag',
         label: '購買條款',
         to: '/terms',
+      },
+      {
+        id: 'serviceAndReturnTerms',
+        icon: 'heroicons-receipt-refund',
+        label: '服務條款/退換貨流程',
+        to: '/service-and-return-terms',
       },
     ],
   },
