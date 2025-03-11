@@ -20,7 +20,7 @@ export const menus: MenuItem[] = [
     id: 'home',
     label: '首頁',
     to: '/',
-    iconImg: '/images/menu/about_us.png',
+    iconImg: '/images/menu/home.png',
   },
   {
     id: 'news',
@@ -92,6 +92,5 @@ export const menus: MenuItem[] = [
     label: '關於我們',
     to: '/about',
     iconImg: '/images/menu/about_us.png',
-    hidden: true,
   },
 ] as const
