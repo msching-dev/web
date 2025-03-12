@@ -12,7 +12,7 @@ const productDetail = ref<Partial<ProductDetail> | null>()
 
 onBeforeMount(async () => {
   try {
-    if (!!products.value?.length) {
+    if (products.value?.length) {
       // 從產品列表中找出特定產品的基本資訊
       productInfo.value = products.value.find(
         (product) => product.key === productKey

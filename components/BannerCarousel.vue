@@ -30,7 +30,6 @@ const carouselItemsSource = [
   },
 ]
 
-const route = useRoute()
 const isLargeScreen = useMediaQuery('(min-width: 1024px)')
 const carouselRef = ref()
 const mainRef = ref<HTMLElement | null>(null)
