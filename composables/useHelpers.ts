@@ -201,6 +201,22 @@ export function useHelpers() {
   //   }
   // }
 
+  function formatTimestampToDateRange(startTimestamp, endTimestamp) {
+    const startDate = new Date(startTimestamp * 1000); // 轉換為毫秒
+    const endDate = new Date(endTimestamp * 1000); // 轉換為毫秒
+  
+    const startFormatted = `${startDate.getFullYear()}/${(startDate.getMonth() + 1).toString().padStart(2, '0')}/${startDate.getDate().toString().padStart(2, '0')}`;
+    const endFormatted = `${endDate.getMonth() + 1}/${endDate.getDate().toString().padStart(2, '0')}`;
+  
+    return `${startFormatted}-${endFormatted}`;
+  }
+
+  function formatTimeStampToDate(timeStamp) {
+    const date = new Date(timeStamp * 1000); 
+    const formatted = `${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}`;
+    return formatted;
+  }
+
   return {
     isShowingMobileMenu,
     appVersionInfo,
@@ -224,6 +240,8 @@ export function useHelpers() {
     // formatPrice,
     scrollToTop,
     stripHtml,
-    // debounce
+    // debounce,
+    formatTimestampToDateRange,
+    formatTimeStampToDate
   }
 }

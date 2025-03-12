@@ -25,9 +25,16 @@ export const menus: MenuItem[] = [
   {
     id: 'news',
     label: '最新消息',
-    to: '/news',
+    to: '',
     iconImg: '/images/menu/news.png',
-    hidden: true,
+    children: [
+      {
+        id: 'moreActivities',
+        icon: 'heroicons-list-bullet',
+        label: '更多活動',
+        to: `/news/activities`,
+      },
+    ],
   },
   {
     id: 'onlineOrder',
