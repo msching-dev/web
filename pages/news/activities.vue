@@ -26,7 +26,7 @@ const menus = [
 const testActivities = [
     {
         title:'新品上市',
-        content:'新品上市新品上市新品上市新品上市新品上市新品上市新品上市新品上市新品上市新品上市新品上市新品上市',
+        content:'新品上市新品上市新品上市新品上市新品上市新品上市新品上市新品上市新品上市新品上市',
         'activity_type':'newItem',
         item:'almondCookie',
         'release_time':1741731677,
@@ -35,7 +35,7 @@ const testActivities = [
     },
     {
         title:'折扣活動',
-        content:'折扣活動折扣活動折扣活動折扣活動折扣活動折扣活動折扣活動折扣活動折扣活動折扣活動折扣活動',
+        content:'折扣活動折扣活動折扣活動折扣活動折扣活動折扣活動折扣活動折扣活動折扣活動折扣活動',
         'activity_type':'discount',
         item:'thaiTeaMadeleine',
         'release_time':null,
@@ -44,7 +44,7 @@ const testActivities = [
     },
     {
         title:'節慶活動',
-        content:'節慶活動節慶活動節慶活動節慶活動節慶活動節慶活動節慶活動節慶活動節慶活動節慶活動節慶活動',
+        content:'節慶活動節慶活動節慶活動節慶活動節慶活動節慶活動節慶活動節慶活動節慶活動節慶活動',
         'activity_type':'festival',
         item:'quartetMadeleine',
         'release_time':null,
@@ -95,7 +95,7 @@ const formatActivityTime = (row) =>{
    <div class="flex flex-col mt-8 space-y-6">
         <div v-for="(activity,idx) in testActivities" :key="`activity_${idx}`" class="flex space-x-4 p-5 w-full h-[184px] rounded-[5px]" :class="[getActivityClass(activity.activity_type).card]">
             <div class="flex basis-[40%] flex-col space-y-4">
-                <img class="w-[123px] h-[102px] rounded-[5px] object-cover" :src="`/images/products/${activity.item}/2.png`"/>
+                <img class="w-[123px] h-[102px] rounded-[5px] object-cover" :src="`/images/products/${activity.item}/2.jpg`"/>
                 <div class="text-[10px] font-[500]">{{ formatActivityTime(activity) }}</div>
             </div>
             <div class="flex relative flex-col basis-[60%]">
