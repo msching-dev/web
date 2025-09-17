@@ -29,7 +29,7 @@ const categoriesTabs = [
   { label: '熱賣中', value: Category.Hot },
   { label: '餅乾', value: Category.Cookie },
   { label: '瑪德蓮', value: Category.Madeleine },
-  { label: '節慶禮盒', value: Category.Festival },
+  // { label: '節慶禮盒', value: Category.Festival },
 ]
 
 const selectedCategory = computed({
