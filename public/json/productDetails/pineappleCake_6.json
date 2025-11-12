@@ -1,0 +1,99 @@
+{
+  "key": "pineappleCake_6",
+  "images": [
+    "/images/products/pineappleCake6/1.png",
+    "/images/products/pineappleCake6/2.png",
+    "/images/products/pineappleCake6/3.png",
+    "/images/products/pineappleCake6/4.png",
+    "/images/products/pineappleCake6/5.png",
+    "/images/products/pineappleCake6/6.png",
+    "/images/products/pineappleCake6/7.png"
+  ],
+  "productImage": "",
+  "descriptions": {
+    "desc": "一口咬下，是陽光與果香的邂逅。\n手工製作的鳳梨酥外層酥香，內餡清甜不膩，\n以時間慢烘、以溫度封存，\n讓酸甜鳳梨的香氣在口中緩緩綻放。\n##每盒6顆##",
+    "nonAdditive": "本產品選用優質鳳梨餡與高品質天然奶油製作，\n由職人手工包製、低溫烘焙完成。\n不額外添加人工香料、色素與防腐劑，\n以純粹工法呈現酥香與果香的自然風味。",
+    "howToEat": "常溫下直接食用，外皮酥鬆、內餡柔軟。\n若想品嚐剛出爐的香氣，可於180°C烤箱中回烤約5分鐘，\n外層將更酥香、內餡更綿密，是下午茶與節慶送禮的完美選擇。",
+    "preservationMethod": "請存放於陰涼乾燥處，避免陽光直射與高溫潮濕。\n開封後請盡快食用，未食用完畢者請密封保存。\n冷藏可延長保存期限，食用前建議回溫或回烤恢復最佳口感。",
+    "precautions": "本產品含有小麥、蛋及奶製品，對上述成分過敏者請勿食用。\n鳳梨餡含有天然果酸，請避免與金屬容器長時間接觸。\n本產品使用動物性奶油，蛋奶素者可食用。",
+    "tastePeriod": "本產品賞味期限為製造日期起 常溫可保存14天、冷藏可保存21天。\n為確保最佳風味，建議於有效期限內食用完畢。"
+  },
+  "specifications": [
+    {
+      "key": "原味",
+      "value": 1
+    }
+  ],
+  "maxCount": 10,
+  "portionSize": 30,
+  "includeSize": "6顆",
+  "unit": "盒",
+  "everyNutrientContent": [
+    {
+      "key": "熱量",
+      "value": 116
+    },
+    {
+      "key": "蛋白質",
+      "value": 1.6
+    },
+    {
+      "key": "脂肪",
+      "value": 6.3
+    },
+    {
+      "key": "飽和脂肪",
+      "value": 3.9
+    },
+    {
+      "key": "反式脂肪",
+      "value": 0.1
+    },
+    {
+      "key": "碳水化合物",
+      "value": 14.3
+    },
+    {
+      "key": "糖",
+      "value": 6.4
+    },
+    {
+      "key": "鈉",
+      "value": 0.018
+    }
+  ],
+  "everyHundredNutrientContent": [
+    {
+      "key": "熱量",
+      "value": 386.7
+    },
+    {
+      "key": "蛋白質",
+      "value": 5.4
+    },
+    {
+      "key": "脂肪",
+      "value": 21.1
+    },
+    {
+      "key": "飽和脂肪",
+      "value": 13.1
+    },
+    {
+      "key": "反式脂肪",
+      "value": 0.4
+    },
+    {
+      "key": "碳水化合物",
+      "value": 47.6
+    },
+    {
+      "key": "糖",
+      "value": 21.5
+    },
+    {
+      "key": "鈉",
+      "value": 0.062
+    }
+  ]
+}

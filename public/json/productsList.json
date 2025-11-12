@@ -141,5 +141,31 @@
       "altText": "四重奏瑪德蓮禮盒",
       "title": "四重奏瑪德蓮禮盒"
     }
+  },
+  {
+    "key": "pineappleCake_6",
+    "name": "手作鳳梨酥6入禮盒",
+    "price": 259,
+    "tag": "new",
+    "alias": "",
+    "categories": ["hot", "festival"],
+    "banner": {
+      "src": "/images/products/pine_apple_cake_6.png",
+      "altText": "手作鳳梨酥6入禮盒",
+      "title": "手作鳳梨酥6入禮盒"
+    }
+  },
+  {
+    "key": "pineappleCake_12",
+    "name": "手作鳳梨酥12入禮盒",
+    "price": 499,
+    "tag": "new",
+    "alias": "",
+    "categories": ["hot", "festival"],
+    "banner": {
+      "src": "/images/products/pine_apple_cake_12.png",
+      "altText": "手作鳳梨酥12入禮盒",
+      "title": "手作鳳梨酥12入禮盒"
+    }
   }
 ]
