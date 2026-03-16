@@ -8,51 +8,50 @@
 
 | 層級 | 技術 |
 | ---- | ---- |
-| 框架 | Nuxt 3 (Vue 3.5) + TypeScript |
-| UI | shadcn-vue + Nuxt UI + Tailwind CSS |
-| 圖示 | lucide-vue-next |
-| 狀態管理 | Pinia + Vue useState |
-| 圖片 | @nuxt/image (avif, webp, png) |
-| 部署 | Cloudflare Pages via NuxtHub |
-| CI/CD | GitHub Actions |
-| 套件管理 | pnpm 9.0.4 |
+| 框架 | Next.js 16 App Router + TypeScript |
+| UI | shadcn/ui (Radix) + Tailwind CSS 4 |
+| 圖示 | lucide-react |
+| 字型 | Noto Sans TC |
+| 套件管理 | pnpm |
+| Node.js | 22 (.nvmrc) |
 
 ## 快速開始
 
 ```bash
-pnpm install    # 安裝依賴
-pnpm dev        # 開發伺服器 http://localhost:3000
-pnpm build      # 正式環境建置
-pnpm preview    # 預覽正式建置
+nvm use             # 切換到 Node 22
+pnpm install        # 安裝依賴
+pnpm dev            # 開發伺服器（Turbopack）
+pnpm build          # 正式環境建置
+pnpm start          # 啟動正式伺服器
 ```
 
 ## 專案結構
 
 ```text
-├── app.vue                     # 根元件（行動選單、頁首/頁尾、轉場動畫）
-├── pages/
-│   ├── index.vue               # 首頁 - 產品列表、分類頁籤、搜尋
-│   ├── products/[slug].vue     # 產品詳情頁
-│   ├── coming-soon.vue         # 即將推出
-│   ├── account/index.vue       # 登入 / 註冊
-│   └── ...                     # about、cart、faq、news、terms（佔位）
+src/
+├── app/                        # Next.js App Router 頁面
+│   ├── page.tsx                # 首頁 - 產品列表、分類、搜尋
+│   ├── products/[slug]/        # 產品詳情頁
+│   ├── about/                  # 關於我們
+│   ├── faq/                    # 訂購 Q&A
+│   ├── terms/                  # 購買須知
+│   ├── service-and-return-terms/ # 服務條款及退換貨
+│   ├── news/activities/        # 活動列表
+│   ├── order/[slug]/           # 訂單確認
+│   ├── account/                # 登入/註冊
+│   └── api/                    # API Routes（產品資料）
 ├── components/
-│   ├── general/                # 頁首、頁尾、Logo、選單、橫幅
+│   ├── layout/                 # Header、Footer、MobileMenu、Banner
 │   ├── products/               # 骨架屏、訂購提示
-│   ├── forms/                  # 登入註冊表單、密碼輸入
-│   ├── buttons/                # LINE / Google 登入按鈕
-│   ├── ui/                     # shadcn-vue 元件
-│   ├── BannerCarousel.vue      # 首頁輪播
-│   ├── ProductCard.vue         # 產品卡片
-│   └── ProductSearch.vue       # 搜尋列
-├── composables/                # useProducts、useSearch、useHelpers、useOrderTemplate
-├── server/api/                 # Nitro API：/health、/products、/products/[key]
-├── config/                     # 分類列舉
-├── utils/                      # 社群連結、選單結構
-├── types/                      # TypeScript 型別定義
-└── public/
-    ├── json/                   # 產品資料（靜態 JSON）
-    └── images/                 # 所有靜態素材
+│   ├── ui/                     # shadcn/ui 元件
+│   └── ...                     # 輪播、產品卡片、搜尋列
+├── hooks/                      # React Hooks
+├── lib/                        # 工具函式、常數、選單
+├── types/                      # TypeScript 型別
+└── config/                     # 列舉設定
+public/
+├── json/                       # 產品資料（靜態 JSON）
+└── images/                     # 所有靜態素材
 ```
 
 ## 功能
@@ -68,19 +67,10 @@ pnpm preview    # 預覽正式建置
 
 ## 資料架構
 
-產品資料以靜態 JSON 檔存放於 `public/json/`，透過 Nitro API 路由提供服務，產品頁面使用 SWR 快取（1 小時）。首頁已預渲染以利 SEO。
-
-## 部署
-
-推送至任何分支時，GitHub Actions 自動部署：
-
-- `main` 分支 → 正式環境
-- 其他分支 → 預覽環境
-
-透過 NuxtHub 部署至 Cloudflare Pages。
+產品資料以靜態 JSON 檔存放於 `public/json/`，透過 Next.js API Routes 提供服務。首頁靜態生成以利 SEO。
 
 ## SEO
 
-- 已設定 Open Graph meta 標籤
-- 首頁預渲染
+- Open Graph / Twitter Card meta 標籤
+- 靜態頁面預渲染
 - 已上線，Google 已索引
