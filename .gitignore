@@ -39,3 +39,6 @@ next-env.d.ts
 
 # testing
 coverage/
+.superpowers/
+docs/superpowers/
+supabase/.temp/

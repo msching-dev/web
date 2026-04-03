@@ -7,7 +7,7 @@ MS. CHING (蜜絲晴烘焙手作坊) — 個人手作烘焙品牌官網，已上
 
 ## 技術棧
 
-- **框架：** Next.js 16 App Router + TypeScript
+- **框架：** Next.js 16.2 App Router + TypeScript
 - **UI：** shadcn/ui (Base UI / Base Nova) + Tailwind CSS 4（@theme inline、Sandrift 色系）
 - **圖示：** lucide-react
 - **字型：** Noto Sans TC (Google Fonts)
@@ -27,12 +27,13 @@ pnpm lint       # ESLint 檢查
 ## 專案結構
 
 ```text
-src/
-  app/
-    layout.tsx                 # 根佈局（metadata、字型、ClientLayout）
-    page.tsx                   # 首頁 — 產品列表、分類頁籤、搜尋
-    globals.css                # Tailwind 4 + Sandrift 主題 + 動畫
-    products/[slug]/page.tsx   # 產品詳情頁
+app/
+  layout.tsx                   # 根佈局（metadata、字型，不含 Header/Footer）
+  globals.css                  # Tailwind 4 + Sandrift 主題 + 動畫
+  (store)/                     # 前台 route group（URL 不受影響）
+    layout.tsx                 # 前台佈局（ClientLayout + StoreCta）
+    page.tsx                   # 首頁 — SSR 產品列表 + Hero 標語
+    products/[slug]/page.tsx   # 產品詳情（SSR + generateMetadata SEO）
     about/page.tsx             # 關於我們
     faq/page.tsx               # 訂購 Q&A（手風琴問答）
     terms/page.tsx             # 購買須知
@@ -42,28 +43,45 @@ src/
     account/page.tsx           # 登入/註冊（UI 佔位，無後端）
     coming-soon/page.tsx       # 即將推出
     cart/page.tsx              # 購物車（佔位）
-    api/
-      health/route.ts          # GET /api/health
-      products/route.ts        # GET /api/products
-      products/[key]/route.ts  # GET /api/products/:key（含 key 白名單驗證）
-  components/
-    layout/                    # Header、Footer、MobileMenu、ClientLayout、BackToTop
-    products/                  # 骨架屏（list/detail）、訂購提示
-    ui/                        # shadcn/ui 元件（button、accordion、tabs、breadcrumb、collapsible、skeleton）
-    banner-carousel.tsx        # 首頁輪播
-    product-card.tsx           # 產品卡片（tag、原價、alias）
-    product-search.tsx         # 搜尋列
-    highlighted-text.tsx       # 文字標記解析
-    no-products-found.tsx      # 空狀態提示
-  hooks/
-    use-products.ts            # useProducts()、useProductDetail()
-    use-helpers.ts             # formatTimestampToDateRange()
-    use-order-template.ts      # 訂購模板產生 + 複製剪貼簿
-  lib/
-    constants.ts               # 網站常數、社群連結
-    menus.ts                   # 導覽列選單結構
-    utils.ts                   # cn() 工具函式
-  types/index.ts               # TypeScript 型別（ProductInfo、ProductDetail、Category 等）
+  (admin)/                     # 後台 route group
+    admin/
+      layout.tsx               # 後台佈局（Sidebar + Topbar，noindex）
+      page.tsx                 # Dashboard（統計卡片空殼）
+      products/page.tsx        # 商品列表（讀取 JSON，待接 Supabase）
+      orders/page.tsx          # 訂單管理（空殼，待接金流）
+  api/
+    health/route.ts            # GET /api/health
+    products/route.ts          # GET /api/products
+    products/[key]/route.ts    # GET /api/products/:key（含 key 白名單驗證）
+components/
+  layout/                      # Header、Footer、MobileMenu、ClientLayout、BackToTop
+  admin/                       # AdminSidebar、AdminHeader
+  products/                    # 骨架屏、訂購提示、ProductDetailContent（Client）
+  ui/                          # shadcn/ui 元件
+  banner-carousel.tsx          # 首頁輪播
+  home-content.tsx             # 首頁互動部分（分類 tabs、搜尋、產品 grid）
+  product-card.tsx             # 產品卡片（tag、原價、alias）
+  product-search.tsx           # 搜尋列
+  store-cta.tsx                # 手機版 Sticky CTA 按鈕
+  highlighted-text.tsx         # 文字標記解析
+  no-products-found.tsx        # 空狀態提示
+hooks/
+  use-products.ts              # useProducts()（前台已改 SSR，此 hook 保留供其他用途）
+  use-helpers.ts               # formatTimestampToDateRange()
+  use-order-template.ts        # 訂購模板產生 + 複製剪貼簿
+  use-swipe.ts                 # 觸控滑動手勢
+lib/
+  constants.ts                 # 網站常數、社群連結
+  menus.ts                     # 導覽列選單結構（4 項扁平連結）
+  utils.ts                     # cn() 工具函式
+  supabase/
+    client.ts                  # createBrowserClient（Client Component 用）
+    server.ts                  # createServerClient（Server Component / Action 用）
+    middleware.ts              # updateSession + /admin 路由保護
+    admin.ts                   # service_role client（繞過 RLS，server-only）
+    queries.ts                 # 資料存取層（getProducts, getProductBySlug, getAllProducts）
+    types.ts                   # supabase gen types 自動產生的型別
+types/index.ts                 # TypeScript 型別（ProductInfo、ProductDetail、Category 等）
 public/
   json/                        # 產品資料（productsList.json、productDetails/*.json）
   images/                      # 所有靜態圖片
@@ -73,17 +91,20 @@ public/
 ## API 端點
 
 - `GET /api/health` — 健康檢查（回傳 status + timestamp）
-- `GET /api/products` — 全部商品列表（讀取 productsList.json）
-- `GET /api/products/[key]` — 單一商品詳情（白名單驗證 key，防路徑遍歷）
+- `GET /api/products` — 全部商品列表（從 Supabase DB 讀取）
+- `GET /api/products/[key]` — 單一商品詳情（從 Supabase DB 讀取）
+- `GET /api/cron/keep-alive` — Supabase 防休眠（需 CRON_SECRET）
 
 ## 架構決策
 
-- 產品資料以靜態 JSON 存放於 `public/json/`，透過 API Routes 提供
-- 首頁使用 `useSearchParams` + `Suspense` 處理分類篩選
+- 前後台以 Route Group `(store)` / `(admin)` 分離，各自擁有獨立 layout
+- 首頁和產品頁為 Server Component（SSR），互動部分抽成 Client 子元件
+- 產品資料存放於 Supabase PostgreSQL，透過 `lib/supabase/queries.ts` 統一存取
+- 商品可見性由 DB 的 `is_active` 欄位控制（後台上下架）
+- Middleware 處理 auth session 刷新 + /admin 路由保護（需 admin role）
 - 色彩模式鎖定為淺色（Sandrift 品牌色系）
-- 行動優先響應式設計
-- Server Components 用於靜態頁面，Client Components 用於互動功能
-- `use-products.ts` 中的 `hideProductKeys` 控制商品可見性
+- 行動優先響應式設計，手機版有 sticky CTA 按鈕
+- Admin 後台使用中性色調，`robots: noindex` 防止被搜尋引擎索引
 
 ## SEO
 
@@ -105,5 +126,5 @@ public/
 - 產品 key 和檔名使用 camelCase
 - 元件使用 default export
 - hooks 命名為 `use-xxx.ts`（kebab-case）
-- `@/` 路徑別名指向 `src/`
+- `@/` 路徑別名指向專案根目錄（無 src/）
 - 所有 `<img>` 應使用 `next/image` 的 `<Image>` 元件
