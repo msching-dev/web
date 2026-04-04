@@ -54,12 +54,22 @@ function UserButton({
       </button>
 
       {showUserMenu && (
-        <div className="absolute right-0 top-full mt-2 w-48 rounded-xl border border-sandrift-100 bg-white py-1.5 shadow-lg z-50">
+        <div role="menu" className="absolute right-0 top-full mt-2 w-48 rounded-xl border border-sandrift-100 bg-white py-1.5 shadow-lg z-50">
           <div className="border-b border-sandrift-50 px-3 py-2">
             <p className="truncate text-xs text-sandrift-500">{user.email}</p>
           </div>
+          <Link
+            role="menuitem"
+            href="/account/profile"
+            className="flex items-center gap-2 px-3 py-2 text-[13px] text-sandrift-700 hover:bg-sandrift-50 transition-colors"
+            onClick={() => setShowUserMenu(false)}
+          >
+            <User className="h-3.5 w-3.5" strokeWidth={1.5} />
+            個人資訊
+          </Link>
           {isAdmin && (
             <Link
+              role="menuitem"
               href="/admin"
               className="flex items-center gap-2 px-3 py-2 text-[13px] text-sandrift-700 hover:bg-sandrift-50 transition-colors"
               onClick={() => setShowUserMenu(false)}
@@ -69,6 +79,7 @@ function UserButton({
             </Link>
           )}
           <button
+            role="menuitem"
             type="button"
             onClick={onLogout}
             className="flex w-full items-center gap-2 px-3 py-2 text-[13px] text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
@@ -102,8 +113,15 @@ export default function Header({ onMobileMenuToggle }: HeaderProps) {
   useEffect(() => {
     if (!showUserMenu) return
     const handleClick = () => setShowUserMenu(false)
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setShowUserMenu(false)
+    }
     document.addEventListener('click', handleClick)
-    return () => document.removeEventListener('click', handleClick)
+    document.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('click', handleClick)
+      document.removeEventListener('keydown', handleKeyDown)
+    }
   }, [showUserMenu])
 
   const handleLogout = async () => {
