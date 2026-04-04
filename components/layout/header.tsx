@@ -3,8 +3,11 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Menu, ShoppingBag, User } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { Menu, ShoppingBag, User, LogOut, Settings } from 'lucide-react'
 import { menuItems } from '@/lib/menus'
+import { useAuth } from '@/hooks/use-auth'
+import { createClient } from '@/lib/supabase/client'
 
 interface HeaderProps {
   onMobileMenuToggle: () => void
@@ -12,12 +15,90 @@ interface HeaderProps {
 
 export default function Header({ onMobileMenuToggle }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false)
+  const [showUserMenu, setShowUserMenu] = useState(false)
+  const { user, loading, isAdmin } = useAuth()
+  const router = useRouter()
+  const supabase = createClient()
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10)
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    if (!showUserMenu) return
+    const handleClick = () => setShowUserMenu(false)
+    document.addEventListener('click', handleClick)
+    return () => document.removeEventListener('click', handleClick)
+  }, [showUserMenu])
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
+    setShowUserMenu(false)
+    router.push('/')
+    router.refresh()
+  }
+
+  const UserButton = () => {
+    if (loading) {
+      return (
+        <div className="flex h-9 w-9 items-center justify-center">
+          <div className="h-4 w-4 animate-spin rounded-full border-2 border-sandrift-200 border-t-sandrift-500" />
+        </div>
+      )
+    }
+
+    if (!user) {
+      return (
+        <Link href="/account" className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-sandrift-500 transition-colors hover:text-sandrift-800" aria-label="帳號">
+          <User className="h-4.5 w-4.5" strokeWidth={1.5} />
+        </Link>
+      )
+    }
+
+    return (
+      <div className="relative">
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); setShowUserMenu(!showUserMenu) }}
+          className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-sandrift-100 text-sandrift-700 transition-colors hover:bg-sandrift-200"
+          aria-label="使用者選單"
+        >
+          <span className="text-xs font-semibold">
+            {user.email?.charAt(0).toUpperCase() || 'U'}
+          </span>
+        </button>
+
+        {showUserMenu && (
+          <div className="absolute right-0 top-full mt-2 w-48 rounded-xl border border-sandrift-100 bg-white py-1.5 shadow-lg z-50">
+            <div className="border-b border-sandrift-50 px-3 py-2">
+              <p className="truncate text-xs text-sandrift-500">{user.email}</p>
+            </div>
+            {isAdmin && (
+              <Link
+                href="/admin"
+                className="flex items-center gap-2 px-3 py-2 text-[13px] text-sandrift-700 hover:bg-sandrift-50 transition-colors"
+                onClick={() => setShowUserMenu(false)}
+              >
+                <Settings className="h-3.5 w-3.5" strokeWidth={1.5} />
+                後台管理
+              </Link>
+            )}
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="flex w-full items-center gap-2 px-3 py-2 text-[13px] text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
+            >
+              <LogOut className="h-3.5 w-3.5" strokeWidth={1.5} />
+              登出
+            </button>
+          </div>
+        )}
+      </div>
+    )
+  }
 
   return (
     <header
@@ -44,17 +125,15 @@ export default function Header({ onMobileMenuToggle }: HeaderProps) {
 
         <div className="flex items-center">
           <Link href="/cart" className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-sandrift-500 transition-colors hover:text-sandrift-800" aria-label="購物車">
-            <ShoppingBag className="h-[18px] w-[18px]" strokeWidth={1.5} />
+            <ShoppingBag className="h-4.5 w-4.5" strokeWidth={1.5} />
           </Link>
-          <Link href="/account" className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-sandrift-500 transition-colors hover:text-sandrift-800" aria-label="帳號">
-            <User className="h-[18px] w-[18px]" strokeWidth={1.5} />
-          </Link>
+          <UserButton />
         </div>
       </div>
 
       {/* Desktop */}
       <div className="mx-auto hidden h-14 max-w-7xl items-center justify-between px-6 lg:flex xl:px-8">
-        <Link href="/" className="flex-shrink-0 cursor-pointer">
+        <Link href="/" className="shrink-0 cursor-pointer">
           <Image src="/images/logo.svg" alt="MS. CHING" width={40} height={40} className="h-10 w-auto" priority />
         </Link>
 
@@ -72,11 +151,9 @@ export default function Header({ onMobileMenuToggle }: HeaderProps) {
 
         <div className="flex items-center gap-1">
           <Link href="/cart" className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-sandrift-500 transition-colors hover:text-sandrift-800" aria-label="購物車">
-            <ShoppingBag className="h-[18px] w-[18px]" strokeWidth={1.5} />
+            <ShoppingBag className="h-4.5 w-4.5" strokeWidth={1.5} />
           </Link>
-          <Link href="/account" className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-sandrift-500 transition-colors hover:text-sandrift-800" aria-label="帳號">
-            <User className="h-[18px] w-[18px]" strokeWidth={1.5} />
-          </Link>
+          <UserButton />
         </div>
       </div>
     </header>

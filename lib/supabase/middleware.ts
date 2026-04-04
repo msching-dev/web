@@ -13,7 +13,7 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.getAll()
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
+          cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value)
           )
           supabaseResponse = NextResponse.next({ request })
@@ -25,22 +25,14 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
-  // 刷新 auth token
+  // 刷新 auth token（single call）
   const {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // /admin/* 路由保護：未登入或非 admin 角色 → 導回首頁
+  // /admin/* 路由保護：未登入或非 admin → 導回首頁
   if (request.nextUrl.pathname.startsWith('/admin')) {
-    if (!user) {
-      const url = request.nextUrl.clone()
-      url.pathname = '/'
-      return NextResponse.redirect(url)
-    }
-
-    const { data: { user: fullUser } } = await supabase.auth.getUser()
-    const role = fullUser?.app_metadata?.role
-    if (role !== 'admin') {
+    if (!user || user.app_metadata?.role !== 'admin') {
       const url = request.nextUrl.clone()
       url.pathname = '/'
       return NextResponse.redirect(url)

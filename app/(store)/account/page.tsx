@@ -1,8 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
+import { createClient } from '@/lib/supabase/client'
+import { useAuth } from '@/hooks/use-auth'
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -15,19 +18,103 @@ import {
 type Tab = 'login' | 'register'
 
 export default function AccountPage() {
-  const [activeTab, setActiveTab] = useState<Tab>('login')
-  const [loginEmail, setLoginEmail] = useState('')
-  const [loginPassword, setLoginPassword] = useState('')
-  const [registerEmail, setRegisterEmail] = useState('')
-  const [registerPassword, setRegisterPassword] = useState('')
-  const [registerConfirmPassword, setRegisterConfirmPassword] = useState('')
+  const router = useRouter()
+  const { user, loading: authLoading } = useAuth()
+  const supabase = createClient()
 
-  const handleLogin = (e: React.FormEvent) => {
+  const [activeTab, setActiveTab] = useState<Tab>('login')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [message, setMessage] = useState<string | null>(null)
+
+  // 已登入 → 導回首頁
+  useEffect(() => {
+    if (!authLoading && user) {
+      router.push('/')
+    }
+  }, [user, authLoading, router])
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError(null)
+    setLoading(true)
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
+
+    if (error) {
+      setError(error.message === 'Invalid login credentials'
+        ? '信箱或密碼錯誤'
+        : '登入失敗，請稍後再試')
+      setLoading(false)
+      return
+    }
+
+    router.push('/')
+    router.refresh()
   }
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError(null)
+
+    if (password !== confirmPassword) {
+      setError('密碼不一致')
+      return
+    }
+    if (password.length < 6) {
+      setError('密碼至少需要 6 個字元')
+      return
+    }
+
+    setLoading(true)
+
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
+      },
+    })
+
+    if (error) {
+      setError('註冊失敗，請稍後再試')
+      setLoading(false)
+      return
+    }
+
+    setMessage('註冊成功！您可以直接登入')
+    setActiveTab('login')
+    setPassword('')
+    setConfirmPassword('')
+    setLoading(false)
+  }
+
+  const handleOAuth = async (provider: 'google' | 'line') => {
+    setError(null)
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: provider === 'line' ? 'line' as any : 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    })
+    if (error) {
+      setError('登入失敗，請稍後再試')
+    }
+  }
+
+  // 登入中或已登入，不渲染表單
+  if (authLoading || user) {
+    return (
+      <div className="flex min-h-[50vh] items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-sandrift-300 border-t-sandrift-600" />
+      </div>
+    )
   }
 
   const inputClass =
@@ -63,11 +150,23 @@ export default function AccountPage() {
             </p>
           </div>
 
+          {/* Error / Message */}
+          {error && (
+            <div className="mb-4 rounded-xl bg-red-50 px-4 py-2.5 text-[13px] text-red-600">
+              {error}
+            </div>
+          )}
+          {message && (
+            <div className="mb-4 rounded-xl bg-green-50 px-4 py-2.5 text-[13px] text-green-600">
+              {message}
+            </div>
+          )}
+
           {/* Liquid Glass Tab */}
           <div className="glass-subtle mb-6 flex items-center rounded-2xl p-1 ring-1 ring-white/30">
             <button
               type="button"
-              onClick={() => setActiveTab('login')}
+              onClick={() => { setActiveTab('login'); setError(null); setMessage(null) }}
               className={`flex-1 cursor-pointer rounded-xl py-2 text-[13px] font-medium transition-all duration-300 ${
                 activeTab === 'login'
                   ? 'bg-white/80 text-sandrift-900 shadow-[0_1px_3px_rgba(0,0,0,0.04)]'
@@ -78,7 +177,7 @@ export default function AccountPage() {
             </button>
             <button
               type="button"
-              onClick={() => setActiveTab('register')}
+              onClick={() => { setActiveTab('register'); setError(null); setMessage(null) }}
               className={`flex-1 cursor-pointer rounded-xl py-2 text-[13px] font-medium transition-all duration-300 ${
                 activeTab === 'register'
                   ? 'bg-white/80 text-sandrift-900 shadow-[0_1px_3px_rgba(0,0,0,0.04)]'
@@ -99,8 +198,9 @@ export default function AccountPage() {
                 <input
                   id="login-email"
                   type="email"
-                  value={loginEmail}
-                  onChange={(e) => setLoginEmail(e.target.value)}
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="請輸入電子信箱"
                   className={inputClass}
                 />
@@ -112,17 +212,19 @@ export default function AccountPage() {
                 <input
                   id="login-password"
                   type="password"
-                  value={loginPassword}
-                  onChange={(e) => setLoginPassword(e.target.value)}
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="請輸入密碼"
                   className={inputClass}
                 />
               </div>
               <button
                 type="submit"
-                className="w-full cursor-pointer rounded-xl bg-sandrift-500 py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-sandrift-600"
+                disabled={loading}
+                className="w-full cursor-pointer rounded-xl bg-sandrift-500 py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-sandrift-600 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                登入
+                {loading ? '登入中...' : '登入'}
               </button>
             </form>
           )}
@@ -137,8 +239,9 @@ export default function AccountPage() {
                 <input
                   id="register-email"
                   type="email"
-                  value={registerEmail}
-                  onChange={(e) => setRegisterEmail(e.target.value)}
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="請輸入電子信箱"
                   className={inputClass}
                 />
@@ -150,9 +253,11 @@ export default function AccountPage() {
                 <input
                   id="register-password"
                   type="password"
-                  value={registerPassword}
-                  onChange={(e) => setRegisterPassword(e.target.value)}
-                  placeholder="請輸入密碼"
+                  required
+                  minLength={6}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="請輸入密碼（至少 6 個字元）"
                   className={inputClass}
                 />
               </div>
@@ -163,17 +268,19 @@ export default function AccountPage() {
                 <input
                   id="register-confirm-password"
                   type="password"
-                  value={registerConfirmPassword}
-                  onChange={(e) => setRegisterConfirmPassword(e.target.value)}
+                  required
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="請再次輸入密碼"
                   className={inputClass}
                 />
               </div>
               <button
                 type="submit"
-                className="w-full cursor-pointer rounded-xl bg-sandrift-500 py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-sandrift-600"
+                disabled={loading}
+                className="w-full cursor-pointer rounded-xl bg-sandrift-500 py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-sandrift-600 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                註冊
+                {loading ? '註冊中...' : '註冊'}
               </button>
             </form>
           )}
@@ -194,6 +301,7 @@ export default function AccountPage() {
             <div className="mt-4 flex flex-col gap-2.5">
               <button
                 type="button"
+                onClick={() => handleOAuth('line')}
                 className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-white/50 py-2.5 text-[13px] font-medium text-sandrift-700 ring-1 ring-sandrift-100/40 backdrop-blur-sm transition-all hover:bg-white/80"
               >
                 <Image src="/images/line.png" alt="LINE" width={18} height={18} />
@@ -201,6 +309,7 @@ export default function AccountPage() {
               </button>
               <button
                 type="button"
+                onClick={() => handleOAuth('google')}
                 className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-white/50 py-2.5 text-[13px] font-medium text-sandrift-700 ring-1 ring-sandrift-100/40 backdrop-blur-sm transition-all hover:bg-white/80"
               >
                 <svg className="h-[18px] w-[18px]" viewBox="0 0 24 24">
