@@ -132,3 +132,18 @@ export async function getCategories() {
   if (error || !data) return []
   return data
 }
+
+/**
+ * 取得單一商品 by ID（後台編輯用，含下架商品）
+ */
+export async function getProductById(id: string) {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('products')
+    .select('*, categories(name, slug)')
+    .eq('id', id)
+    .single()
+
+  if (error || !data) return null
+  return data
+}
