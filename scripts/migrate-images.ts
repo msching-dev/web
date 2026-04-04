@@ -12,6 +12,7 @@
 import { createClient } from '@supabase/supabase-js'
 import { readFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
+import type { Json } from '../lib/supabase/types'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseKey = process.env.SUPABASE_SECRET_KEY!
@@ -97,7 +98,7 @@ async function main() {
       console.log(`  [${product.slug}] Updating DB with new URLs...`)
       const { error: updateError } = await supabase
         .from('products')
-        .update({ images: updatedImages as any })
+        .update({ images: updatedImages as unknown as Json })
         .eq('id', product.id)
 
       if (updateError) {

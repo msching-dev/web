@@ -11,7 +11,7 @@ import { type ProductFormData, defaultProductFormData } from '@/lib/validations/
 interface ProductFormProps {
   initialData?: ProductFormData
   categories: Array<{ id: string; name: string; slug: string }>
-  onSubmit: (data: ProductFormData) => Promise<{ success?: boolean; error?: any }>
+  onSubmit: (data: ProductFormData) => Promise<{ success?: boolean; error?: Record<string, string[]> | string }>
   submitLabel: string
 }
 

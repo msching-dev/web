@@ -9,6 +9,79 @@ import { menuItems } from '@/lib/menus'
 import { useAuth } from '@/hooks/use-auth'
 import { createClient } from '@/lib/supabase/client'
 
+function UserButton({
+  user,
+  loading,
+  isAdmin,
+  showUserMenu,
+  setShowUserMenu,
+  onLogout,
+}: {
+  user: ReturnType<typeof useAuth>['user']
+  loading: boolean
+  isAdmin: boolean
+  showUserMenu: boolean
+  setShowUserMenu: (show: boolean) => void
+  onLogout: () => void
+}) {
+  if (loading) {
+    return (
+      <div className="flex h-9 w-9 items-center justify-center">
+        <div className="h-4 w-4 animate-spin rounded-full border-2 border-sandrift-200 border-t-sandrift-500" />
+      </div>
+    )
+  }
+
+  if (!user) {
+    return (
+      <Link href="/account" className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-sandrift-500 transition-colors hover:text-sandrift-800" aria-label="帳號">
+        <User className="h-4.5 w-4.5" strokeWidth={1.5} />
+      </Link>
+    )
+  }
+
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        onClick={(e) => { e.stopPropagation(); setShowUserMenu(!showUserMenu) }}
+        className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-sandrift-100 text-sandrift-700 transition-colors hover:bg-sandrift-200"
+        aria-label="使用者選單"
+      >
+        <span className="text-xs font-semibold">
+          {user.email?.charAt(0).toUpperCase() || 'U'}
+        </span>
+      </button>
+
+      {showUserMenu && (
+        <div className="absolute right-0 top-full mt-2 w-48 rounded-xl border border-sandrift-100 bg-white py-1.5 shadow-lg z-50">
+          <div className="border-b border-sandrift-50 px-3 py-2">
+            <p className="truncate text-xs text-sandrift-500">{user.email}</p>
+          </div>
+          {isAdmin && (
+            <Link
+              href="/admin"
+              className="flex items-center gap-2 px-3 py-2 text-[13px] text-sandrift-700 hover:bg-sandrift-50 transition-colors"
+              onClick={() => setShowUserMenu(false)}
+            >
+              <Settings className="h-3.5 w-3.5" strokeWidth={1.5} />
+              後台管理
+            </Link>
+          )}
+          <button
+            type="button"
+            onClick={onLogout}
+            className="flex w-full items-center gap-2 px-3 py-2 text-[13px] text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
+          >
+            <LogOut className="h-3.5 w-3.5" strokeWidth={1.5} />
+            登出
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
 interface HeaderProps {
   onMobileMenuToggle: () => void
 }
@@ -26,7 +99,6 @@ export default function Header({ onMobileMenuToggle }: HeaderProps) {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Close menu when clicking outside
   useEffect(() => {
     if (!showUserMenu) return
     const handleClick = () => setShowUserMenu(false)
@@ -41,63 +113,13 @@ export default function Header({ onMobileMenuToggle }: HeaderProps) {
     router.refresh()
   }
 
-  const UserButton = () => {
-    if (loading) {
-      return (
-        <div className="flex h-9 w-9 items-center justify-center">
-          <div className="h-4 w-4 animate-spin rounded-full border-2 border-sandrift-200 border-t-sandrift-500" />
-        </div>
-      )
-    }
-
-    if (!user) {
-      return (
-        <Link href="/account" className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-sandrift-500 transition-colors hover:text-sandrift-800" aria-label="帳號">
-          <User className="h-4.5 w-4.5" strokeWidth={1.5} />
-        </Link>
-      )
-    }
-
-    return (
-      <div className="relative">
-        <button
-          type="button"
-          onClick={(e) => { e.stopPropagation(); setShowUserMenu(!showUserMenu) }}
-          className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-sandrift-100 text-sandrift-700 transition-colors hover:bg-sandrift-200"
-          aria-label="使用者選單"
-        >
-          <span className="text-xs font-semibold">
-            {user.email?.charAt(0).toUpperCase() || 'U'}
-          </span>
-        </button>
-
-        {showUserMenu && (
-          <div className="absolute right-0 top-full mt-2 w-48 rounded-xl border border-sandrift-100 bg-white py-1.5 shadow-lg z-50">
-            <div className="border-b border-sandrift-50 px-3 py-2">
-              <p className="truncate text-xs text-sandrift-500">{user.email}</p>
-            </div>
-            {isAdmin && (
-              <Link
-                href="/admin"
-                className="flex items-center gap-2 px-3 py-2 text-[13px] text-sandrift-700 hover:bg-sandrift-50 transition-colors"
-                onClick={() => setShowUserMenu(false)}
-              >
-                <Settings className="h-3.5 w-3.5" strokeWidth={1.5} />
-                後台管理
-              </Link>
-            )}
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="flex w-full items-center gap-2 px-3 py-2 text-[13px] text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
-            >
-              <LogOut className="h-3.5 w-3.5" strokeWidth={1.5} />
-              登出
-            </button>
-          </div>
-        )}
-      </div>
-    )
+  const userButtonProps = {
+    user,
+    loading,
+    isAdmin,
+    showUserMenu,
+    setShowUserMenu,
+    onLogout: handleLogout,
   }
 
   return (
@@ -127,7 +149,7 @@ export default function Header({ onMobileMenuToggle }: HeaderProps) {
           <Link href="/cart" className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-sandrift-500 transition-colors hover:text-sandrift-800" aria-label="購物車">
             <ShoppingBag className="h-4.5 w-4.5" strokeWidth={1.5} />
           </Link>
-          <UserButton />
+          <UserButton {...userButtonProps} />
         </div>
       </div>
 
@@ -153,7 +175,7 @@ export default function Header({ onMobileMenuToggle }: HeaderProps) {
           <Link href="/cart" className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-sandrift-500 transition-colors hover:text-sandrift-800" aria-label="購物車">
             <ShoppingBag className="h-4.5 w-4.5" strokeWidth={1.5} />
           </Link>
-          <UserButton />
+          <UserButton {...userButtonProps} />
         </div>
       </div>
     </header>

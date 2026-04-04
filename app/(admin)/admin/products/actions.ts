@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { productSchema, type ProductFormData } from '@/lib/validations/product'
+import type { Json } from '@/lib/supabase/types'
 
 async function requireAdmin() {
   const supabase = await createClient()
@@ -34,10 +35,10 @@ export async function createProduct(data: ProductFormData) {
     .from('products')
     .insert({
       ...rest,
-      images: images as any,
-      detail: rest.detail as any,
-      nutrition: rest.nutrition as any,
-      specifications: rest.specifications as any,
+      images: images as unknown as Json,
+      detail: rest.detail as unknown as Json,
+      nutrition: rest.nutrition as unknown as Json,
+      specifications: rest.specifications as unknown as Json,
     })
 
   if (error) {
@@ -65,10 +66,10 @@ export async function updateProduct(id: string, data: ProductFormData) {
     .from('products')
     .update({
       ...rest,
-      images: images as any,
-      detail: rest.detail as any,
-      nutrition: rest.nutrition as any,
-      specifications: rest.specifications as any,
+      images: images as unknown as Json,
+      detail: rest.detail as unknown as Json,
+      nutrition: rest.nutrition as unknown as Json,
+      specifications: rest.specifications as unknown as Json,
     })
     .eq('id', id)
 

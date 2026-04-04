@@ -98,7 +98,8 @@ export default function AccountPage() {
   const handleOAuth = async (provider: 'google' | 'line') => {
     setError(null)
     const { error } = await supabase.auth.signInWithOAuth({
-      provider: provider === 'line' ? 'line' as any : 'google',
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- LINE is a custom OIDC provider in Supabase
+      provider: provider === 'line' ? ('custom:line' as any) : 'google',
       options: {
         redirectTo: `${window.location.origin}/auth/callback`,
       },
