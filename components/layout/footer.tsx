@@ -16,7 +16,14 @@ const policyLinks = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-sandrift-100/60 pb-20 lg:pb-0">
+    <footer className="relative border-t border-sandrift-100/60 pb-20 lg:pb-0 overflow-hidden">
+      {/* Watermark decoration */}
+      <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 opacity-[0.03]">
+        <Image src="/images/watermark_3.png" alt="" fill className="object-contain" />
+      </div>
+      <div className="pointer-events-none absolute -left-12 -bottom-12 h-48 w-48 opacity-[0.03]">
+        <Image src="/images/watermark_4.png" alt="" fill className="object-contain" />
+      </div>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Mobile */}
         <div className="py-8 lg:hidden">
@@ -45,18 +52,18 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LINE"
-                className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-sandrift-50 transition-colors hover:bg-sandrift-100"
+                className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-sandrift-50 transition-all duration-200 hover:bg-sandrift-100 hover:scale-110 hover:shadow-sm"
               >
-                <Image src="/images/footer/icon_line.png" alt="LINE" width={24} height={24} className="h-6 w-6" />
+                <Image src="/images/footer/icon_line.png" alt="LINE" width={28} height={28} className="h-7 w-7" />
               </a>
               <a
                 href={socialMediaLinks.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
-                className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-sandrift-50 transition-colors hover:bg-sandrift-100"
+                className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-sandrift-50 transition-all duration-200 hover:bg-sandrift-100 hover:scale-110 hover:shadow-sm"
               >
-                <Image src="/images/footer/icon_ig.png" alt="Instagram" width={24} height={24} className="h-6 w-6" />
+                <Image src="/images/footer/icon_ig.png" alt="Instagram" width={28} height={28} className="h-7 w-7" />
               </a>
             </div>
 
@@ -127,18 +134,18 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LINE"
-                  className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-sandrift-50 transition-colors hover:bg-sandrift-100"
+                  className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-sandrift-50 transition-all duration-200 hover:bg-sandrift-100 hover:scale-110 hover:shadow-sm"
                 >
-                  <Image src="/images/footer/icon_line.png" alt="LINE" width={24} height={24} className="h-6 w-6" />
+                  <Image src="/images/footer/icon_line.png" alt="LINE" width={28} height={28} className="h-7 w-7" />
                 </a>
                 <a
                   href={socialMediaLinks.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Instagram"
-                  className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-sandrift-50 transition-colors hover:bg-sandrift-100"
+                  className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-sandrift-50 transition-all duration-200 hover:bg-sandrift-100 hover:scale-110 hover:shadow-sm"
                 >
-                  <Image src="/images/footer/icon_ig.png" alt="Instagram" width={24} height={24} className="h-6 w-6" />
+                  <Image src="/images/footer/icon_ig.png" alt="Instagram" width={28} height={28} className="h-7 w-7" />
                 </a>
               </div>
             </div>

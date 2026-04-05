@@ -1,10 +1,15 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { ShoppingBag } from 'lucide-react'
 
 export default function CartEmpty() {
   return (
     <div className="mx-auto max-w-sm px-4 py-14 md:py-20">
-      <div className="rounded-3xl bg-sandrift-50/30 p-8 text-center ring-1 ring-sandrift-100/30">
+      <div className="relative overflow-hidden rounded-3xl bg-sandrift-50/30 p-8 text-center ring-1 ring-sandrift-100/30">
+        {/* Watermark */}
+        <div className="pointer-events-none absolute -right-8 -bottom-8 h-40 w-40 opacity-[0.04]">
+          <Image src="/images/watermark_1.png" alt="" fill className="object-contain" />
+        </div>
         <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-sandrift-50/60">
           <ShoppingBag className="h-8 w-8 text-sandrift-300" />
         </div>

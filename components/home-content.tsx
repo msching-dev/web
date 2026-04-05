@@ -9,6 +9,7 @@ import type { ProductInfo, Category } from '@/types'
 
 const categoryTabs = [
   { value: 'all', label: '全部' },
+  { value: 'featured', label: '推薦' },
   { value: 'hot' as Category, label: '熱賣中' },
   { value: 'cookie' as Category, label: '餅乾' },
   { value: 'madeleine' as Category, label: '瑪德蓮' },
@@ -27,12 +28,19 @@ export default function HomeContent({ products }: HomeContentProps) {
   const [searchQuery, setSearchQuery] = useState('')
 
   const filteredProducts = useMemo(() => {
-    let result =
-      categoryParam === 'all'
-        ? products
-        : products.filter((p) =>
-            p.categories.includes(categoryParam as Category)
-          )
+    let result: ProductInfo[]
+
+    if (categoryParam === 'all') {
+      result = products
+    } else if (categoryParam === 'featured') {
+      result = products.filter(
+        (p) => p.tag === 'hot' || p.tag === 'top_1'
+      )
+    } else {
+      result = products.filter((p) =>
+        p.categories.includes(categoryParam as Category)
+      )
+    }
 
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase()
@@ -96,8 +104,8 @@ export default function HomeContent({ products }: HomeContentProps) {
         <NoProductsFound />
       ) : (
         <div className="grid grid-cols-2 gap-2.5 sm:gap-3 md:grid-cols-3 lg:grid-cols-5">
-          {filteredProducts.map((product) => (
-            <ProductCard key={product.key} product={product} />
+          {filteredProducts.map((product, index) => (
+            <ProductCard key={product.key} product={product} index={index} />
           ))}
         </div>
       )}

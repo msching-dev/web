@@ -6,6 +6,22 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Menu, User, LogOut, Settings } from 'lucide-react'
 import { menuItems } from '@/lib/menus'
+
+const avatarImages = [
+  '/images/avatar/cake.png',
+  '/images/avatar/cupcake.png',
+  '/images/avatar/donut.png',
+  '/images/avatar/toast.png',
+]
+
+/** 根據 email 穩定選一個甜點 avatar */
+function getAvatarForUser(email: string) {
+  let hash = 0
+  for (let i = 0; i < email.length; i++) {
+    hash = ((hash << 5) - hash + email.charCodeAt(i)) | 0
+  }
+  return avatarImages[Math.abs(hash) % avatarImages.length]
+}
 import CartBadge from '@/components/cart/cart-badge'
 import { useAuth } from '@/hooks/use-auth'
 import { createClient } from '@/lib/supabase/client'
@@ -46,12 +62,16 @@ function UserButton({
       <button
         type="button"
         onClick={(e) => { e.stopPropagation(); setShowUserMenu(!showUserMenu) }}
-        className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-sandrift-100 text-sandrift-700 transition-colors hover:bg-sandrift-200"
+        className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full overflow-hidden ring-1 ring-sandrift-200/60 transition-all hover:ring-2 hover:ring-sandrift-300/50"
         aria-label="使用者選單"
       >
-        <span className="text-xs font-semibold">
-          {user.email?.charAt(0).toUpperCase() || 'U'}
-        </span>
+        <Image
+          src={getAvatarForUser(user.email || '')}
+          alt="Avatar"
+          width={32}
+          height={32}
+          className="h-8 w-8 object-cover"
+        />
       </button>
 
       {showUserMenu && (

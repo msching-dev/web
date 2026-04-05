@@ -35,6 +35,8 @@ function toProductInfo(row: Record<string, unknown>): ProductInfo {
     alias: (row.alias as string) || '',
     categories,
     banner,
+    maxCount: (row.max_order_qty as number) || 99,
+    unit: (row.unit as string) || '件',
   }
 }
 

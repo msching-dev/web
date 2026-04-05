@@ -1,15 +1,28 @@
+import Image from 'next/image'
 import Link from 'next/link'
-import { Camera } from 'lucide-react'
+import { Cookie } from 'lucide-react'
 
 export default function BrandStorySection() {
   return (
-    <section className="bg-sandrift-50/30">
+    <section className="relative bg-sandrift-50/30">
+      {/* Top gradient fade-in */}
+      <div className="absolute inset-x-0 top-0 h-16 bg-linear-to-b from-background to-transparent" />
+      {/* Bottom gradient fade-out */}
+      <div className="absolute inset-x-0 bottom-0 h-16 bg-linear-to-t from-background to-transparent" />
+
+      {/* Watermark decoration */}
+      <div className="pointer-events-none absolute right-8 top-1/2 -translate-y-1/2 h-72 w-72 opacity-[0.03] hidden md:block">
+        <Image src="/images/watermark_4.png" alt="" fill className="object-contain" />
+      </div>
+
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 md:py-14">
         <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Left — photo placeholder */}
-          <div className="aspect-[4/3] rounded-2xl bg-sandrift-100/50 flex flex-col items-center justify-center gap-3">
-            <Camera className="h-10 w-10 text-sandrift-300" />
-            <span className="text-sm text-sandrift-400">照片即將更新</span>
+          <div className="relative aspect-4/3 rounded-2xl bg-sandrift-100/50 flex flex-col items-center justify-center gap-3 overflow-hidden">
+            {/* Subtle glow */}
+            <div className="absolute inset-0 bg-linear-to-br from-sandrift-200/20 via-transparent to-sandrift-100/30" />
+            <Cookie className="relative h-12 w-12 text-sandrift-300" />
+            <span className="relative text-sm text-sandrift-400">Coming Soon</span>
           </div>
 
           {/* Right — copy */}

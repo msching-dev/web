@@ -33,6 +33,8 @@ export interface ProductInfo {
   categories: Category[]
   banner: ImageInfo
   hidden?: boolean
+  maxCount: number
+  unit: string
 }
 
 export interface ProductDetail {

@@ -1,9 +1,8 @@
 import HeroSection from '@/components/hero-section'
-import FeaturedProducts from '@/components/featured-products'
 import HomeContent from '@/components/home-content'
 import BrandStorySection from '@/components/brand-story-section'
-import OrderProcessSection from '@/components/order-process-section'
 import TestimonialsSection from '@/components/testimonials-section'
+import SocialLinksBar from '@/components/social-links-bar'
 import { getProducts } from '@/lib/supabase/queries'
 
 const organizationJsonLd = {
@@ -24,13 +23,12 @@ export default async function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
       />
       <HeroSection />
-      <FeaturedProducts products={products} />
       <section id="products">
         <HomeContent products={products} />
       </section>
       <BrandStorySection />
-      <OrderProcessSection />
       <TestimonialsSection />
+      <SocialLinksBar />
     </div>
   )
 }
