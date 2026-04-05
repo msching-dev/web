@@ -219,6 +219,7 @@
   html {
     @apply scroll-smooth font-sans;
     line-height: 1.6;
+    touch-action: manipulation;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }

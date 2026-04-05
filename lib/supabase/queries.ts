@@ -5,7 +5,7 @@ import type { ProductInfo, ProductDetail, Tag, ImageInfo } from '@/types'
 // DB row → ProductInfo (for list pages)
 function toProductInfo(row: Record<string, unknown>): ProductInfo {
   const images = (row.images as Array<{ url: string; alt: string; sort_order: number }>) || []
-  const firstImage = images.sort((a, b) => a.sort_order - b.sort_order)[0]
+  const firstImage = [...images].sort((a, b) => a.sort_order - b.sort_order)[0]
 
   const banner: ImageInfo = firstImage
     ? { src: firstImage.url, altText: firstImage.alt || (row.name as string), title: row.name as string }
@@ -30,7 +30,7 @@ function toProductInfo(row: Record<string, unknown>): ProductInfo {
     name: row.name as string,
     price: row.price as number,
     originalPrice: (row.compare_price as number) || undefined,
-    tag: (displayTag || 'new') as Tag,
+    tag: (displayTag || undefined) as Tag,
     alias: (row.alias as string) || '',
     categories,
     banner,

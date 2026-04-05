@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { X } from 'lucide-react'
@@ -12,17 +13,35 @@ interface MobileMenuProps {
 }
 
 export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
+  const closeRef = useRef<HTMLButtonElement>(null)
+
+  // Escape 鍵關閉 + 開啟時 focus 到關閉按鈕
+  useEffect(() => {
+    if (!isOpen) return
+    closeRef.current?.focus()
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [isOpen, onClose])
+
   return (
     <>
       {isOpen && (
         <div
           className="fixed inset-0 z-50 bg-sandrift-950/15 backdrop-blur-[3px] transition-opacity duration-300"
           onClick={onClose}
+          aria-hidden="true"
         />
       )}
 
       <div
-        className={`fixed left-0 top-0 z-50 flex h-full w-[280px] flex-col bg-white/95 backdrop-blur-2xl backdrop-saturate-150 shadow-[4px_0_24px_rgba(0,0,0,0.06)] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+        role="dialog"
+        aria-modal={isOpen}
+        aria-label="導覽選單"
+        className={`fixed left-0 top-0 z-60 flex h-full w-70 flex-col bg-white/95 backdrop-blur-2xl backdrop-saturate-150 shadow-[4px_0_24px_rgba(0,0,0,0.06)] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
@@ -32,6 +51,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             <Image src="/images/logo.svg" alt="MS. CHING" width={36} height={36} className="h-9 w-auto" />
           </Link>
           <button
+            ref={closeRef}
             type="button"
             onClick={onClose}
             className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-sandrift-400 transition-colors hover:text-sandrift-700"

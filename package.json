@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "db:types": "supabase gen types typescript --project-id zxtpxuowktwaqmwuxvly > lib/supabase/types.ts",
-    "db:studio": "open https://supabase.com/dashboard/project/zxtpxuowktwaqmwuxvly"
+    "db:types": "set -a && source .env.local && set +a && supabase gen types typescript --project-id $SUPABASE_PROJECT_ID > lib/supabase/types.ts",
+    "db:studio": "set -a && source .env.local && set +a && open https://supabase.com/dashboard/project/$SUPABASE_PROJECT_ID"
   },
   "dependencies": {
     "@base-ui/react": "^1.3.0",

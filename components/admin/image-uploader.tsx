@@ -214,7 +214,11 @@ export default function ImageUploader({ slug, images, onChange }: ImageUploaderP
       const idx = url.indexOf(marker)
       if (idx !== -1) {
         const storagePath = url.slice(idx + marker.length)
-        await supabase.storage.from(BUCKET).remove([storagePath])
+        const { error } = await supabase.storage.from(BUCKET).remove([storagePath])
+        if (error) {
+          console.error('Failed to delete image from storage:', error.message)
+          // 仍繼續移除表單中的圖片，避免 UI 卡住
+        }
       }
 
       const updated = images

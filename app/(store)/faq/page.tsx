@@ -17,6 +17,8 @@ import {
 
 export const metadata: Metadata = {
   title: '訂購Q&A',
+  description:
+    '蜜絲晴烘焙手作坊常見問題解答，包含訂購方式、出貨時間、付款方式、商品保存及退換貨說明，讓您購物更安心。',
 }
 
 const faqItems = [
@@ -68,8 +70,25 @@ const faqItems = [
 ]
 
 export default function FaqPage() {
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  }
+
   return (
     <div className="animate-page-enter">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       {/* Breadcrumb */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-3">
         <Breadcrumb>

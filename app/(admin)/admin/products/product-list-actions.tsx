@@ -20,28 +20,45 @@ export default function ProductListActions({
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [loadingToggle, setLoadingToggle] = useState(false)
   const [loadingDelete, setLoadingDelete] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   async function handleToggle() {
+    setError(null)
     setLoadingToggle(true)
     try {
-      await toggleProductActive(productId)
+      const result = await toggleProductActive(productId)
+      if (result?.error) setError(result.error)
+    } catch {
+      setError('操作失敗，請稍後再試')
     } finally {
       setLoadingToggle(false)
     }
   }
 
   async function handleDelete() {
+    setError(null)
     setLoadingDelete(true)
     try {
-      await deleteProduct(productId)
-      setDeleteOpen(false)
+      const result = await deleteProduct(productId)
+      if (result?.error) {
+        setError(result.error)
+      } else {
+        setDeleteOpen(false)
+      }
+    } catch {
+      setError('刪除失敗，請稍後再試')
     } finally {
       setLoadingDelete(false)
     }
   }
 
   return (
-    <>
+    <div className="relative">
+      {error && (
+        <div className="absolute right-0 top-full mt-1 z-10 rounded-lg bg-red-50 px-3 py-1.5 text-[11px] text-red-600 shadow-sm whitespace-nowrap">
+          {error}
+        </div>
+      )}
       <div className="flex items-center gap-1">
         <Link
           href={`/admin/products/${productId}/edit`}
@@ -82,6 +99,6 @@ export default function ProductListActions({
         confirmLabel="確認刪除"
         loading={loadingDelete}
       />
-    </>
+    </div>
   )
 }

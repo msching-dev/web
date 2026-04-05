@@ -87,27 +87,34 @@ export async function updateProduct(id: string, data: ProductFormData) {
 export async function toggleProductActive(id: string) {
   await requireAdmin()
 
-  const { data: product } = await supabaseAdmin
-    .from('products')
-    .select('is_active')
-    .eq('id', id)
-    .single()
+  // 原子操作：單一 SQL 翻轉 is_active，避免 TOCTOU race condition
+  const { data, error } = await supabaseAdmin.rpc('toggle_product_active', { product_id: id })
 
-  if (!product) {
-    return { error: '商品不存在' }
+  // Fallback：如果 RPC 不存在，用兩步方式（向下相容）
+  if (error?.code === '42883') {
+    const { data: product } = await supabaseAdmin
+      .from('products')
+      .select('is_active')
+      .eq('id', id)
+      .single()
+
+    if (!product) return { error: '商品不存在' }
+
+    const { error: updateError } = await supabaseAdmin
+      .from('products')
+      .update({ is_active: !product.is_active })
+      .eq('id', id)
+
+    if (updateError) return { error: '操作失敗：' + updateError.message }
+
+    revalidateProducts()
+    return { success: true, is_active: !product.is_active }
   }
 
-  const { error } = await supabaseAdmin
-    .from('products')
-    .update({ is_active: !product.is_active })
-    .eq('id', id)
-
-  if (error) {
-    return { error: '操作失敗：' + error.message }
-  }
+  if (error) return { error: '操作失敗：' + error.message }
 
   revalidateProducts()
-  return { success: true, is_active: !product.is_active }
+  return { success: true, is_active: data }
 }
 
 export async function deleteProduct(id: string) {

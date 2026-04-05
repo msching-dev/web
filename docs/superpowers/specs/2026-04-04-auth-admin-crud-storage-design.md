@@ -299,4 +299,4 @@ images: {
 
 - `zod` — 表單驗證（需安裝）
 - `@supabase/ssr` + `@supabase/supabase-js` — 已安裝
-- 拖曳排序 — 評估使用原生 HTML5 drag & drop 或輕量套件（如 `@dnd-kit/core`）
+- `@dnd-kit/core` + `@dnd-kit/sortable` + `@dnd-kit/utilities` — 圖片拖曳排序

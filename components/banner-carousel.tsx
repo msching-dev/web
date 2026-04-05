@@ -59,9 +59,10 @@ export default function BannerCarousel() {
   }
 
   return (
-    <div className="w-full lg:px-8">
+    <div className="w-full lg:px-8" role="region" aria-roledescription="carousel" aria-label="首頁橫幅">
       <div
         className="relative w-full overflow-hidden rounded-none lg:rounded-2xl"
+        aria-live="polite"
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
       >
@@ -70,10 +71,13 @@ export default function BannerCarousel() {
           style={{ transform: `translateX(-${current * 100}%)` }}
         >
           {slides.map((slide, i) => (
-            <div
+            <a
               key={slide.alt}
-              className="w-full flex-shrink-0 cursor-pointer"
-              onClick={() => handleClick(slide.link)}
+              href={slide.link}
+              className="block w-full shrink-0 cursor-pointer"
+              onClick={(e) => { e.preventDefault(); handleClick(slide.link) }}
+              aria-label={slide.alt}
+              tabIndex={i === current ? 0 : -1}
             >
               {/* Mobile */}
               <div className="block md:hidden">
@@ -84,6 +88,7 @@ export default function BannerCarousel() {
                   height={400}
                   className="h-auto w-full"
                   priority={i === 0}
+                  loading={i === 0 ? undefined : 'lazy'}
                 />
               </div>
               {/* Desktop */}
@@ -95,9 +100,10 @@ export default function BannerCarousel() {
                   height={600}
                   className="h-auto w-full"
                   priority={i === 0}
+                  loading={i === 0 ? undefined : 'lazy'}
                 />
               </div>
-            </div>
+            </a>
           ))}
         </div>
       </div>

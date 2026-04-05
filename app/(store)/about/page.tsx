@@ -12,6 +12,8 @@ import {
 
 export const metadata: Metadata = {
   title: '關於我們',
+  description:
+    '了解蜜絲晴烘焙手作坊的品牌故事、創辦理念與品牌特色。從軟體工程師轉行烘焙師的故事，用愛與熱情製作每一份手工甜點，傳遞幸福滋味。',
 }
 
 const sections = [

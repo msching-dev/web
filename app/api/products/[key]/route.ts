@@ -12,7 +12,11 @@ export async function GET(
     if (!data) {
       return NextResponse.json({ error: 'Product not found' }, { status: 404 })
     }
-    return NextResponse.json(data.detail)
+    return NextResponse.json(data.detail, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+      },
+    })
   } catch {
     return NextResponse.json({ error: 'Product not found' }, { status: 404 })
   }
