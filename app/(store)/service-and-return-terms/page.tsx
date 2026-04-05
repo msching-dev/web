@@ -1,13 +1,5 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
-import {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbSeparator,
-  BreadcrumbPage,
-} from '@/components/ui/breadcrumb'
+import PageHero from '@/components/layout/page-hero'
 
 export const metadata: Metadata = {
   title: '服務條款及退換貨流程',
@@ -49,33 +41,18 @@ const returnNotApplicable = [
 export default function ServiceAndReturnTermsPage() {
   return (
     <div className="animate-page-enter">
-      {/* Breadcrumb */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-3">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink render={<Link href="/" />}>首頁</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>服務條款及退換貨流程</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-      </div>
-
-      {/* Page title */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-5 text-center">
-        <h1 className="text-xl md:text-2xl font-bold tracking-tight text-sandrift-950">
-          服務條款及退換貨流程
-        </h1>
-        <p className="mt-2 text-[13px] text-sandrift-400">
-          保障您的消費權益，請詳閱以下說明
-        </p>
-      </div>
+      <PageHero
+        breadcrumbs={[
+          { label: '首頁', href: '/' },
+          { label: '服務條款及退換貨流程' },
+        ]}
+        title="服務條款及退換貨流程"
+        subtitle="保障您的消費權益，請詳閱以下說明"
+        watermark={2}
+      />
 
       {/* Content */}
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-10">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-12">
         <div className="grid gap-5 lg:grid-cols-2">
           {/* Service Terms */}
           <div className="rounded-2xl bg-white/70 p-5 ring-1 ring-sandrift-100/40 backdrop-blur-sm">

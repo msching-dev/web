@@ -2,17 +2,11 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { useAuth } from '@/hooks/use-auth'
-import {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbSeparator,
-  BreadcrumbPage,
-} from '@/components/ui/breadcrumb'
+import PageHero from '@/components/layout/page-hero'
 
 type Tab = 'login' | 'register'
 
@@ -29,7 +23,6 @@ export default function AccountPage() {
   const [error, setError] = useState<string | null>(null)
   const [message, setMessage] = useState<string | null>(null)
 
-  // 已登入 → 導回首頁
   useEffect(() => {
     if (!authLoading && user) {
       router.push('/')
@@ -98,7 +91,6 @@ export default function AccountPage() {
     setError(null)
 
     if (provider === 'line') {
-      // LINE 走自訂流程（Supabase Custom OIDC 不支援 HS256）
       window.location.href = '/api/auth/line'
       return
     }
@@ -114,7 +106,6 @@ export default function AccountPage() {
     }
   }
 
-  // 登入中或已登入，不渲染表單
   if (authLoading || user) {
     return (
       <div className="flex min-h-[50vh] items-center justify-center">
@@ -124,46 +115,35 @@ export default function AccountPage() {
   }
 
   const inputClass =
-    'w-full rounded-xl bg-white/60 backdrop-blur-sm h-10 px-4 text-[13px] text-sandrift-900 ring-1 ring-sandrift-200/30 placeholder:text-sandrift-300 focus:bg-white focus:ring-sandrift-300/50 focus:outline-none transition-all duration-200'
+    'w-full rounded-xl bg-white/60 backdrop-blur-sm h-11 px-4 text-sm text-sandrift-900 ring-1 ring-sandrift-200/40 placeholder:text-sandrift-300 focus:bg-white focus:ring-2 focus:ring-sandrift-400/30 focus:shadow-[0_0_0_4px_rgba(176,141,98,0.08)] focus:outline-none transition-all duration-200'
 
   return (
     <div className="animate-page-enter">
-      {/* Breadcrumb */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-3">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink render={<Link href="/" />}>首頁</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>會員帳戶</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-      </div>
+      <PageHero
+        breadcrumbs={[
+          { label: '首頁', href: '/' },
+          { label: '會員帳戶' },
+        ]}
+        title="歡迎回來"
+        subtitle="登入或註冊以開始購物"
+        watermark={4}
+      />
 
-      <div className="mx-auto max-w-sm px-4 sm:px-6 py-10 md:py-14">
+      <div className="mx-auto max-w-sm px-4 sm:px-6 pb-12">
         {/* Glass Card */}
-        <div className="glass rounded-3xl p-6 md:p-8 ring-1 ring-white/20">
-          {/* Header */}
-          <div className="mb-6 text-center">
-            <h1 className="text-xl font-bold tracking-tight text-sandrift-950">
-              歡迎回來
-            </h1>
-            <p className="mt-1 text-[13px] text-sandrift-400">
-              登入或註冊以開始購物
-            </p>
-          </div>
+        <div className="relative overflow-hidden glass rounded-3xl p-7 md:p-8 ring-1 ring-sandrift-100/20">
+          {/* 裝飾光暈 */}
+          <div className="pointer-events-none absolute -left-16 -top-16 h-32 w-32 rounded-full bg-sandrift-300/10 blur-3xl" />
+          <div className="pointer-events-none absolute -right-12 -bottom-12 h-28 w-28 rounded-full bg-sandrift-200/15 blur-2xl" />
 
           {/* Error / Message */}
           {error && (
-            <div className="mb-4 rounded-xl bg-red-50 px-4 py-2.5 text-[13px] text-red-600">
+            <div className="mb-5 rounded-xl bg-red-50 px-4 py-3 text-[13px] text-red-600 ring-1 ring-red-100/50">
               {error}
             </div>
           )}
           {message && (
-            <div className="mb-4 rounded-xl bg-green-50 px-4 py-2.5 text-[13px] text-green-600">
+            <div className="mb-5 rounded-xl bg-green-50 px-4 py-3 text-[13px] text-green-600 ring-1 ring-green-100/50">
               {message}
             </div>
           )}
@@ -173,7 +153,7 @@ export default function AccountPage() {
             <button
               type="button"
               onClick={() => { setActiveTab('login'); setError(null); setMessage(null) }}
-              className={`flex-1 cursor-pointer rounded-xl py-2 text-[13px] font-medium transition-all duration-300 ${
+              className={`flex-1 cursor-pointer rounded-xl py-2.5 text-[13px] font-medium transition-all duration-300 ${
                 activeTab === 'login'
                   ? 'bg-white/80 text-sandrift-900 shadow-[0_1px_3px_rgba(0,0,0,0.04)]'
                   : 'text-sandrift-400 hover:text-sandrift-700'
@@ -184,7 +164,7 @@ export default function AccountPage() {
             <button
               type="button"
               onClick={() => { setActiveTab('register'); setError(null); setMessage(null) }}
-              className={`flex-1 cursor-pointer rounded-xl py-2 text-[13px] font-medium transition-all duration-300 ${
+              className={`flex-1 cursor-pointer rounded-xl py-2.5 text-[13px] font-medium transition-all duration-300 ${
                 activeTab === 'register'
                   ? 'bg-white/80 text-sandrift-900 shadow-[0_1px_3px_rgba(0,0,0,0.04)]'
                   : 'text-sandrift-400 hover:text-sandrift-700'
@@ -196,9 +176,9 @@ export default function AccountPage() {
 
           {/* Login Form */}
           {activeTab === 'login' && (
-            <form onSubmit={handleLogin} className="space-y-3">
+            <form onSubmit={handleLogin} className="space-y-4">
               <div>
-                <label htmlFor="login-email" className="mb-1 block text-[13px] font-medium text-sandrift-600">
+                <label htmlFor="login-email" className="mb-1.5 block text-[13px] font-medium text-sandrift-600">
                   電子信箱
                 </label>
                 <input
@@ -212,7 +192,7 @@ export default function AccountPage() {
                 />
               </div>
               <div>
-                <label htmlFor="login-password" className="mb-1 block text-[13px] font-medium text-sandrift-600">
+                <label htmlFor="login-password" className="mb-1.5 block text-[13px] font-medium text-sandrift-600">
                   密碼
                 </label>
                 <input
@@ -228,7 +208,7 @@ export default function AccountPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full cursor-pointer rounded-xl bg-sandrift-500 py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-sandrift-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full cursor-pointer rounded-xl bg-sandrift-500 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-sandrift-600 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? '登入中...' : '登入'}
               </button>
@@ -237,9 +217,9 @@ export default function AccountPage() {
 
           {/* Register Form */}
           {activeTab === 'register' && (
-            <form onSubmit={handleRegister} className="space-y-3">
+            <form onSubmit={handleRegister} className="space-y-4">
               <div>
-                <label htmlFor="register-email" className="mb-1 block text-[13px] font-medium text-sandrift-600">
+                <label htmlFor="register-email" className="mb-1.5 block text-[13px] font-medium text-sandrift-600">
                   電子信箱
                 </label>
                 <input
@@ -253,7 +233,7 @@ export default function AccountPage() {
                 />
               </div>
               <div>
-                <label htmlFor="register-password" className="mb-1 block text-[13px] font-medium text-sandrift-600">
+                <label htmlFor="register-password" className="mb-1.5 block text-[13px] font-medium text-sandrift-600">
                   密碼
                 </label>
                 <input
@@ -268,7 +248,7 @@ export default function AccountPage() {
                 />
               </div>
               <div>
-                <label htmlFor="register-confirm-password" className="mb-1 block text-[13px] font-medium text-sandrift-600">
+                <label htmlFor="register-confirm-password" className="mb-1.5 block text-[13px] font-medium text-sandrift-600">
                   確認密碼
                 </label>
                 <input
@@ -284,7 +264,7 @@ export default function AccountPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full cursor-pointer rounded-xl bg-sandrift-500 py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-sandrift-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full cursor-pointer rounded-xl bg-sandrift-500 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-sandrift-600 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? '註冊中...' : '註冊'}
               </button>
@@ -292,7 +272,7 @@ export default function AccountPage() {
           )}
 
           {/* Social Login */}
-          <div className="mt-6">
+          <div className="mt-7">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-sandrift-100/50" />
@@ -304,11 +284,11 @@ export default function AccountPage() {
               </div>
             </div>
 
-            <div className="mt-4 flex flex-col gap-2.5">
+            <div className="mt-5 flex flex-col gap-3">
               <button
                 type="button"
                 onClick={() => handleOAuth('line')}
-                className="flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-xl bg-[#06C755] py-2.5 text-[13px] font-medium text-white transition-all hover:bg-[#05b64e] active:bg-[#04a346]"
+                className="flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-xl bg-[#06C755] py-3 text-sm font-medium text-white shadow-sm transition-all hover:bg-[#05b64e] active:scale-[0.98]"
               >
                 <svg className="h-5 w-5" viewBox="0 0 24 24" fill="white">
                   <path d="M24 10.304C24 4.916 18.615.535 12 .535S0 4.916 0 10.304c0 4.83 4.27 8.879 10.035 9.642.391.084.923.26 1.058.594.12.302.079.77.038 1.084l-.164 1.026c-.045.303-.24 1.192 1.049.649 1.291-.542 6.916-4.098 9.436-7.013C23.176 14.382 24 12.442 24 10.304M8.776 13.194H6.42a.532.532 0 01-.532-.532V8.106a.532.532 0 01.532-.532.532.532 0 01.532.532v4.024h1.824a.532.532 0 01.532.532.532.532 0 01-.532.532m1.63-.532a.532.532 0 01-.532.532.532.532 0 01-.532-.532V8.106a.532.532 0 01.532-.532.532.532 0 01.532.532v4.556zm4.674 0c0 .228-.148.43-.365.502a.523.523 0 01-.167.03.527.527 0 01-.43-.216l-2.064-2.81v2.494a.532.532 0 01-.532.532.532.532 0 01-.532-.532V8.106c0-.228.148-.43.365-.502a.521.521 0 01.167-.03c.17 0 .33.09.43.216l2.064 2.81V8.106a.532.532 0 01.532-.532.532.532 0 01.532.532v4.556zm3.695-3.092a.532.532 0 01.532.532.532.532 0 01-.532.532h-1.48v.952h1.48a.532.532 0 01.532.532.532.532 0 01-.532.532h-2.012a.532.532 0 01-.532-.532V8.106a.532.532 0 01.532-.532h2.012a.532.532 0 01.532.532.532.532 0 01-.532.532h-1.48v.932h1.48z" />
@@ -318,7 +298,7 @@ export default function AccountPage() {
               <button
                 type="button"
                 onClick={() => handleOAuth('google')}
-                className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-white/50 py-2.5 text-[13px] font-medium text-sandrift-700 ring-1 ring-sandrift-100/40 backdrop-blur-sm transition-all hover:bg-white/80"
+                className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-white/60 py-3 text-sm font-medium text-sandrift-700 ring-1 ring-sandrift-100/50 backdrop-blur-sm transition-all hover:bg-white/90 hover:ring-sandrift-200/50 active:scale-[0.98]"
               >
                 <svg className="h-4.5 w-4.5" viewBox="0 0 24 24">
                   <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />

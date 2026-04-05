@@ -2,14 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { CheckCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbSeparator,
-  BreadcrumbPage,
-} from '@/components/ui/breadcrumb'
+import PageHero from '@/components/layout/page-hero'
 
 export const metadata: Metadata = {
   title: '訂單確認',
@@ -24,20 +17,13 @@ export default async function OrderPage({
 
   return (
     <div className="animate-page-enter">
-      {/* Breadcrumb */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-3">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink render={<Link href="/" />}>首頁</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>訂單確認</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-      </div>
+      <PageHero
+        breadcrumbs={[
+          { label: '首頁', href: '/' },
+          { label: '訂單確認' },
+        ]}
+        title="訂單確認"
+      />
 
       <div className="mx-auto max-w-md px-4 sm:px-6 py-10 md:py-16">
         <div className="glass rounded-3xl p-6 md:p-8 text-center ring-1 ring-white/20">

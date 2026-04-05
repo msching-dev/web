@@ -1,14 +1,6 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import Link from 'next/link'
-import {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbSeparator,
-  BreadcrumbPage,
-} from '@/components/ui/breadcrumb'
+import PageHero from '@/components/layout/page-hero'
 
 export const metadata: Metadata = {
   title: '關於我們',
@@ -40,45 +32,37 @@ const sections = [
 export default function AboutPage() {
   return (
     <div className="animate-page-enter">
-      {/* Breadcrumb */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-3">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink render={<Link href="/" />}>首頁</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>關於我們</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-      </div>
+      <PageHero
+        breadcrumbs={[
+          { label: '首頁', href: '/' },
+          { label: '關於我們' },
+        ]}
+        title="關於我們"
+        watermark={2}
+      />
 
-      {/* Content */}
-      <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 py-6 md:py-10">
-        <h1 className="text-xl md:text-2xl font-bold tracking-tight text-sandrift-950 text-center mb-8">
-          關於我們
-        </h1>
-
-        <div className="space-y-6">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 pb-12">
+        <div className="grid gap-4 sm:grid-cols-3">
           {sections.map((section) => (
-            <div key={section.title} className="flex items-start gap-4">
-              <Image
-                src={section.icon}
-                alt={section.title}
-                width={40}
-                height={40}
-                className="mt-0.5 h-10 w-10 flex-shrink-0 opacity-35"
-              />
-              <div>
-                <h2 className="text-[15px] font-bold text-sandrift-900 mb-1.5">
-                  {section.title}
-                </h2>
-                <p className="text-[13px] leading-relaxed text-sandrift-500">
-                  {section.content}
-                </p>
+            <div
+              key={section.title}
+              className="group rounded-2xl bg-white/70 p-5 ring-1 ring-sandrift-100/40 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(176,141,98,0.08)]"
+            >
+              <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-sandrift-50/80">
+                <Image
+                  src={section.icon}
+                  alt={section.title}
+                  width={32}
+                  height={32}
+                  className="opacity-70"
+                />
               </div>
+              <h2 className="mb-2 text-[15px] font-bold text-sandrift-900">
+                {section.title}
+              </h2>
+              <p className="text-[13px] leading-relaxed text-sandrift-500">
+                {section.content}
+              </p>
             </div>
           ))}
         </div>

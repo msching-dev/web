@@ -1,13 +1,5 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
-import {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbSeparator,
-  BreadcrumbPage,
-} from '@/components/ui/breadcrumb'
+import PageHero from '@/components/layout/page-hero'
 
 export const metadata: Metadata = {
   title: '購買須知',
@@ -41,33 +33,18 @@ const shippingRules = [
 export default function TermsPage() {
   return (
     <div className="animate-page-enter">
-      {/* Breadcrumb */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-3">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink render={<Link href="/" />}>首頁</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>購買須知</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-      </div>
-
-      {/* Page title */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-5 text-center">
-        <h1 className="text-xl md:text-2xl font-bold tracking-tight text-sandrift-950">
-          購買須知
-        </h1>
-        <p className="mt-2 text-[13px] text-sandrift-400">
-          下單前請詳閱以下規則，感謝您的配合
-        </p>
-      </div>
+      <PageHero
+        breadcrumbs={[
+          { label: '首頁', href: '/' },
+          { label: '購買須知' },
+        ]}
+        title="購買須知"
+        subtitle="下單前請詳閱以下規則，感謝您的配合"
+        watermark={1}
+      />
 
       {/* Content */}
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-10">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-12">
         <div className="grid gap-5 lg:grid-cols-2">
           {/* Payment Rules */}
           <div className="rounded-2xl bg-white/70 p-5 ring-1 ring-sandrift-100/40 backdrop-blur-sm">

@@ -2,16 +2,8 @@
 
 import { useState, useMemo } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbSeparator,
-  BreadcrumbPage,
-} from '@/components/ui/breadcrumb'
+import PageHero from '@/components/layout/page-hero'
 import { formatTimestampToDateRange } from '@/hooks/use-helpers'
 import type { ActivityItem } from '@/types'
 
@@ -62,30 +54,15 @@ export default function ActivitiesPage() {
 
   return (
     <div className="animate-page-enter">
-      {/* Breadcrumb */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-3">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink render={<Link href="/" />}>首頁</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>最新消息</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-      </div>
-
-      {/* Page title */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-5 text-center">
-        <h1 className="text-xl md:text-2xl font-bold tracking-tight text-sandrift-950">
-          最新消息
-        </h1>
-        <p className="mt-2 text-[13px] text-sandrift-400">
-          掌握最新優惠與活動資訊
-        </p>
-      </div>
+      <PageHero
+        breadcrumbs={[
+          { label: '首頁', href: '/' },
+          { label: '最新消息' },
+        ]}
+        title="最新消息"
+        subtitle="掌握最新優惠與活動資訊"
+        watermark={1}
+      />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-10">
         {/* Tab filters */}

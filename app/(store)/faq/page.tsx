@@ -1,19 +1,11 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import {
   Accordion,
   AccordionItem,
   AccordionTrigger,
   AccordionContent,
 } from '@/components/ui/accordion'
-import {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbSeparator,
-  BreadcrumbPage,
-} from '@/components/ui/breadcrumb'
+import PageHero from '@/components/layout/page-hero'
 
 export const metadata: Metadata = {
   title: '訂購Q&A',
@@ -89,44 +81,33 @@ export default function FaqPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
-      {/* Breadcrumb */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-3">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink render={<Link href="/" />}>首頁</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>訂購Q&A</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-      </div>
 
-      {/* Page title */}
-      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-5 text-center">
-        <h1 className="text-xl md:text-2xl font-bold tracking-tight text-sandrift-950">
-          訂購Q&A
-        </h1>
-        <p className="mt-2 text-[13px] text-sandrift-400">
-          常見問題一次解答，讓您購物更安心
-        </p>
-      </div>
+      <PageHero
+        breadcrumbs={[
+          { label: '首頁', href: '/' },
+          { label: '訂購Q&A' },
+        ]}
+        title="訂購Q&A"
+        subtitle="常見問題一次解答，讓您購物更安心"
+        watermark={3}
+      />
 
-      {/* FAQ content */}
-      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 pb-10">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 pb-12">
         <Accordion>
           {faqItems.map((item, index) => (
             <AccordionItem key={index} value={index}>
-              <AccordionTrigger className="cursor-pointer text-left text-sandrift-800 text-[14px] py-3.5 px-3 -mx-3 rounded-xl transition-colors hover:no-underline hover:bg-sandrift-50/50">
-                <span className="font-semibold text-sandrift-400 mr-2 text-[13px]">Q{index + 1}.</span>
+              <AccordionTrigger className="group/faq cursor-pointer text-left text-sandrift-800 text-[14px] py-3.5 px-3 -mx-3 rounded-xl transition-all hover:no-underline hover:bg-sandrift-50/50 border-l-2 border-transparent hover:border-sandrift-400/40">
+                <span className="mr-2.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-sandrift-100/60 text-[11px] font-bold text-sandrift-500">
+                  {index + 1}
+                </span>
                 <span className="font-medium">{item.question}</span>
               </AccordionTrigger>
               <AccordionContent>
-                <p className="pl-10 pr-3 pb-1 text-[13px] text-sandrift-500 leading-relaxed">
-                  {item.answer}
-                </p>
+                <div className="ml-8.5 mr-3 mb-1 rounded-xl bg-sandrift-50/30 px-4 py-3">
+                  <p className="text-[13px] text-sandrift-500 leading-relaxed">
+                    {item.answer}
+                  </p>
+                </div>
               </AccordionContent>
             </AccordionItem>
           ))}

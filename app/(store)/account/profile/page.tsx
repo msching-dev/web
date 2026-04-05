@@ -1,19 +1,14 @@
 'use client'
 
-import { Suspense, useState, useEffect, useCallback, useTransition } from 'react'
+import { Suspense, useState, useEffect, useCallback, useTransition, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
+import { Check } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
-import { useAuth } from '@/hooks/use-auth'
-import { getCustomerProfile, updateProfile, setPassword, unlinkLine } from './actions'
-import {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbSeparator,
-  BreadcrumbPage,
-} from '@/components/ui/breadcrumb'
+import { useAuth, refreshAuthUser } from '@/hooks/use-auth'
+import { getCustomerProfile, updateProfile, setPassword, updateAvatar, unlinkLine } from './actions'
+import PageHero from '@/components/layout/page-hero'
 
 /** 純數字 → 0912-345-678 顯示格式 */
 function formatPhone(digits: string): string {
@@ -33,13 +28,35 @@ function isValidPhone(digits: string): boolean {
   return /^09\d{8}$/.test(digits)
 }
 
+const avatarOptions = [
+  { value: '/images/avatar/cake.png', label: '蛋糕' },
+  { value: '/images/avatar/cupcake.png', label: '杯子蛋糕' },
+  { value: '/images/avatar/donut.png', label: '甜甜圈' },
+  { value: '/images/avatar/toast.png', label: '吐司' },
+  { value: 'letter', label: '字母' },
+]
+
+/** 根據 email 穩定選一個預設 avatar */
+function getDefaultAvatar(email: string) {
+  let hash = 0
+  for (let i = 0; i < email.length; i++) {
+    hash = ((hash << 5) - hash + email.charCodeAt(i)) | 0
+  }
+  const images = avatarOptions.filter((o) => o.value !== 'letter')
+  return images[Math.abs(hash) % images.length].value
+}
+
 const inputClass =
   'w-full rounded-xl bg-white/60 backdrop-blur-sm h-10 px-4 text-[13px] text-sandrift-900 ring-1 ring-sandrift-200/30 placeholder:text-sandrift-300 focus:bg-white focus:ring-sandrift-300/50 focus:outline-none transition-all duration-200'
 
 const labelClass = 'mb-1 block text-[13px] font-medium text-sandrift-600'
 
 const btnClass =
-  'cursor-pointer rounded-xl px-4 py-2 text-[13px] font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
+  'cursor-pointer rounded-xl px-4 py-2 text-[13px] font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed'
+
+function BtnSpinner() {
+  return <span className="mr-1.5 inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-white/30 border-t-white align-middle" />
+}
 
 interface ProfileData {
   user: {
@@ -93,6 +110,23 @@ function ProfileContent() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [passwordSaving, setPasswordSaving] = useState(false)
 
+  // Avatar
+  const [showAvatarPicker, setShowAvatarPicker] = useState(false)
+  const [avatarSaving, setAvatarSaving] = useState(false)
+  const avatarSectionRef = useRef<HTMLDivElement>(null)
+
+  // 點擊外部關閉 avatar picker
+  useEffect(() => {
+    if (!showAvatarPicker) return
+    const handleClick = (e: MouseEvent) => {
+      if (avatarSectionRef.current && !avatarSectionRef.current.contains(e.target as Node)) {
+        setShowAvatarPicker(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [showAvatarPicker])
+
   // 未登入 → 導回登入頁
   useEffect(() => {
     if (!authLoading && !user) {
@@ -125,6 +159,13 @@ function ProfileContent() {
     }
   }, [lineLinked])
 
+  // 成功訊息自動消失
+  useEffect(() => {
+    if (!message) return
+    const timer = setTimeout(() => setMessage(null), 3000)
+    return () => clearTimeout(timer)
+  }, [message])
+
   const handlePhoneChange = (value: string) => {
     const digits = stripPhone(value)
     setPhone(formatPhone(digits))
@@ -154,6 +195,15 @@ function ProfileContent() {
     if (result.error) {
       setError(result.error)
     } else {
+      // Optimistic update — 頁面上的姓名即時反映
+      setProfile((prev) => prev ? {
+        ...prev,
+        customer: prev.customer
+          ? { ...prev.customer, name, phone: digits, default_address: address }
+          : { name, phone: digits, default_address: address },
+      } : prev)
+      // 同步 Zustand auth store → Header 姓名即時更新
+      await refreshAuthUser()
       setMessage('個人資料已更新')
     }
     setSaving(false)
@@ -183,6 +233,26 @@ function ProfileContent() {
       await loadProfile()
     }
     setPasswordSaving(false)
+  }
+
+  const handleAvatarChange = async (avatar: string) => {
+    // Optimistic update — 立即反映在 profile 頁面
+    setProfile((prev) => prev ? {
+      ...prev,
+      user: { ...prev.user, user_metadata: { ...prev.user.user_metadata, preferred_avatar: avatar } },
+    } : prev)
+    setAvatarSaving(true)
+
+    const result = await updateAvatar(avatar)
+    if (!result.error) {
+      // 同步 Zustand auth store → Header avatar 即時更新
+      await refreshAuthUser()
+      setShowAvatarPicker(false)
+    } else {
+      // 回退
+      await loadProfile()
+    }
+    setAvatarSaving(false)
   }
 
   const handleLinkGoogle = async () => {
@@ -216,8 +286,8 @@ function ProfileContent() {
     router.refresh()
   }
 
-  // 載入中
-  if (authLoading || loading || !profile) {
+  // 載入中 or 登出後等待跳轉
+  if (authLoading || !user || loading || !profile) {
     return (
       <div className="flex min-h-[50vh] items-center justify-center">
         <div className="h-8 w-8 animate-spin rounded-full border-2 border-sandrift-300 border-t-sandrift-600" />
@@ -229,39 +299,139 @@ function ProfileContent() {
   const hasGoogle = profile.user.identities.some((i) => i.provider === 'google')
   const hasLine = !!profile.user.user_metadata?.line_user_id
 
+  const currentAvatar = profile.user.user_metadata?.preferred_avatar || getDefaultAvatar(profile.user.email || '')
+  const isLetter = currentAvatar === 'letter'
+  const initial = (profile.user.email || '?')[0].toUpperCase()
+
   return (
     <div className="animate-page-enter">
-      {/* Breadcrumb */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-3">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink render={<Link href="/" />}>首頁</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>個人資訊</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-      </div>
+      <PageHero
+        breadcrumbs={[
+          { label: '首頁', href: '/' },
+          { label: '個人資訊' },
+        ]}
+        title="個人資訊"
+        watermark={4}
+      />
 
-      <div className="mx-auto max-w-lg px-4 sm:px-6 py-10 md:py-14 space-y-6">
+      <div className="mx-auto max-w-xl px-4 sm:px-6 py-8 md:py-12 space-y-5">
         {/* 訊息 */}
         {error && (
-          <div className="rounded-xl bg-red-50 px-4 py-2.5 text-[13px] text-red-600">
+          <div className="animate-fade-in rounded-xl bg-red-50 px-4 py-2.5 text-[13px] text-red-600">
             {error}
           </div>
         )}
         {(message || lineLinked) && (
-          <div className="rounded-xl bg-green-50 px-4 py-2.5 text-[13px] text-green-600">
+          <div className="animate-fade-in rounded-xl bg-green-50 px-4 py-2.5 text-[13px] text-green-600">
             {message || 'LINE 帳號綁定成功！'}
           </div>
         )}
 
+        {/* Avatar + 用戶概覽 */}
+        <section ref={avatarSectionRef} className="glass rounded-3xl p-6 md:p-8 ring-1 ring-white/20">
+          <div className="flex flex-col items-center">
+            {/* Avatar */}
+            <button
+              type="button"
+              onClick={() => setShowAvatarPicker(!showAvatarPicker)}
+              className="group relative cursor-pointer"
+              aria-label="變更頭像"
+            >
+              <div className="h-20 w-20 rounded-full bg-linear-to-br from-sandrift-200/80 via-sandrift-300/40 to-sandrift-200/60 p-0.5 shadow-[0_0_16px_rgba(176,141,98,0.15)] transition-all group-hover:shadow-[0_0_24px_rgba(176,141,98,0.22)] group-hover:from-sandrift-300/90">
+                <div className="relative h-full w-full overflow-hidden rounded-full bg-white">
+                  {isLetter ? (
+                    <span className="flex h-full w-full items-center justify-center bg-sandrift-50 text-2xl font-bold text-sandrift-500 transition-all duration-300">
+                      {initial}
+                    </span>
+                  ) : (
+                    <Image
+                      key={currentAvatar}
+                      src={currentAvatar}
+                      alt="Avatar"
+                      width={80}
+                      height={80}
+                      className="h-full w-full object-cover animate-fade-in"
+                    />
+                  )}
+                  {/* Apple-style gloss */}
+                  <span className="pointer-events-none absolute inset-0 rounded-full bg-linear-to-b from-white/30 via-transparent to-black/8" />
+                  {/* Saving spinner overlay */}
+                  {avatarSaving && (
+                    <span className="absolute inset-0 flex items-center justify-center rounded-full bg-white/60 backdrop-blur-[1px] animate-fade-in">
+                      <span className="h-5 w-5 animate-spin rounded-full border-2 border-sandrift-300 border-t-sandrift-600" />
+                    </span>
+                  )}
+                </div>
+              </div>
+              <span className="absolute -bottom-0.5 -right-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-white text-sandrift-400 ring-1 ring-sandrift-200/40 transition-colors group-hover:text-sandrift-600">
+                <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+                </svg>
+              </span>
+            </button>
+
+            <h2 className="mt-3 text-base font-bold text-sandrift-950">
+              {profile.customer?.name || '尚未設定姓名'}
+            </h2>
+            <p className="text-xs text-sandrift-400">{profile.user.email}</p>
+          </div>
+
+          {/* Avatar 選擇器 */}
+          <div
+            className={`mt-5 rounded-2xl bg-sandrift-50/50 overflow-hidden transition-all duration-300 ease-out ${
+              showAvatarPicker ? 'max-h-40 p-4 opacity-100' : 'max-h-0 p-0 opacity-0'
+            }`}
+          >
+              <p className="mb-3 text-center text-xs font-medium text-sandrift-500">選擇你的頭像</p>
+              <div className="flex items-center justify-center gap-3">
+                {avatarOptions.map((opt) => {
+                  const isActive = currentAvatar === opt.value ||
+                    (!profile.user.user_metadata?.preferred_avatar && opt.value === getDefaultAvatar(profile.user.email || ''))
+                  return (
+                    <button
+                      key={opt.value}
+                      type="button"
+                      onClick={() => handleAvatarChange(opt.value)}
+                      disabled={avatarSaving}
+                      className={`h-12 w-12 cursor-pointer rounded-full p-[1.5px] transition-all disabled:opacity-40 ${
+                        isActive
+                          ? 'bg-linear-to-br from-sandrift-400/80 via-sandrift-300/60 to-sandrift-400/70 shadow-[0_0_10px_rgba(176,141,98,0.2)]'
+                          : 'bg-linear-to-br from-sandrift-200/50 via-sandrift-100/30 to-sandrift-200/40 opacity-60 hover:opacity-100 hover:from-sandrift-300/60'
+                      }`}
+                      aria-label={opt.label}
+                    >
+                      <span className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full bg-white">
+                        {opt.value === 'letter' ? (
+                          <span className="flex h-full w-full items-center justify-center bg-sandrift-50 text-sm font-semibold text-sandrift-500">
+                            {initial}
+                          </span>
+                        ) : (
+                          <Image
+                            src={opt.value}
+                            alt={opt.label}
+                            width={48}
+                            height={48}
+                            className="h-full w-full object-cover"
+                          />
+                        )}
+                        {/* Apple-style gloss */}
+                        <span className="pointer-events-none absolute inset-0 rounded-full bg-linear-to-b from-white/25 via-transparent to-black/6" />
+                        {isActive && (
+                          <span className="absolute inset-0 flex items-center justify-center bg-sandrift-900/15">
+                            <Check className="h-4 w-4 text-white drop-shadow" />
+                          </span>
+                        )}
+                      </span>
+                    </button>
+                  )
+                })}
+              </div>
+          </div>
+        </section>
+
         {/* 基本資料 */}
         <section className="glass rounded-3xl p-6 md:p-8 ring-1 ring-white/20">
-          <h2 className="mb-5 text-lg font-bold text-sandrift-950">基本資料</h2>
+          <h2 className="mb-5 text-[15px] font-bold text-sandrift-950">基本資料</h2>
 
           <div className="space-y-3">
             <div>
@@ -324,14 +494,14 @@ function ProfileContent() {
               disabled={saving}
               className={`${btnClass} w-full bg-sandrift-500 text-white hover:bg-sandrift-600`}
             >
-              {saving ? '儲存中...' : '儲存資料'}
+              {saving ? <><BtnSpinner />儲存中...</> : '儲存資料'}
             </button>
           </div>
         </section>
 
         {/* 密碼設定 */}
         <section className="glass rounded-3xl p-6 md:p-8 ring-1 ring-white/20">
-          <h2 className="mb-1 text-lg font-bold text-sandrift-950">
+          <h2 className="mb-1 text-[15px] font-bold text-sandrift-950">
             {hasPassword ? '變更密碼' : '設定密碼'}
           </h2>
           <p className="mb-5 text-[13px] text-sandrift-400">
@@ -372,14 +542,14 @@ function ProfileContent() {
               disabled={passwordSaving || !newPassword}
               className={`${btnClass} w-full bg-sandrift-500 text-white hover:bg-sandrift-600`}
             >
-              {passwordSaving ? '設定中...' : hasPassword ? '變更密碼' : '設定密碼'}
+              {passwordSaving ? <><BtnSpinner />設定中...</> : hasPassword ? '變更密碼' : '設定密碼'}
             </button>
           </div>
         </section>
 
         {/* 綁定帳號 */}
         <section className="glass rounded-3xl p-6 md:p-8 ring-1 ring-white/20">
-          <h2 className="mb-1 text-lg font-bold text-sandrift-950">綁定帳號</h2>
+          <h2 className="mb-1 text-[15px] font-bold text-sandrift-950">綁定帳號</h2>
           <p className="mb-5 text-[13px] text-sandrift-400">
             綁定後可用多種方式登入同一帳號
           </p>
