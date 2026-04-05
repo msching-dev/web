@@ -26,6 +26,7 @@ function toProductInfo(row: Record<string, unknown>): ProductInfo {
   const displayTag = tags.find(t => t !== 'hot') || (tags.includes('hot') ? 'hot' : '')
 
   return {
+    id: row.id as string,
     key: row.slug as string,
     name: row.name as string,
     price: row.price as number,

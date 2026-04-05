@@ -25,8 +25,10 @@ import {
   CollapsibleContent,
 } from '@/components/ui/collapsible'
 import HighlightedText from '@/components/highlighted-text'
+import { useRouter } from 'next/navigation'
 import { useSwipe } from '@/hooks/use-swipe'
 import { useOrderTemplate } from '@/hooks/use-order-template'
+import { useCartStore } from '@/stores/cart-store'
 import { socialMediaLinks } from '@/lib/constants'
 import type { ProductInfo, ProductDetail } from '@/types'
 
@@ -54,6 +56,13 @@ export default function ProductDetailContent({
   const [copied, setCopied] = useState(false)
 
   const { generateTemplate, copyToClipboard } = useOrderTemplate()
+  const router = useRouter()
+  const addItem = useCartStore((s) => s.addItem)
+  const items = useCartStore((s) => s.items)
+
+  const existingCartQty = items.find(
+    (item) => item.productId === product.id
+  )?.quantity ?? 0
 
   const imageCount = detail.images.length
 
@@ -73,6 +82,18 @@ export default function ProductDetailContent({
   })
 
   const handleAddToCart = () => {
+    addItem(
+      {
+        productId: product.id,
+        slug: product.key,
+        name: product.name,
+        price: product.price,
+        image: product.banner.src,
+        maxCount: detail.maxCount,
+        unit: detail.unit,
+      },
+      quantity
+    )
     setToastVisible(true)
     setTimeout(() => setToastVisible(false), 3000)
   }
@@ -222,11 +243,19 @@ export default function ProductDetailContent({
             <button
               type="button"
               onClick={handleAddToCart}
-              className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-sandrift-500 py-3.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-sandrift-600 active:scale-[0.98]"
+              disabled={existingCartQty >= detail.maxCount}
+              className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-sandrift-500 py-3.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-sandrift-600 active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-sandrift-200 disabled:text-sandrift-400"
             >
               <ShoppingBag className="h-4 w-4" />
-              加入購物車
+              {existingCartQty >= detail.maxCount ? '已達訂購上限' : '加入購物車'}
             </button>
+
+            {/* Cart quantity hint */}
+            {existingCartQty > 0 && (
+              <p className="mt-2 text-center text-xs text-sandrift-400">
+                購物車已有 {existingCartQty} {detail.unit || '件'}
+              </p>
+            )}
 
             {/* Secondary Links */}
             <div className="mt-3 flex items-center justify-center gap-4 text-xs text-sandrift-500">
@@ -337,8 +366,15 @@ export default function ProductDetailContent({
       {/* Toast notification */}
       {toastVisible && (
         <div className="fixed bottom-20 left-1/2 z-50 -translate-x-1/2 animate-pop">
-          <div className="rounded-xl bg-sandrift-900 px-5 py-3 text-sm text-white shadow-lg">
-            購物車功能即將推出，請透過 LINE 下單
+          <div className="flex items-center gap-3 rounded-xl bg-sandrift-900 px-5 py-3 text-sm text-white shadow-lg">
+            <span>已加入購物車 — {product.name}</span>
+            <button
+              type="button"
+              onClick={() => router.push('/cart')}
+              className="cursor-pointer whitespace-nowrap text-sandrift-300 underline underline-offset-2 transition-colors hover:text-white"
+            >
+              查看購物車
+            </button>
           </div>
         </div>
       )}

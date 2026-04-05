@@ -4,8 +4,9 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Menu, ShoppingBag, User, LogOut, Settings } from 'lucide-react'
+import { Menu, User, LogOut, Settings } from 'lucide-react'
 import { menuItems } from '@/lib/menus'
+import CartBadge from '@/components/cart/cart-badge'
 import { useAuth } from '@/hooks/use-auth'
 import { createClient } from '@/lib/supabase/client'
 
@@ -164,9 +165,7 @@ export default function Header({ onMobileMenuToggle }: HeaderProps) {
         </Link>
 
         <div className="flex items-center">
-          <Link href="/cart" className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-sandrift-500 transition-colors hover:text-sandrift-800" aria-label="購物車">
-            <ShoppingBag className="h-4.5 w-4.5" strokeWidth={1.5} />
-          </Link>
+          <CartBadge />
           <UserButton {...userButtonProps} />
         </div>
       </div>
@@ -190,9 +189,7 @@ export default function Header({ onMobileMenuToggle }: HeaderProps) {
         </nav>
 
         <div className="flex items-center gap-1">
-          <Link href="/cart" className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-sandrift-500 transition-colors hover:text-sandrift-800" aria-label="購物車">
-            <ShoppingBag className="h-4.5 w-4.5" strokeWidth={1.5} />
-          </Link>
+          <CartBadge />
           <UserButton {...userButtonProps} />
         </div>
       </div>

@@ -14,6 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      cart_items: {
+        Row: {
+          created_at: string
+          customer_id: string
+          id: string
+          product_id: string
+          quantity: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          customer_id: string
+          id?: string
+          product_id: string
+          quantity?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          customer_id?: string
+          id?: string
+          product_id?: string
+          quantity?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cart_items_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cart_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       categories: {
         Row: {
           created_at: string | null
@@ -51,6 +93,7 @@ export type Database = {
             | null
           email: string
           id: string
+          line_user_id: string | null
           name: string
           note: string | null
           phone: string
@@ -65,6 +108,7 @@ export type Database = {
             | null
           email: string
           id?: string
+          line_user_id?: string | null
           name: string
           note?: string | null
           phone: string
@@ -79,6 +123,7 @@ export type Database = {
             | null
           email?: string
           id?: string
+          line_user_id?: string | null
           name?: string
           note?: string | null
           phone?: string
@@ -335,7 +380,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      toggle_product_active: { Args: { product_id: string }; Returns: boolean }
     }
     Enums: {
       order_status:

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useCartSync } from '@/hooks/use-cart-sync'
 import Header from '@/components/layout/header'
 import Footer from '@/components/layout/footer'
 import BackToTopButton from '@/components/layout/back-to-top-button'
@@ -11,6 +12,7 @@ export default function ClientLayout({
 }: {
   children: React.ReactNode
 }) {
+  useCartSync()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev)

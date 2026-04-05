@@ -23,6 +23,7 @@ export enum Category {
 }
 
 export interface ProductInfo {
+  id: string
   key: string
   name: string
   price: number
