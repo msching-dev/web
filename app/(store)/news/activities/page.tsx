@@ -94,6 +94,7 @@ export default function ActivitiesPage() {
                     src={activity.image}
                     alt={activity.title}
                     fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute bottom-2.5 left-2.5">

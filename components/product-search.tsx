@@ -15,13 +15,13 @@ export default function ProductSearch({
 }: ProductSearchProps) {
   return (
     <div className="relative w-full sm:max-w-[240px]">
-      <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-sandrift-400" strokeWidth={1.5} />
+      <Search className="pointer-events-none absolute left-3 top-1/2 z-10 h-4 w-4 -translate-y-1/2 text-sandrift-600" strokeWidth={1.5} />
       <input
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder="搜尋商品..."
-        className="h-9 w-full cursor-text rounded-xl bg-white/70 pl-9 pr-9 text-[13px] text-sandrift-900 ring-1 ring-sandrift-200/40 backdrop-blur-sm placeholder:text-sandrift-300 transition-all duration-200 focus:bg-white focus:ring-sandrift-300/60 focus:outline-none"
+        className="h-9 w-full cursor-text rounded-xl bg-white/80 pl-9 pr-9 text-[13px] text-sandrift-900 ring-1 ring-sandrift-200/50 backdrop-blur-sm placeholder:text-sandrift-400 transition-all duration-200 focus:bg-white focus:ring-sandrift-300/60 focus:outline-none"
       />
       {value && (
         <button

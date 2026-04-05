@@ -33,16 +33,16 @@ export default function TestimonialsSection() {
   return (
     <section className="relative bg-sandrift-50/30">
       {/* Top gradient fade-in */}
-      <div className="absolute inset-x-0 top-0 h-16 bg-linear-to-b from-background to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-10 bg-linear-to-b from-background to-transparent" />
       {/* Bottom gradient fade-out */}
-      <div className="absolute inset-x-0 bottom-0 h-16 bg-linear-to-t from-background to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-10 bg-linear-to-t from-background to-transparent" />
 
       {/* Watermark */}
       <div className="pointer-events-none absolute -left-10 top-1/2 -translate-y-1/2 h-56 w-56 opacity-[0.03] hidden md:block">
-        <Image src="/images/watermark_3.png" alt="" fill className="object-contain" />
+        <Image src="/images/watermark_3.png" alt="" fill sizes="224px" className="object-contain" />
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 md:py-14">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <h2 className="text-xl md:text-2xl font-bold text-sandrift-950 text-center mb-6 md:mb-8">
           顧客好評
         </h2>

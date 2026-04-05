@@ -24,12 +24,12 @@ const channels = [
 
 export default function SocialLinksBar() {
   return (
-    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 md:py-10">
       <h2 className="text-xl md:text-2xl font-bold text-sandrift-950 text-center mb-2">
-        更多購買管道
+        在這裡找到我們
       </h2>
       <p className="text-sm text-sandrift-400 text-center mb-6 md:mb-8">
-        選擇你習慣的方式，輕鬆下單
+        你喜歡的平台，我們都在
       </p>
 
       <div className="grid grid-cols-3 gap-3 md:gap-5">
@@ -47,6 +47,7 @@ export default function SocialLinksBar() {
                 src={channel.banner}
                 alt={channel.name}
                 fill
+                sizes="(max-width: 640px) 33vw, 33vw"
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
               {/* Gradient overlay — bottom fade for text readability */}

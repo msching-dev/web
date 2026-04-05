@@ -91,10 +91,10 @@ export default function AccountPage() {
 
       {/* 浮水印 */}
       <div className="pointer-events-none absolute right-[8%] top-[10%] h-52 w-52 opacity-[0.025] md:h-72 md:w-72">
-        <Image src="/images/watermark_4.png" alt="" fill className="object-contain" />
+        <Image src="/images/watermark_4.png" alt="" fill sizes="288px" className="object-contain" />
       </div>
       <div className="pointer-events-none absolute bottom-[8%] left-[5%] h-40 w-40 rotate-12 opacity-[0.02] md:h-56 md:w-56">
-        <Image src="/images/watermark_2.png" alt="" fill className="object-contain" />
+        <Image src="/images/watermark_2.png" alt="" fill sizes="224px" className="object-contain" />
       </div>
 
       {/* ── 主卡片 — 漸變邊框 ── */}

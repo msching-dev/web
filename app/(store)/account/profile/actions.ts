@@ -1,7 +1,6 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import { supabaseAdmin } from '@/lib/supabase/admin'
 
 /**
  * 取得當前用戶的 customer 資料
@@ -11,7 +10,7 @@ export async function getCustomerProfile() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { error: '未登入' }
 
-  const { data: customer } = await supabaseAdmin
+  const { data: customer } = await supabase
     .from('customers')
     .select('*')
     .eq('auth_id', user.id)
@@ -45,7 +44,7 @@ export async function updateProfile(formData: {
     return { error: '手機號碼格式不正確（09 開頭，共 10 碼）' }
   }
 
-  const { error } = await supabaseAdmin
+  const { error } = await supabase
     .from('customers')
     .update({
       name: formData.name,
@@ -56,6 +55,14 @@ export async function updateProfile(formData: {
     .eq('auth_id', user.id)
 
   if (error) return { error: '更新失敗，請稍後再試' }
+
+  // 同步姓名到 user_metadata，讓 Header 等 client 元件即時取得
+  if (formData.name !== (user.user_metadata?.full_name ?? '')) {
+    await supabase.auth.updateUser({
+      data: { ...user.user_metadata, full_name: formData.name },
+    })
+  }
+
   return { success: true }
 }
 
@@ -71,11 +78,27 @@ export async function setPassword(newPassword: string) {
     return { error: '密碼至少需要 6 個字元' }
   }
 
-  const { error } = await supabaseAdmin.auth.admin.updateUserById(user.id, {
+  const { error } = await supabase.auth.updateUser({
     password: newPassword,
   })
 
   if (error) return { error: '設定密碼失敗，請稍後再試' }
+  return { success: true }
+}
+
+/**
+ * 更新 avatar 偏好（存在 user_metadata）
+ */
+export async function updateAvatar(avatar: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: '未登入' }
+
+  const { error } = await supabase.auth.updateUser({
+    data: { ...user.user_metadata, preferred_avatar: avatar },
+  })
+
+  if (error) return { error: '更新失敗' }
   return { success: true }
 }
 
@@ -95,14 +118,14 @@ export async function unlinkLine() {
     delete metadata.avatar_url
   }
 
-  const { error } = await supabaseAdmin.auth.admin.updateUserById(user.id, {
-    user_metadata: metadata,
+  const { error } = await supabase.auth.updateUser({
+    data: metadata,
   })
 
   if (error) return { error: '解除綁定失敗' }
 
   // 同步清除 customers 表的 line_user_id
-  await supabaseAdmin
+  await supabase
     .from('customers')
     .update({ line_user_id: null })
     .eq('auth_id', user.id)

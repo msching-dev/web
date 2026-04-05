@@ -48,7 +48,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3">
           <Link href="/" onClick={onClose} className="cursor-pointer">
-            <Image src="/images/logo.svg" alt="MS. CHING" width={36} height={36} className="h-9 w-auto" />
+            <Image src="/images/logo.svg" alt="MS. CHING" width={36} height={36} className="h-9" style={{ width: 'auto' }} />
           </Link>
           <button
             ref={closeRef}

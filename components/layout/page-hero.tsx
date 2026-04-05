@@ -21,6 +21,7 @@ export default function PageHero({
             src={`/images/watermark_${watermark}.png`}
             alt=""
             fill
+            sizes="224px"
             className="object-contain"
           />
         </div>

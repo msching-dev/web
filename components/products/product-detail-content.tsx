@@ -111,7 +111,7 @@ export default function ProductDetailContent({
   return (
     <div className="animate-page-enter">
       {/* Breadcrumb */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-3">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-5">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -139,6 +139,7 @@ export default function ProductDetailContent({
                 src={detail.images[selectedImage] || detail.productImage}
                 alt={product.name}
                 fill
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover transition-opacity duration-300"
                 priority
               />
@@ -187,6 +188,7 @@ export default function ProductDetailContent({
                       src={img}
                       alt={`${product.name} ${idx + 1}`}
                       fill
+                      sizes="64px"
                       className="object-cover"
                     />
                   </button>

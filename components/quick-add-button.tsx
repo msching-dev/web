@@ -50,13 +50,13 @@ export default function QuickAddButton({ product }: QuickAddButtonProps) {
     <button
       type="button"
       onClick={handleClick}
-      className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-sandrift-500 text-white shadow-md transition-all duration-200 hover:bg-sandrift-600 hover:scale-110 active:scale-95"
+      className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-white/90 text-sandrift-500 ring-1 ring-sandrift-200/60 backdrop-blur-sm shadow-sm transition-all duration-300 hover:bg-sandrift-500 hover:text-white hover:ring-sandrift-500/30 hover:shadow-md hover:scale-105 active:scale-95"
       aria-label={isMaxed ? '已達上限' : `加入 ${product.name} 到購物車`}
     >
       {added ? (
-        <Check className="h-3.5 w-3.5" />
+        <Check className="h-4 w-4" />
       ) : (
-        <ShoppingBag className="h-3.5 w-3.5" />
+        <ShoppingBag className="h-4 w-4" />
       )}
     </button>
   )

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import ProductCard from '@/components/product-card'
 import ProductSearch from '@/components/product-search'
@@ -26,6 +26,30 @@ export default function HomeContent({ products }: HomeContentProps) {
   const categoryParam = searchParams.get('category') || 'all'
 
   const [searchQuery, setSearchQuery] = useState('')
+  const tabsRef = useRef<HTMLDivElement>(null)
+  const [indicator, setIndicator] = useState({ left: 0, width: 0 })
+
+  const updateIndicator = useCallback(() => {
+    const container = tabsRef.current
+    if (!container) return
+    const activeBtn = container.querySelector<HTMLButtonElement>('[data-active="true"]')
+    if (!activeBtn) return
+    setIndicator({
+      left: activeBtn.offsetLeft,
+      width: activeBtn.offsetWidth,
+    })
+  }, [])
+
+  useEffect(() => {
+    updateIndicator()
+  }, [categoryParam, updateIndicator])
+
+  // Recalculate on font load / resize
+  useEffect(() => {
+    window.addEventListener('resize', updateIndicator)
+    document.fonts?.ready.then(updateIndicator)
+    return () => window.removeEventListener('resize', updateIndicator)
+  }, [updateIndicator])
 
   const filteredProducts = useMemo(() => {
     let result: ProductInfo[]
@@ -56,14 +80,14 @@ export default function HomeContent({ products }: HomeContentProps) {
 
   const handleCategoryChange = (value: string) => {
     if (value === 'all') {
-      router.push('/')
+      router.push('/', { scroll: false })
     } else {
-      router.push(`/?category=${value}`)
+      router.push(`/?category=${value}`, { scroll: false })
     }
   }
 
   return (
-    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 md:py-10">
       {/* Section heading */}
       <div className="mb-6 text-center">
         <h2 className="text-xl md:text-2xl font-bold tracking-tight text-sandrift-950">
@@ -73,22 +97,45 @@ export default function HomeContent({ products }: HomeContentProps) {
 
       {/* Liquid Glass Tabs + Search */}
       <div className="mb-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
-        <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0 md:overflow-visible scrollbar-none">
-        <div className="glass-subtle inline-flex items-center rounded-2xl p-1 ring-1 ring-white/30 flex-nowrap min-w-max">
-          {categoryTabs.map((tab) => (
-            <button
-              key={tab.value}
-              type="button"
-              onClick={() => handleCategoryChange(tab.value)}
-              className={`relative cursor-pointer whitespace-nowrap rounded-xl px-3.5 py-1.5 text-[13px] font-medium transition-all duration-300 ease-out ${
-                categoryParam === tab.value
-                  ? 'bg-white/80 text-sandrift-900 shadow-[0_1px_3px_rgba(0,0,0,0.04)]'
-                  : 'text-sandrift-400 hover:text-sandrift-700'
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
+        <div className="w-full overflow-x-auto scrollbar-none">
+        <div ref={tabsRef} className="glass-subtle relative inline-flex items-center gap-0.5 rounded-2xl p-1 ring-1 ring-white/40 flex-nowrap min-w-max">
+          {categoryTabs.map((tab) => {
+            const isActive = categoryParam === tab.value
+            return (
+              <button
+                key={tab.value}
+                type="button"
+                data-active={isActive}
+                onClick={() => handleCategoryChange(tab.value)}
+                className={`relative cursor-pointer whitespace-nowrap rounded-xl px-4 py-2 text-[13px] font-medium transition-colors duration-300 ${
+                  isActive
+                    ? 'text-sandrift-900'
+                    : 'text-sandrift-400 hover:text-sandrift-700'
+                }`}
+              >
+                {tab.label}
+              </button>
+            )
+          })}
+          {/* Sliding glow indicator — 細光束：頭尾漸隱 + 柔光暈 */}
+          <span
+            className="pointer-events-none absolute -bottom-0.5 transition-all duration-400 ease-[cubic-bezier(0.4,0,0.15,1)]"
+            style={{
+              left: indicator.left + 10,
+              width: Math.max(indicator.width - 20, 0),
+              height: 6,
+            }}
+          >
+            {/* 光暈層 */}
+            <span
+              className="absolute inset-x-[10%] top-1/2 -translate-y-1/2 h-1.5 rounded-full opacity-35 blur-xs"
+              style={{ background: 'linear-gradient(90deg, transparent, var(--color-sandrift-300), transparent)' }}
+            />
+            {/* 實體線：中間 2px 粗，頭尾收尖到 0 */}
+            <svg viewBox="0 0 200 4" preserveAspectRatio="none" className="absolute inset-0 h-full w-full">
+              <ellipse cx="100" cy="2" rx="85" ry="0.5" fill="var(--color-sandrift-400)" opacity="0.65" />
+            </svg>
+          </span>
         </div>
         </div>
 
