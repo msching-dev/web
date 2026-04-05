@@ -13,8 +13,6 @@ export default function CartPageContent() {
   const isHydrated = useCartStore((s) => s.isHydrated)
   const updateQuantity = useCartStore((s) => s.updateQuantity)
   const removeItem = useCartStore((s) => s.removeItem)
-  const getItemCount = useCartStore((s) => s.getItemCount)
-  const getSubtotal = useCartStore((s) => s.getSubtotal)
 
   // Hydration 中：顯示骨架屏避免閃爍
   if (!isHydrated) {
@@ -43,7 +41,7 @@ export default function CartPageContent() {
         <h1 className="text-lg font-bold text-sandrift-950">
           購物車
           <span className="ml-1.5 text-base font-normal text-sandrift-400">
-            ({getItemCount()})
+            ({activeItems.reduce((sum, item) => sum + item.quantity, 0)})
           </span>
         </h1>
         <Link
@@ -77,8 +75,8 @@ export default function CartPageContent() {
       {/* Summary */}
       <div className="mt-6">
         <CartSummary
-          subtotal={getSubtotal()}
-          itemCount={getItemCount()}
+          subtotal={activeItems.reduce((sum, item) => sum + item.price * item.quantity, 0)}
+          itemCount={activeItems.reduce((sum, item) => sum + item.quantity, 0)}
         />
       </div>
 

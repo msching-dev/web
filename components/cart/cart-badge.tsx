@@ -5,10 +5,9 @@ import { ShoppingBag } from 'lucide-react'
 import { useCartStore } from '@/stores/cart-store'
 
 export default function CartBadge() {
-  const isHydrated = useCartStore((s) => s.isHydrated)
-  const getItemCount = useCartStore((s) => s.getItemCount)
-
-  const count = isHydrated ? getItemCount() : 0
+  const count = useCartStore((s) =>
+    s.isHydrated ? s.items.reduce((sum, item) => sum + item.quantity, 0) : 0
+  )
 
   return (
     <Link

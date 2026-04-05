@@ -63,6 +63,7 @@ export default function ProductDetailContent({
   const existingCartQty = items.find(
     (item) => item.productId === product.id
   )?.quantity ?? 0
+  const remainingQty = Math.max(0, detail.maxCount - existingCartQty)
 
   const imageCount = detail.images.length
 
@@ -230,8 +231,8 @@ export default function ProductDetailContent({
                 </span>
                 <button
                   type="button"
-                  onClick={() => setQuantity(q => Math.min(detail.maxCount || 99, q + 1))}
-                  disabled={quantity >= (detail.maxCount || 99)}
+                  onClick={() => setQuantity(q => Math.min(remainingQty || 99, q + 1))}
+                  disabled={quantity >= (remainingQty || 99)}
                   className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-r-xl text-sandrift-600 transition-colors hover:bg-sandrift-50 disabled:cursor-not-allowed disabled:text-sandrift-200"
                 >
                   <Plus className="h-4 w-4" />

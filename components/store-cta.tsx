@@ -9,13 +9,13 @@ const HIDE_ON = ['/cart', '/account', '/coming-soon', '/admin']
 
 export default function StoreCta() {
   const pathname = usePathname()
-  const getItemCount = useCartStore((s) => s.getItemCount)
-  const isHydrated = useCartStore((s) => s.isHydrated)
+  const cartCount = useCartStore((s) =>
+    s.isHydrated ? s.items.reduce((sum, item) => sum + item.quantity, 0) : 0
+  )
 
   if (HIDE_ON.some((p) => pathname.startsWith(p))) return null
 
   const isProductPage = pathname.startsWith('/products/')
-  const cartCount = isHydrated ? getItemCount() : 0
 
   // 產品頁：購物車有商品時顯示「查看購物車(N)」，沒有時隱藏 CTA（主按鈕已在���面上）
   if (isProductPage) {

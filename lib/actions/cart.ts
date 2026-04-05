@@ -51,7 +51,7 @@ export async function getCartItems(): Promise<CartItem[]> {
   return data
     .filter((row) => row.products !== null)
     .map((row) => {
-      const p = row.products as Record<string, unknown>
+      const p = row.products as unknown as Record<string, unknown>
       const images = (p.images as Array<{ url: string; sort_order: number }>) || []
       const firstImage = [...images].sort((a, b) => a.sort_order - b.sort_order)[0]
 
