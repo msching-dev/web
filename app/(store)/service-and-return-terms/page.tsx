@@ -42,10 +42,6 @@ export default function ServiceAndReturnTermsPage() {
   return (
     <div className="animate-page-enter">
       <PageHero
-        breadcrumbs={[
-          { label: '首頁', href: '/' },
-          { label: '服務條款及退換貨流程' },
-        ]}
         title="服務條款及退換貨流程"
         subtitle="保障您的消費權益，請詳閱以下說明"
         watermark={2}

@@ -55,10 +55,6 @@ export default function ActivitiesPage() {
   return (
     <div className="animate-page-enter">
       <PageHero
-        breadcrumbs={[
-          { label: '首頁', href: '/' },
-          { label: '最新消息' },
-        ]}
         title="最新消息"
         subtitle="掌握最新優惠與活動資訊"
         watermark={1}

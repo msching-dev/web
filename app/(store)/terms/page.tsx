@@ -34,10 +34,6 @@ export default function TermsPage() {
   return (
     <div className="animate-page-enter">
       <PageHero
-        breadcrumbs={[
-          { label: '首頁', href: '/' },
-          { label: '購買須知' },
-        ]}
         title="購買須知"
         subtitle="下單前請詳閱以下規則，感謝您的配合"
         watermark={1}

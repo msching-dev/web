@@ -33,10 +33,6 @@ export default function AboutPage() {
   return (
     <div className="animate-page-enter">
       <PageHero
-        breadcrumbs={[
-          { label: '首頁', href: '/' },
-          { label: '關於我們' },
-        ]}
         title="關於我們"
         watermark={2}
       />

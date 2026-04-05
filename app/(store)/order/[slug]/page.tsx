@@ -18,10 +18,6 @@ export default async function OrderPage({
   return (
     <div className="animate-page-enter">
       <PageHero
-        breadcrumbs={[
-          { label: '首頁', href: '/' },
-          { label: '訂單確認' },
-        ]}
         title="訂單確認"
       />
 

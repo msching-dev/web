@@ -2,7 +2,6 @@
 
 import { Suspense, useState, useEffect, useCallback, useTransition, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import Link from 'next/link'
 import Image from 'next/image'
 import { Check } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
@@ -306,15 +305,11 @@ function ProfileContent() {
   return (
     <div className="animate-page-enter">
       <PageHero
-        breadcrumbs={[
-          { label: '首頁', href: '/' },
-          { label: '個人資訊' },
-        ]}
         title="個人資訊"
         watermark={4}
       />
 
-      <div className="mx-auto max-w-xl px-4 sm:px-6 py-8 md:py-12 space-y-5">
+      <div className="mx-auto max-w-xl px-4 sm:px-6 pb-12 space-y-5">
         {/* 訊息 */}
         {error && (
           <div className="animate-fade-in rounded-xl bg-red-50 px-4 py-2.5 text-[13px] text-red-600">

@@ -83,10 +83,6 @@ export default function FaqPage() {
       />
 
       <PageHero
-        breadcrumbs={[
-          { label: '首頁', href: '/' },
-          { label: '訂購Q&A' },
-        ]}
         title="訂購Q&A"
         subtitle="常見問題一次解答，讓您購物更安心"
         watermark={3}

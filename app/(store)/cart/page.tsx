@@ -10,10 +10,6 @@ export default function CartPage() {
   return (
     <div className="animate-page-enter">
       <PageHero
-        breadcrumbs={[
-          { label: '首頁', href: '/' },
-          { label: '購物車' },
-        ]}
         title="購物車"
       />
       <CartPageContent />
