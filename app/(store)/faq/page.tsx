@@ -88,19 +88,23 @@ export default function FaqPage() {
         watermark={3}
       />
 
-      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 pb-12">
-        <Accordion>
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 pb-16">
+        <Accordion className="space-y-2.5">
           {faqItems.map((item, index) => (
-            <AccordionItem key={index} value={index}>
-              <AccordionTrigger className="group/faq cursor-pointer text-left text-sandrift-800 text-[14px] py-3.5 px-3 -mx-3 rounded-xl transition-all hover:no-underline hover:bg-sandrift-50/50 border-l-2 border-transparent hover:border-sandrift-400/40">
-                <span className="mr-2.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-sandrift-100/60 text-[11px] font-bold text-sandrift-500">
+            <AccordionItem
+              key={index}
+              value={index}
+              className="group/item rounded-2xl bg-white/40 backdrop-blur-xl border border-white/60 shadow-[0_1px_4px_0_rgb(176_141_98/0.06),inset_0_1px_0_0_rgb(255_255_255/0.5)] transition-all duration-300 hover:bg-white/55 hover:shadow-[0_6px_20px_0_rgb(176_141_98/0.1),inset_0_1px_0_0_rgb(255_255_255/0.7)] hover:-translate-y-0.5 data-open:bg-white/65 data-open:shadow-[0_8px_24px_0_rgb(176_141_98/0.12),inset_0_1px_0_0_rgb(255_255_255/0.8)] data-open:border-white/80"
+            >
+              <AccordionTrigger className="cursor-pointer text-left text-sandrift-800 text-[14px] py-4 px-5 rounded-2xl transition-all duration-300 hover:no-underline">
+                <span className="mr-3 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-sandrift-100/70 text-[11px] font-bold text-sandrift-500 transition-all duration-300 group-data-open/item:bg-sandrift-400 group-data-open/item:text-white group-data-open/item:shadow-[0_2px_8px_0_rgb(176_141_98/0.3)]">
                   {index + 1}
                 </span>
-                <span className="font-medium">{item.question}</span>
+                <span className="font-medium transition-colors duration-300 group-data-open/item:text-sandrift-900">{item.question}</span>
               </AccordionTrigger>
               <AccordionContent>
-                <div className="ml-8.5 mr-3 mb-1 rounded-xl bg-sandrift-50/30 px-4 py-3">
-                  <p className="text-[13px] text-sandrift-500 leading-relaxed">
+                <div className="mx-5 mb-4 ml-15 rounded-xl bg-sandrift-50/30 backdrop-blur-sm px-4 py-3 border border-sandrift-100/40">
+                  <p className="text-[13px] text-sandrift-600 leading-relaxed">
                     {item.answer}
                   </p>
                 </div>

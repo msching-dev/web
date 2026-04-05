@@ -141,6 +141,30 @@
   animation: page-enter 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* ── Timeline 滾動進場 ── */
+.timeline-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.timeline-item.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.timeline-item .timeline-glow {
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.4s ease 0.2s, transform 0.4s ease 0.2s;
+}
+
+.timeline-item.is-visible .timeline-glow {
+  opacity: 1;
+  transform: scale(1);
+}
+
 /* ── Liquid Glass 材質系統 ── */
 .glass {
   isolation: isolate;
