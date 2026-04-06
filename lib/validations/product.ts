@@ -18,7 +18,7 @@ export const productImageSchema = z.object({
 
 export const productSchema = z.object({
   name: z.string().min(1, '商品名稱不可為空'),
-  slug: z.string().min(1, 'Slug 不可為空').regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Slug 格式錯誤（小寫英數 + 連字號）'),
+  slug: z.string().min(1, 'Slug 不可為空').regex(/^[a-zA-Z0-9]+(?:[_-][a-zA-Z0-9]+)*$/, 'Slug 格式錯誤（英數 + 連字號或底線）'),
   alias: z.string().optional().default(''),
   price: z.number().positive('售價必須大於 0'),
   compare_price: z.number().positive().nullable().optional(),
@@ -52,6 +52,8 @@ export const productSchema = z.object({
   }).default({ perServing: [], perHundred: [], giftBox: [] }),
   images: z.array(productImageSchema).max(8, '最多 8 張圖片').default([]),
   sort_order: z.number().int().nullable().optional(),
+  available_from: z.string().nullable().optional(),
+  available_until: z.string().nullable().optional(),
 })
 
 export type ProductFormData = z.infer<typeof productSchema>
@@ -92,4 +94,6 @@ export const defaultProductFormData: ProductFormData = {
   },
   images: [],
   sort_order: null,
+  available_from: null,
+  available_until: null,
 }
