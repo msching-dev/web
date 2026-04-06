@@ -1,22 +1,57 @@
+import { Suspense } from 'react'
 import { ClipboardList } from 'lucide-react'
+import { getOrders } from '@/lib/supabase/queries'
+import AdminPageHeader from '@/components/admin/admin-page-header'
+import AdminEmpty from '@/components/admin/admin-empty'
+import AdminPagination from '@/components/admin/admin-pagination'
+import AdminTabs from '@/components/admin/admin-tabs'
+import AdminSearch from '@/components/admin/admin-search'
+import OrderList from './order-list'
 
-export default function AdminOrdersPage() {
+const orderTabs = [
+  { key: '', label: '全部' },
+  { key: 'pending_payment', label: '待付款' },
+  { key: 'paid', label: '已付款' },
+  { key: 'preparing', label: '製作中' },
+  { key: 'shipped', label: '已寄出' },
+  { key: 'completed', label: '已完成' },
+  { key: 'cancelled', label: '已取消' },
+]
+
+interface Props {
+  searchParams: Promise<{ status?: string; q?: string; page?: string }>
+}
+
+export default async function AdminOrdersPage({ searchParams }: Props) {
+  const params = await searchParams
+  const { orders, total } = await getOrders({
+    status: params.status || undefined,
+    search: params.q || undefined,
+    page: Number(params.page ?? '1'),
+  })
+
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-gray-900">訂單管理</h1>
-      <p className="mt-1 text-sm text-gray-500">
-        接上 Supabase + 金流後啟用
-      </p>
+    <div className="animate-page-enter">
+      <AdminPageHeader title="訂單管理" subtitle={`共 ${total} 筆訂單`} />
 
-      <div className="mt-12 flex flex-col items-center justify-center rounded-xl border border-gray-200 bg-white px-6 py-20">
-        <ClipboardList className="h-16 w-16 text-gray-300" />
-        <p className="mt-4 text-lg font-medium text-gray-500">
-          尚未有訂單資料
-        </p>
-        <p className="mt-1 text-sm text-gray-400">
-          串接 Supabase 資料庫與金流服務後，訂單將顯示於此頁面
-        </p>
+      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <Suspense>
+          <AdminTabs tabs={orderTabs} />
+        </Suspense>
+        <Suspense>
+          <AdminSearch placeholder="搜尋訂單編號或顧客名..." />
+        </Suspense>
       </div>
+
+      {orders.length === 0 ? (
+        <AdminEmpty icon={ClipboardList} title="沒有符合的訂單" />
+      ) : (
+        <OrderList orders={orders} />
+      )}
+
+      <Suspense>
+        <AdminPagination total={total} />
+      </Suspense>
     </div>
   )
 }
