@@ -35,7 +35,7 @@ export default function AdminHeader() {
 
           {/* Sidebar panel */}
           <div className="fixed inset-y-0 left-0 z-50 w-60 animate-in slide-in-from-left duration-200">
-            <AdminSidebar />
+            <AdminSidebar showToggle={false} />
             <button
               type="button"
               onClick={() => setOpen(false)}
