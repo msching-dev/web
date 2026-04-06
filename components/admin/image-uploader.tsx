@@ -62,7 +62,7 @@ function SortableImage({ item, index, onDelete }: SortableImageProps) {
     <div
       ref={setNodeRef}
       style={style}
-      className="group relative aspect-square overflow-hidden rounded-lg border border-gray-200 bg-gray-50"
+      className="group relative aspect-square overflow-hidden rounded-xl bg-white/60 ring-1 ring-sandrift-100/40"
     >
       <Image
         src={item.url}
@@ -242,7 +242,7 @@ export default function ImageUploader({ slug, images, onChange }: ImageUploaderP
     <div className="space-y-3">
       {/* Error message */}
       {error && (
-        <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">
+        <div className="rounded-xl ring-1 ring-red-100/50 bg-red-50 px-3 py-2 text-sm text-red-600">
           {error}
         </div>
       )}
@@ -261,7 +261,7 @@ export default function ImageUploader({ slug, images, onChange }: ImageUploaderP
                 onDrop={handleDrop}
                 onDragOver={(e) => e.preventDefault()}
                 onClick={() => !uploading && inputRef.current?.click()}
-                className="flex aspect-square cursor-pointer flex-col items-center justify-center gap-1.5 rounded-lg border border-dashed border-gray-300 bg-gray-50 text-gray-400 transition-colors hover:border-sandrift-300 hover:bg-sandrift-50 hover:text-sandrift-500"
+                className="flex aspect-square cursor-pointer flex-col items-center justify-center gap-1.5 rounded-xl border border-dashed border-sandrift-200/50 bg-white/40 text-sandrift-400 transition-all duration-200 hover:border-sandrift-300/50 hover:bg-sandrift-50 hover:text-sandrift-500"
               >
                 {uploading ? (
                   <span className="text-xs">上傳中…</span>
@@ -269,7 +269,7 @@ export default function ImageUploader({ slug, images, onChange }: ImageUploaderP
                   <>
                     <ImagePlus className="h-6 w-6" />
                     <span className="text-xs font-medium">新增圖片</span>
-                    <span className="text-[10px] text-gray-400">
+                    <span className="text-[10px] text-sandrift-300">
                       {images.length}/{MAX_IMAGES}
                     </span>
                   </>
@@ -290,7 +290,7 @@ export default function ImageUploader({ slug, images, onChange }: ImageUploaderP
         onChange={(e) => handleFiles(e.target.files)}
       />
 
-      <p className="text-xs text-gray-400">
+      <p className="text-xs text-sandrift-400">
         支援 JPG / PNG / WebP，單檔最大 2MB，最多 {MAX_IMAGES} 張。拖曳縮圖可重新排序。
       </p>
     </div>

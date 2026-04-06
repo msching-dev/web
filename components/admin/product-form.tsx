@@ -25,7 +25,7 @@ const AVAILABLE_TAGS = [
 ]
 
 const detailFields: FieldConfig[] = [
-  { key: 'desc', label: '商品介紹', multiline: true, placeholder: '支援 ## ## 標記和 :: :: 標記' },
+  { key: 'desc', label: '商品介紹', multiline: true, placeholder: '支援 **粗體**、==高亮==、- 列表' },
   { key: 'nonAdditive', label: '無添加聲明', multiline: true },
   { key: 'howToEat', label: '食用方式', multiline: true },
   { key: 'preservationMethod', label: '保存方式', multiline: true },
@@ -44,9 +44,9 @@ function slugify(str: string): string {
 }
 
 const inputClass =
-  'w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-sandrift-300 focus:outline-none'
+  'w-full rounded-xl bg-white/60 h-10 px-3 text-sm text-sandrift-900 ring-1 ring-sandrift-200/30 placeholder:text-sandrift-300 focus:bg-white focus:ring-sandrift-300/50 focus:outline-none transition-all duration-200'
 
-const sectionClass = 'rounded-xl border border-gray-200 bg-white p-6'
+const sectionClass = 'rounded-2xl bg-white/60 ring-1 ring-sandrift-100/40 p-6'
 
 export default function ProductForm({
   initialData,
@@ -59,6 +59,10 @@ export default function ProductForm({
   const [submitting, setSubmitting] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({})
+  const [showAvailability, setShowAvailability] = useState(
+    !!(initialData?.available_from || initialData?.available_until)
+  )
+  const [descOpen, setDescOpen] = useState(!initialData)
 
   function update<K extends keyof ProductFormData>(key: K, value: ProductFormData[K]) {
     setForm((prev) => ({ ...prev, [key]: value }))
@@ -113,11 +117,11 @@ export default function ProductForm({
 
       {/* Basic Info */}
       <div className={sectionClass}>
-        <h2 className="mb-4 text-sm font-semibold text-gray-900">基本資訊</h2>
+        <h2 className="mb-4 text-sm font-bold text-sandrift-950">基本資訊</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {/* Name */}
           <div className="sm:col-span-2">
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">
+            <label className="mb-1.5 block text-sm font-medium text-sandrift-700">
               商品名稱 <span className="text-red-500">*</span>
             </label>
             <input
@@ -136,27 +140,27 @@ export default function ProductForm({
 
           {/* Slug */}
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">
-              Slug <span className="text-red-500">*</span>
+            <label className="mb-1.5 block text-sm font-medium text-sandrift-700">
+              網址代碼 <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
               value={form.slug}
               onChange={(e) => update('slug', e.target.value)}
-              placeholder="例：earl-grey-financier"
+              placeholder="例：almondCookie"
               className={inputClass}
               required
             />
             {fieldErrors.slug ? (
               <p className="mt-1 text-xs text-red-500">{fieldErrors.slug[0]}</p>
             ) : (
-              <p className="mt-1 text-xs text-gray-400">小寫英數 + 連字號，商品名稱離焦後自動產生</p>
+              <p className="mt-1 text-xs text-sandrift-400">用於網址識別，例如 msching.com/products/almondCookie</p>
             )}
           </div>
 
           {/* Alias */}
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">別名（alias）</label>
+            <label className="mb-1.5 block text-sm font-medium text-sandrift-700">別名（alias）</label>
             <input
               type="text"
               value={form.alias ?? ''}
@@ -168,7 +172,7 @@ export default function ProductForm({
 
           {/* Category */}
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">分類</label>
+            <label className="mb-1.5 block text-sm font-medium text-sandrift-700">分類</label>
             <select
               value={form.category_id ?? ''}
               onChange={(e) => update('category_id', e.target.value || null)}
@@ -185,7 +189,7 @@ export default function ProductForm({
 
           {/* Price */}
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">
+            <label className="mb-1.5 block text-sm font-medium text-sandrift-700">
               售價 <span className="text-red-500">*</span>
             </label>
             <input
@@ -204,7 +208,7 @@ export default function ProductForm({
 
           {/* Compare Price */}
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">原價（劃線價）</label>
+            <label className="mb-1.5 block text-sm font-medium text-sandrift-700">原價（劃線價）</label>
             <input
               type="number"
               min={1}
@@ -220,7 +224,7 @@ export default function ProductForm({
 
           {/* Tags */}
           <div className="sm:col-span-2">
-            <label className="mb-2 block text-sm font-medium text-gray-700">標籤</label>
+            <label className="mb-2 block text-sm font-medium text-sandrift-700">標籤</label>
             <div className="flex flex-wrap gap-2">
               {AVAILABLE_TAGS.map(({ value, label }) => {
                 const active = (form.tags ?? []).includes(value)
@@ -232,7 +236,7 @@ export default function ProductForm({
                     className={`cursor-pointer rounded-full px-3 py-1 text-xs font-medium transition-colors ${
                       active
                         ? 'bg-sandrift-500 text-white'
-                        : 'border border-gray-200 bg-white text-gray-600 hover:border-sandrift-300 hover:text-sandrift-600'
+                        : 'ring-1 ring-sandrift-200/30 bg-white/60 text-sandrift-600 hover:ring-sandrift-300/50 hover:text-sandrift-700'
                     }`}
                   >
                     {label}
@@ -249,29 +253,72 @@ export default function ProductForm({
                 type="checkbox"
                 checked={form.is_active}
                 onChange={(e) => update('is_active', e.target.checked)}
-                className="h-4 w-4 rounded border-gray-300 accent-sandrift-500"
+                className="h-4 w-4 rounded accent-sandrift-500"
               />
-              <span className="text-sm font-medium text-gray-700">上架顯示</span>
+              <span className="text-sm font-medium text-sandrift-700">上架顯示</span>
             </label>
             <label className="flex cursor-pointer items-center gap-2">
               <input
                 type="checkbox"
                 checked={form.is_featured}
                 onChange={(e) => update('is_featured', e.target.checked)}
-                className="h-4 w-4 rounded border-gray-300 accent-sandrift-500"
+                className="h-4 w-4 rounded accent-sandrift-500"
               />
-              <span className="text-sm font-medium text-gray-700">精選商品</span>
+              <span className="text-sm font-medium text-sandrift-700">精選商品</span>
             </label>
+          </div>
+
+          {/* 檔期設定 */}
+          <div className="sm:col-span-2 space-y-3">
+            <label className="flex cursor-pointer items-center gap-2">
+              <input
+                type="checkbox"
+                checked={showAvailability}
+                onChange={(e) => {
+                  if (!e.target.checked) {
+                    setShowAvailability(false)
+                    update('available_from', null)
+                    update('available_until', null)
+                  } else {
+                    setShowAvailability(true)
+                  }
+                }}
+                className="h-4 w-4 rounded accent-sandrift-500"
+              />
+              <span className="text-sm font-medium text-sandrift-700">設定限定檔期</span>
+            </label>
+            {showAvailability && (
+              <div className="grid grid-cols-2 gap-3 animate-fade-in">
+                <div>
+                  <label className="mb-1 block text-xs text-sandrift-500">開始日期</label>
+                  <input
+                    type="date"
+                    value={form.available_from ?? ''}
+                    onChange={(e) => update('available_from', e.target.value || null)}
+                    className={inputClass}
+                  />
+                </div>
+                <div>
+                  <label className="mb-1 block text-xs text-sandrift-500">結束日期</label>
+                  <input
+                    type="date"
+                    value={form.available_until ?? ''}
+                    onChange={(e) => update('available_until', e.target.value || null)}
+                    className={inputClass}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
       {/* Inventory */}
       <div className={sectionClass}>
-        <h2 className="mb-4 text-sm font-semibold text-gray-900">庫存與規格</h2>
+        <h2 className="mb-4 text-sm font-bold text-sandrift-950">庫存與規格</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">庫存數量</label>
+            <label className="mb-1.5 block text-sm font-medium text-sandrift-700">庫存數量</label>
             <input
               type="number"
               min={0}
@@ -282,7 +329,7 @@ export default function ProductForm({
             />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">最大訂購數量</label>
+            <label className="mb-1.5 block text-sm font-medium text-sandrift-700">最大訂購數量</label>
             <input
               type="number"
               min={1}
@@ -293,7 +340,7 @@ export default function ProductForm({
             />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">最小訂購數量</label>
+            <label className="mb-1.5 block text-sm font-medium text-sandrift-700">最小訂購數量</label>
             <input
               type="number"
               min={1}
@@ -304,7 +351,7 @@ export default function ProductForm({
             />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">份量（portion_size）</label>
+            <label className="mb-1.5 block text-sm font-medium text-sandrift-700">份量（portion_size）</label>
             <input
               type="number"
               min={0}
@@ -316,7 +363,7 @@ export default function ProductForm({
             />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">內容物規格（include_size）</label>
+            <label className="mb-1.5 block text-sm font-medium text-sandrift-700">內容物規格（include_size）</label>
             <input
               type="text"
               value={form.include_size ?? ''}
@@ -326,7 +373,7 @@ export default function ProductForm({
             />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">單位（unit）</label>
+            <label className="mb-1.5 block text-sm font-medium text-sandrift-700">單位（unit）</label>
             <input
               type="text"
               value={form.unit ?? ''}
@@ -336,7 +383,7 @@ export default function ProductForm({
             />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">保存期限</label>
+            <label className="mb-1.5 block text-sm font-medium text-sandrift-700">保存期限</label>
             <input
               type="text"
               value={form.shelf_life ?? ''}
@@ -346,7 +393,7 @@ export default function ProductForm({
             />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">保存方式</label>
+            <label className="mb-1.5 block text-sm font-medium text-sandrift-700">保存方式</label>
             <input
               type="text"
               value={form.storage_instructions ?? ''}
@@ -356,7 +403,7 @@ export default function ProductForm({
             />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">過敏原</label>
+            <label className="mb-1.5 block text-sm font-medium text-sandrift-700">過敏原</label>
             <input
               type="text"
               value={form.allergens ?? ''}
@@ -368,28 +415,41 @@ export default function ProductForm({
         </div>
       </div>
 
-      {/* Description */}
+      {/* Description — 可收合 */}
       <div className={sectionClass}>
-        <h2 className="mb-4 text-sm font-semibold text-gray-900">商品描述</h2>
-        <DynamicFieldEditor
-          fields={detailFields}
-          values={form.detail as Record<string, string>}
-          onChange={(values) =>
-            update('detail', {
-              desc: values.desc ?? '',
-              nonAdditive: values.nonAdditive ?? '',
-              howToEat: values.howToEat ?? '',
-              preservationMethod: values.preservationMethod ?? '',
-              precautions: values.precautions ?? '',
-              tastePeriod: values.tastePeriod ?? '',
-            })
-          }
-        />
+        <button
+          type="button"
+          onClick={() => setDescOpen(!descOpen)}
+          className="flex w-full cursor-pointer items-center justify-between"
+        >
+          <h2 className="text-sm font-bold text-sandrift-950">商品描述</h2>
+          <span className={`text-sandrift-400 transition-transform duration-200 ${descOpen ? 'rotate-180' : ''}`}>
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </span>
+        </button>
+        {descOpen && (
+          <div className="mt-4 animate-fade-in">
+            <DynamicFieldEditor
+              fields={detailFields}
+              values={form.detail as Record<string, string>}
+              onChange={(values) =>
+                update('detail', {
+                  desc: values.desc ?? '',
+                  nonAdditive: values.nonAdditive ?? '',
+                  howToEat: values.howToEat ?? '',
+                  preservationMethod: values.preservationMethod ?? '',
+                  precautions: values.precautions ?? '',
+                  tastePeriod: values.tastePeriod ?? '',
+                })
+              }
+            />
+          </div>
+        )}
       </div>
 
       {/* Specifications */}
       <div className={sectionClass}>
-        <h2 className="mb-4 text-sm font-semibold text-gray-900">規格表</h2>
+        <h2 className="mb-4 text-sm font-bold text-sandrift-950">規格表</h2>
         <KeyValueListEditor
           items={form.specifications ?? []}
           onChange={(items) => update('specifications', items)}
@@ -402,7 +462,7 @@ export default function ProductForm({
 
       {/* Nutrition */}
       <div className={sectionClass}>
-        <h2 className="mb-4 text-sm font-semibold text-gray-900">營養成分</h2>
+        <h2 className="mb-4 text-sm font-bold text-sandrift-950">營養成分</h2>
         <NutrientEditor
           value={form.nutrition}
           onChange={(value) => update('nutrition', value)}
@@ -411,7 +471,7 @@ export default function ProductForm({
 
       {/* Images */}
       <div className={sectionClass}>
-        <h2 className="mb-4 text-sm font-semibold text-gray-900">商品圖片</h2>
+        <h2 className="mb-4 text-sm font-bold text-sandrift-950">商品圖片</h2>
         <ImageUploader
           slug={form.slug}
           images={form.images ?? []}
@@ -421,9 +481,9 @@ export default function ProductForm({
 
       {/* Sort Order */}
       <div className={sectionClass}>
-        <h2 className="mb-4 text-sm font-semibold text-gray-900">排序</h2>
+        <h2 className="mb-4 text-sm font-bold text-sandrift-950">排序</h2>
         <div className="max-w-xs">
-          <label className="mb-1.5 block text-sm font-medium text-gray-700">排序值（數字越小越前面）</label>
+          <label className="mb-1.5 block text-sm font-medium text-sandrift-700">排序值（數字越小越前面）</label>
           <input
             type="number"
             value={form.sort_order ?? ''}
@@ -436,7 +496,7 @@ export default function ProductForm({
 
       {/* Form Error */}
       {formError && (
-        <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+        <div className="rounded-xl ring-1 ring-red-100/50 bg-red-50 px-4 py-3 text-sm text-red-700">
           {formError}
         </div>
       )}
@@ -446,14 +506,14 @@ export default function ProductForm({
         <button
           type="button"
           onClick={() => router.push('/admin/products')}
-          className="cursor-pointer rounded-lg border border-gray-200 bg-white px-5 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+          className="cursor-pointer rounded-xl bg-white/60 px-5 py-2.5 text-sm font-medium text-sandrift-700 ring-1 ring-sandrift-200/30 transition-all duration-200 hover:bg-sandrift-50 disabled:opacity-50"
         >
           取消
         </button>
         <button
           type="submit"
           disabled={submitting}
-          className="cursor-pointer rounded-lg bg-sandrift-500 px-5 py-2 text-sm font-medium text-white hover:bg-sandrift-600 transition-colors disabled:opacity-60"
+          className="cursor-pointer rounded-xl bg-sandrift-500 px-5 py-2.5 text-sm font-medium text-white transition-all duration-200 hover:bg-sandrift-600 disabled:opacity-50"
         >
           {submitting ? '儲存中...' : submitLabel}
         </button>

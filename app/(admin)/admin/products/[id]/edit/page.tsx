@@ -75,17 +75,17 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
   }
 
   return (
-    <div>
-      <div className="mb-6 flex items-center gap-3">
+    <div className="animate-page-enter">
+      <div className="mb-6 flex items-center gap-2 text-sm">
         <Link
           href="/admin/products"
-          className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700 transition-colors"
+          className="flex items-center gap-1 text-sandrift-400 hover:text-sandrift-600 transition-colors"
         >
           <ChevronLeft className="h-4 w-4" />
           商品管理
         </Link>
-        <span className="text-gray-300">/</span>
-        <h1 className="text-lg font-semibold text-gray-900">編輯商品：{product.name}</h1>
+        <span className="text-sandrift-200">/</span>
+        <h1 className="text-xl font-bold text-sandrift-950">編輯商品：{product.name}</h1>
       </div>
 
       <ProductForm

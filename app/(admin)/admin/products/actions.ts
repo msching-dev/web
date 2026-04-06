@@ -154,3 +154,31 @@ export async function deleteProduct(id: string) {
   revalidateProducts()
   return { success: true }
 }
+
+export async function reorderProducts(orderedIds: string[]) {
+  await requireAdmin()
+
+  // 批次更新 sort_order：index 即為新排序
+  const updates = orderedIds.map((id, index) => ({
+    id,
+    sort_order: index + 1,
+  }))
+
+  // Supabase 不支援批次 update，用 Promise.all 逐筆更新
+  const results = await Promise.all(
+    updates.map(({ id, sort_order }) =>
+      supabaseAdmin
+        .from('products')
+        .update({ sort_order })
+        .eq('id', id)
+    )
+  )
+
+  const failed = results.find((r) => r.error)
+  if (failed?.error) {
+    return { error: '排序更新失敗：' + failed.error.message }
+  }
+
+  revalidateProducts()
+  return { success: true }
+}
