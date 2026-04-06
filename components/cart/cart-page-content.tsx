@@ -3,9 +3,7 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { useCartStore } from '@/stores/cart-store'
-import { socialMediaLinks } from '@/lib/constants'
 import CartItemRow from './cart-item-row'
-import CartSummary from './cart-summary'
 import CartEmpty from './cart-empty'
 
 export default function CartPageContent() {
@@ -14,14 +12,38 @@ export default function CartPageContent() {
   const updateQuantity = useCartStore((s) => s.updateQuantity)
   const removeItem = useCartStore((s) => s.removeItem)
 
-  // Hydration 中：顯示骨架屏避免閃爍
+  // Hydration 中：骨架屏
   if (!isHydrated) {
     return (
-      <div className="mx-auto max-w-3xl px-4 py-8">
-        <div className="animate-pulse space-y-4">
-          <div className="h-6 w-32 rounded bg-sandrift-100" />
-          <div className="h-24 rounded-xl bg-sandrift-50" />
-          <div className="h-24 rounded-xl bg-sandrift-50" />
+      <div className="mx-auto max-w-3xl px-4 py-5">
+        <div className="mb-5 flex items-center justify-between">
+          <div className="h-6 w-28 rounded bg-sandrift-100 animate-pulse" />
+          <div className="h-4 w-16 rounded bg-sandrift-50 animate-pulse" />
+        </div>
+        <div className="animate-pulse space-y-3">
+          <div className="flex gap-3">
+            <div className="h-16 w-16 shrink-0 rounded-lg bg-sandrift-100" />
+            <div className="flex-1 space-y-2">
+              <div className="h-4 w-24 rounded bg-sandrift-100" />
+              <div className="h-3 w-16 rounded bg-sandrift-50" />
+            </div>
+          </div>
+          <div className="flex gap-3">
+            <div className="h-16 w-16 shrink-0 rounded-lg bg-sandrift-100" />
+            <div className="flex-1 space-y-2">
+              <div className="h-4 w-24 rounded bg-sandrift-100" />
+              <div className="h-3 w-16 rounded bg-sandrift-50" />
+            </div>
+          </div>
+        </div>
+        <div className="mt-6 animate-pulse rounded-2xl bg-sandrift-50/30 p-5 ring-1 ring-sandrift-100/30">
+          <div className="space-y-3">
+            <div className="flex justify-between">
+              <div className="h-4 w-24 rounded bg-sandrift-100" />
+              <div className="h-4 w-16 rounded bg-sandrift-100" />
+            </div>
+            <div className="h-11 rounded-xl bg-sandrift-100" />
+          </div>
         </div>
       </div>
     )
@@ -34,18 +56,21 @@ export default function CartPageContent() {
     return <CartEmpty />
   }
 
+  const subtotal = activeItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
+  const itemCount = activeItems.reduce((sum, item) => sum + item.quantity, 0)
+
   return (
-    <div className="mx-auto max-w-3xl px-4 sm:px-6 py-5 md:py-8">
+    <div className="mx-auto max-w-3xl px-4 sm:px-6">
       {/* Header */}
-      <div className="mb-5 flex items-center justify-between">
+      <div className="py-5 flex items-center justify-between">
         <h1 className="text-lg font-bold text-sandrift-950">
           購物車
           <span className="ml-1.5 text-base font-normal text-sandrift-400">
-            ({activeItems.reduce((sum, item) => sum + item.quantity, 0)})
+            ({itemCount})
           </span>
         </h1>
         <Link
-          href="/"
+          href="/#products"
           className="flex items-center gap-1 text-xs text-sandrift-500 transition-colors hover:text-sandrift-700"
         >
           繼續選購
@@ -73,40 +98,40 @@ export default function CartPageContent() {
       </div>
 
       {/* Summary */}
-      <div className="mt-6">
-        <CartSummary
-          subtotal={activeItems.reduce((sum, item) => sum + item.price * item.quantity, 0)}
-          itemCount={activeItems.reduce((sum, item) => sum + item.quantity, 0)}
-        />
+      <div className="mt-5 rounded-2xl bg-sandrift-50/30 p-5 ring-1 ring-sandrift-100/30">
+        <div className="space-y-2.5 text-sm">
+          <div className="flex justify-between text-sandrift-600">
+            <span>商品小計（{itemCount} 件）</span>
+            <span className="tabular-nums">NT${subtotal}</span>
+          </div>
+          <div className="flex justify-between text-sandrift-400">
+            <span>運費</span>
+            <span>待結算</span>
+          </div>
+          <div className="border-t border-sandrift-200/40 pt-2.5">
+            <div className="flex justify-between font-semibold text-sandrift-900">
+              <span>合計</span>
+              <span className="text-base tabular-nums">NT${subtotal}</span>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Checkout button */}
-      <div className="mt-5">
+      {/* Desktop 結帳按鈕 */}
+      {activeItems.length > 0 && (
         <button
           type="button"
-          disabled={activeItems.length === 0}
-          className="flex w-full cursor-pointer items-center justify-center rounded-xl bg-sandrift-500 py-3.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-sandrift-600 active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-sandrift-200 disabled:text-sandrift-400"
+          className="cta-shine mt-4 hidden w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-sandrift-500 py-3 text-sm font-semibold text-white shadow-lg shadow-sandrift-500/20 transition-colors hover:bg-sandrift-600 active:scale-[0.98] lg:flex"
           onClick={() => {
-            // Phase 1: toast 提示
             alert('結帳功能即將推出，請先透過 LINE 下單')
           }}
         >
           前往結帳
         </button>
-      </div>
+      )}
 
-      {/* LINE fallback */}
-      <p className="mt-4 text-center text-xs text-sandrift-400">
-        有問題？
-        <a
-          href={socialMediaLinks.lineOfficial}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="ml-1 text-sandrift-500 underline underline-offset-2 transition-colors hover:text-sandrift-700"
-        >
-          透過 LINE 聯繫我們
-        </a>
-      </p>
+      {/* 底部留白給 StoreCta sticky bar（手機版） */}
+      <div className="h-16 lg:h-8" />
     </div>
   )
 }

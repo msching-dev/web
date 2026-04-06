@@ -39,7 +39,7 @@ export default function CartEmpty() {
 
               {/* 漸層按鈕 + hover shine */}
               <Link
-                href="/"
+                href="/#products"
                 className="group relative mt-7 inline-flex cursor-pointer items-center overflow-hidden rounded-xl bg-linear-to-r from-sandrift-500 to-sandrift-600 px-8 py-3 text-[13px] font-semibold text-white shadow-[0_2px_10px_rgba(176,141,98,0.25)] transition-all hover:from-sandrift-600 hover:to-sandrift-700 hover:shadow-[0_4px_16px_rgba(176,141,98,0.3)] active:scale-[0.98]"
               >
                 <span className="relative z-10">探索商品</span>

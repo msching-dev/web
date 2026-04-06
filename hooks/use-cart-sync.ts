@@ -61,7 +61,10 @@ export function useCartSync() {
 
         for (const item of items) {
           if (dbMap.get(item.productId) !== item.quantity) {
-            await upsertCartItem(item.productId, item.quantity)
+            const result = await upsertCartItem(item.productId, item.quantity)
+            if (!result.success) {
+              console.warn('[cart-sync] upsertCartItem failed:', item.productId)
+            }
           }
           dbMap.delete(item.productId)
         }
@@ -69,6 +72,8 @@ export function useCartSync() {
         for (const productId of dbMap.keys()) {
           await removeCartItemAction(productId)
         }
+      } catch (err) {
+        console.warn('[cart-sync] DB sync failed:', err)
       } finally {
         isSyncingRef.current = false
       }

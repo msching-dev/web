@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { ShoppingBag } from 'lucide-react'
 import { useCartStore } from '@/stores/cart-store'
@@ -8,11 +9,30 @@ export default function CartBadge() {
   const count = useCartStore((s) =>
     s.isHydrated ? s.items.reduce((sum, item) => sum + item.quantity, 0) : 0
   )
+  const prevCountRef = useRef(count)
+  const linkRef = useRef<HTMLAnchorElement>(null)
+
+  // 數量增加時用 WAAPI 觸發 bounce（避免 setState in effect）
+  useEffect(() => {
+    if (count > prevCountRef.current && linkRef.current) {
+      linkRef.current.animate(
+        [
+          { transform: 'scale(1)' },
+          { transform: 'scale(1.25)' },
+          { transform: 'scale(1)' },
+        ],
+        { duration: 300, easing: 'ease-out' }
+      )
+    }
+    prevCountRef.current = count
+  }, [count])
 
   return (
     <Link
+      ref={linkRef}
       href="/cart"
-      className="relative flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-sandrift-500 transition-colors hover:text-sandrift-800"
+      data-cart-badge
+      className="relative flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-sandrift-500 transition-all duration-200 hover:bg-sandrift-100/50 hover:text-sandrift-800"
       aria-label="購物車"
     >
       <ShoppingBag className="h-4.5 w-4.5" strokeWidth={1.5} />
