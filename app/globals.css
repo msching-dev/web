@@ -137,8 +137,78 @@
   }
 }
 
+@keyframes cart-bounce {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+@keyframes stepper-expand {
+  from {
+    width: 32px;
+    opacity: 0.8;
+  }
+  to {
+    width: auto;
+    opacity: 1;
+  }
+}
+
+@keyframes slide-left {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-right {
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes toast-enter {
+  from { opacity: 0; transform: translate(-50%, 12px) scale(0.96); }
+  to { opacity: 1; transform: translate(-50%, 0) scale(1); }
+}
+
+@keyframes toast-exit {
+  from { opacity: 1; transform: translate(-50%, 0) scale(1); }
+  to { opacity: 0; transform: translate(-50%, 8px) scale(0.96); }
+}
+
+@keyframes cta-success {
+  0% { transform: scale(1); }
+  30% { transform: scale(0.96); }
+  60% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+@keyframes stagger-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .animate-page-enter {
   animation: page-enter 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.animate-slide-left {
+  animation: slide-left 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.animate-slide-right {
+  animation: slide-right 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.animate-toast-enter {
+  animation: toast-enter 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-toast-exit {
+  animation: toast-exit 0.25s ease-in forwards;
+}
+
+.animate-stagger-in {
+  animation: stagger-in 0.3s ease-out both;
+  animation-delay: calc(var(--stagger-index, 0) * 50ms);
 }
 
 /* ── Timeline 滾動進場 ── */
@@ -206,6 +276,40 @@
   border-color: rgba(255, 255, 255, 0.55);
   border-top-color: rgba(255, 255, 255, 0.7);
   border-bottom-color: rgba(176, 141, 98, 0.15);
+}
+
+/* CTA 刷光效果 — 精品聚光燈質感 */
+@keyframes cta-shine {
+  0% { left: -100%; }
+  20% { left: 150%; }
+  100% { left: 150%; }
+}
+
+.cta-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-shine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  left: -100%;
+  width: 60%;
+  background: linear-gradient(
+    105deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.12) 35%,
+    rgba(255, 255, 255, 0.28) 48%,
+    rgba(255, 255, 255, 0.12) 62%,
+    transparent 80%
+  );
+  animation: cta-shine 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.cta-shine:disabled::after {
+  display: none;
 }
 
 /* Shimmer for loading */

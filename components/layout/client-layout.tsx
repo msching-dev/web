@@ -27,11 +27,13 @@ export default function ClientLayout({
   const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev)
   const closeMobileMenu = () => setIsMobileMenuOpen(false)
 
+  const isCartPage = pathname === '/cart'
+
   return (
     <>
       <Header onMobileMenuToggle={toggleMobileMenu} />
       <MobileMenu isOpen={isMobileMenuOpen} onClose={closeMobileMenu} />
-      <main className="min-h-[calc(100dvh-4rem)]">{children}</main>
+      <main className={isCartPage ? '' : 'min-h-[calc(100dvh-4rem)]'}>{children}</main>
       <Footer />
       <BackToTopButton />
     </>

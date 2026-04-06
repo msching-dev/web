@@ -134,7 +134,7 @@ function UserButton({
 
   if (!user) {
     return (
-      <Link href="/account" className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-sandrift-500 transition-colors hover:text-sandrift-800" aria-label="帳號">
+      <Link href="/account" className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-sandrift-500 transition-all duration-200 hover:bg-sandrift-100/50 hover:text-sandrift-800" aria-label="帳號">
         <User className="h-4.5 w-4.5" strokeWidth={1.5} />
       </Link>
     )
@@ -146,7 +146,7 @@ function UserButton({
         ref={btnRef}
         type="button"
         onClick={(e) => { e.stopPropagation(); setShowUserMenu(!showUserMenu) }}
-        className="group/avatar relative flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-linear-to-br from-sandrift-300/70 via-sandrift-200/50 to-sandrift-300/60 p-0.5 shadow-[0_0_10px_rgba(176,141,98,0.18)] transition-all hover:shadow-[0_0_14px_rgba(176,141,98,0.28)] hover:from-sandrift-400/70"
+        className="group/avatar relative flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-linear-to-br from-sandrift-200/40 via-sandrift-100/25 to-sandrift-200/35 p-0.5 transition-all duration-200 hover:from-sandrift-200/60 hover:via-sandrift-100/40 hover:to-sandrift-200/50"
         aria-label="使用者選單"
       >
         <span className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full bg-white">
@@ -186,7 +186,7 @@ function UserButton({
           >
           {/* User card */}
           <div className="flex items-center gap-3 px-4 py-3.5">
-            <div className="relative h-10 w-10 shrink-0 rounded-full bg-linear-to-br from-sandrift-200/80 via-sandrift-300/40 to-sandrift-200/60 p-[1.5px]">
+            <div className="relative h-10 w-10 shrink-0 rounded-full bg-linear-to-br from-sandrift-200/40 via-sandrift-100/25 to-sandrift-200/35 p-[1.5px]">
               <span className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full bg-white">
                 {isLetterAvatar(user) ? (
                   <span className="flex h-full w-full items-center justify-center bg-sandrift-50 text-sm font-bold text-sandrift-500">
@@ -321,7 +321,7 @@ export default function Header({ onMobileMenuToggle }: HeaderProps) {
           <Image src="/images/logo.svg" alt="MS. CHING" width={52} height={52} className="h-13" style={{ width: 'auto' }} priority />
         </Link>
 
-        <div className="flex items-center">
+        <div className="flex items-center gap-1">
           <CartBadge />
           <UserButton {...userButtonProps} />
         </div>

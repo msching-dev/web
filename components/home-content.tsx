@@ -8,12 +8,12 @@ import NoProductsFound from '@/components/no-products-found'
 import type { ProductInfo, Category } from '@/types'
 
 const categoryTabs = [
-  { value: 'all', label: '全部' },
-  { value: 'featured', label: '推薦' },
-  { value: 'hot' as Category, label: '熱賣中' },
-  { value: 'cookie' as Category, label: '餅乾' },
-  { value: 'madeleine' as Category, label: '瑪德蓮' },
-  { value: 'festival' as Category, label: '節慶禮盒' },
+  { value: 'all', label: '全部', heading: '所有商品' },
+  { value: 'featured', label: '推薦', heading: '推薦商品' },
+  { value: 'hot' as Category, label: '熱賣中', heading: '熱賣商品' },
+  { value: 'cookie' as Category, label: '餅乾', heading: '餅乾' },
+  { value: 'madeleine' as Category, label: '瑪德蓮', heading: '瑪德蓮' },
+  { value: 'festival' as Category, label: '節慶禮盒', heading: '節慶禮盒' },
 ]
 
 interface HomeContentProps {
@@ -23,7 +23,7 @@ interface HomeContentProps {
 export default function HomeContent({ products }: HomeContentProps) {
   const searchParams = useSearchParams()
   const router = useRouter()
-  const categoryParam = searchParams.get('category') || 'all'
+  const categoryParam = searchParams.get('category') || 'featured'
 
   const [searchQuery, setSearchQuery] = useState('')
   const tabsRef = useRef<HTMLDivElement>(null)
@@ -44,6 +44,19 @@ export default function HomeContent({ products }: HomeContentProps) {
     updateIndicator()
   }, [categoryParam, updateIndicator])
 
+  // 跨頁跳轉到 /#products 時自動 scroll
+  useEffect(() => {
+    if (window.location.hash === '#products') {
+      const el = document.getElementById('products')
+      if (el) {
+        // 等頁面渲染穩定後再 scroll
+        requestAnimationFrame(() => {
+          el.scrollIntoView({ behavior: 'smooth' })
+        })
+      }
+    }
+  }, [])
+
   // Recalculate on font load / resize
   useEffect(() => {
     window.addEventListener('resize', updateIndicator)
@@ -57,9 +70,14 @@ export default function HomeContent({ products }: HomeContentProps) {
     if (categoryParam === 'all') {
       result = products
     } else if (categoryParam === 'featured') {
-      result = products.filter(
-        (p) => p.tag === 'hot' || p.tag === 'top_1'
-      )
+      // 推薦 = top 系列 + hot（不含 new、christmas 等非推薦 tag）
+      const featuredTags = new Set(['top_1', 'top_2', 'top_3', 'hot'])
+      const tagWeight: Record<string, number> = {
+        top_1: 1, top_2: 2, top_3: 3, hot: 4,
+      }
+      result = products
+        .filter((p) => featuredTags.has(p.tag))
+        .sort((a, b) => (tagWeight[a.tag] ?? 99) - (tagWeight[b.tag] ?? 99))
     } else {
       result = products.filter((p) =>
         p.categories.includes(categoryParam as Category)
@@ -79,7 +97,7 @@ export default function HomeContent({ products }: HomeContentProps) {
   }, [products, categoryParam, searchQuery])
 
   const handleCategoryChange = (value: string) => {
-    if (value === 'all') {
+    if (value === 'featured') {
       router.push('/', { scroll: false })
     } else {
       router.push(`/?category=${value}`, { scroll: false })
@@ -91,7 +109,7 @@ export default function HomeContent({ products }: HomeContentProps) {
       {/* Section heading */}
       <div className="mb-6 text-center">
         <h2 className="text-xl md:text-2xl font-bold tracking-tight text-sandrift-950">
-          所有商品
+          {categoryTabs.find((t) => t.value === categoryParam)?.heading ?? '所有商品'}
         </h2>
       </div>
 

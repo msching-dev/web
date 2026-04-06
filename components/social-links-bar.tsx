@@ -42,13 +42,13 @@ export default function SocialLinksBar() {
             className="group relative overflow-hidden rounded-2xl ring-1 ring-sandrift-100/60 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(176,141,98,0.1)]"
           >
             {/* Banner image as background */}
-            <div className="relative aspect-16/10 sm:aspect-video">
+            <div className="relative aspect-3/4 sm:aspect-video">
               <Image
                 src={channel.banner}
                 alt={channel.name}
                 fill
                 sizes="(max-width: 640px) 33vw, 33vw"
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                className="object-cover object-top sm:object-center transition-transform duration-500 group-hover:scale-105"
               />
               {/* Gradient overlay — bottom fade for text readability */}
               <div className="absolute inset-0 bg-linear-to-t from-sandrift-950/60 via-sandrift-950/10 to-transparent" />

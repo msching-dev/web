@@ -16,7 +16,7 @@ const policyLinks = [
 
 export default function Footer() {
   return (
-    <footer className="relative border-t border-sandrift-100/60 pb-20 lg:pb-0 overflow-hidden">
+    <footer className="relative border-t border-sandrift-100/60 pb-18 lg:pb-0 overflow-hidden">
       {/* Watermark decoration */}
       <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 opacity-[0.03]">
         <Image src="/images/watermark_3.png" alt="" fill sizes="256px" className="object-contain" />
