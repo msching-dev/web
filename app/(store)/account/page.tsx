@@ -51,7 +51,15 @@ export default function AccountPage() {
       email, password,
       options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
     })
-    if (error) { setError('註冊失敗，請稍後再試'); setLoading(false); return }
+    if (error) {
+      if (error.message?.includes('already') || error.message?.includes('registered')) {
+        setError('此信箱已註冊，請嘗試其他方式登入')
+      } else {
+        setError('註冊失敗，請稍後再試')
+      }
+      setLoading(false)
+      return
+    }
     setMessage('註冊成功！請查收驗證信後登入')
     setActiveTab('login')
     setPassword('')

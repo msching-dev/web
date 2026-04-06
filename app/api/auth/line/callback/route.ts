@@ -135,6 +135,12 @@ export async function GET(request: Request) {
         },
       })
 
+      // 同步 line_user_id 到 customers 表
+      await supabaseAdmin
+        .from('customers')
+        .update({ line_user_id: profile.userId })
+        .eq('auth_id', user.id)
+
       return NextResponse.redirect(`${origin}/account/profile?line_linked=true`)
     }
 

@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { Check } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useAuth, refreshAuthUser } from '@/hooks/use-auth'
-import { getCustomerProfile, updateProfile, setPassword, updateAvatar, unlinkLine } from './actions'
+import { getCustomerProfile, updateProfile, setPassword, updateAvatar, unlinkLine, updateEmail, unlinkGoogle } from './actions'
 import PageHero from '@/components/layout/page-hero'
 
 /** 純數字 → 0912-345-678 顯示格式 */
@@ -108,6 +108,14 @@ function ProfileContent() {
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [passwordSaving, setPasswordSaving] = useState(false)
+
+  // Email（假 email 用戶）
+  const [newEmail, setNewEmail] = useState('')
+  const [emailSaving, setEmailSaving] = useState(false)
+  const [emailSaved, setEmailSaved] = useState(false)
+
+  // Refs
+  const passwordSectionRef = useRef<HTMLElement>(null)
 
   // Avatar
   const [showAvatarPicker, setShowAvatarPicker] = useState(false)
@@ -234,6 +242,27 @@ function ProfileContent() {
     setPasswordSaving(false)
   }
 
+  const handleUpdateEmail = async () => {
+    setError(null)
+    setMessage(null)
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail)) {
+      setError('請輸入有效的電子信箱')
+      return
+    }
+
+    setEmailSaving(true)
+    const result = await updateEmail(newEmail)
+    if (result.error) {
+      setError(result.error)
+    } else {
+      setEmailSaved(true)
+      setMessage('電子信箱已設定')
+      await loadProfile()
+    }
+    setEmailSaving(false)
+  }
+
   const handleAvatarChange = async (avatar: string) => {
     // Optimistic update — 立即反映在 profile 頁面
     setProfile((prev) => prev ? {
@@ -279,6 +308,18 @@ function ProfileContent() {
     }
   }
 
+  const handleUnlinkGoogle = async () => {
+    setError(null)
+    setMessage(null)
+    const result = await unlinkGoogle()
+    if (result.error) {
+      setError(result.error)
+    } else {
+      setMessage('Google 帳號已解除綁定')
+      await loadProfile()
+    }
+  }
+
   const handleLogout = async () => {
     await supabase.auth.signOut()
     router.push('/')
@@ -297,6 +338,19 @@ function ProfileContent() {
   const hasPassword = profile.user.identities.some((i) => i.provider === 'email')
   const hasGoogle = profile.user.identities.some((i) => i.provider === 'google')
   const hasLine = !!profile.user.user_metadata?.line_user_id
+
+  const hasRealEmail = !profile.user.email?.endsWith('@noreply.msching.com')
+  const isFakeEmail = !hasRealEmail
+  const canUnlinkLine = (hasRealEmail && hasPassword) || hasGoogle
+  const canUnlinkGoogle = (hasRealEmail && hasPassword) || hasLine
+
+  const scrollToPasswordSection = () => {
+    passwordSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    passwordSectionRef.current?.classList.add('ring-2', 'ring-sandrift-300')
+    setTimeout(() => {
+      passwordSectionRef.current?.classList.remove('ring-2', 'ring-sandrift-300')
+    }, 1500)
+  }
 
   const currentAvatar = profile.user.user_metadata?.preferred_avatar || getDefaultAvatar(profile.user.email || '')
   const isLetter = currentAvatar === 'letter'
@@ -332,7 +386,7 @@ function ProfileContent() {
               className="group relative cursor-pointer"
               aria-label="變更頭像"
             >
-              <div className="h-20 w-20 rounded-full bg-linear-to-br from-sandrift-200/80 via-sandrift-300/40 to-sandrift-200/60 p-0.5 shadow-[0_0_16px_rgba(176,141,98,0.15)] transition-all group-hover:shadow-[0_0_24px_rgba(176,141,98,0.22)] group-hover:from-sandrift-300/90">
+              <div className="h-20 w-20 rounded-full bg-linear-to-br from-sandrift-200/40 via-sandrift-100/25 to-sandrift-200/35 p-0.5 transition-all duration-200 group-hover:from-sandrift-200/60 group-hover:via-sandrift-100/40 group-hover:to-sandrift-200/50">
                 <div className="relative h-full w-full overflow-hidden rounded-full bg-white">
                   {isLetter ? (
                     <span className="flex h-full w-full items-center justify-center bg-sandrift-50 text-2xl font-bold text-sandrift-500 transition-all duration-300">
@@ -494,63 +548,105 @@ function ProfileContent() {
           </div>
         </section>
 
-        {/* 密碼設定 */}
-        <section className="glass rounded-3xl p-6 md:p-8 ring-1 ring-white/20">
+        {/* 設定密碼 / Email 與密碼 */}
+        <section ref={passwordSectionRef} className="glass rounded-3xl p-6 md:p-8 ring-1 ring-white/20 transition-all duration-500">
           <h2 className="mb-1 text-[15px] font-bold text-sandrift-950">
-            {hasPassword ? '變更密碼' : '設定密碼'}
+            {isFakeEmail && !emailSaved
+              ? '設定 Email 與密碼'
+              : hasPassword ? '變更密碼' : '設定密碼'}
           </h2>
           <p className="mb-5 text-[13px] text-sandrift-400">
-            {hasPassword
-              ? '設定新密碼以取代舊密碼'
-              : '設定密碼後即可使用 Email + 密碼登入'}
+            {isFakeEmail && !emailSaved
+              ? '請先設定你的電子信箱，之後即可用 Email + 密碼登入'
+              : hasPassword
+                ? '設定新密碼以取代舊密碼'
+                : '設定密碼後即可使用 Email + 密碼登入'}
           </p>
 
           <div className="space-y-3">
-            <div>
-              <label htmlFor="new-password" className={labelClass}>
-                {hasPassword ? '新密碼' : '密碼'}
-              </label>
-              <input
-                id="new-password"
-                type="password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                placeholder="至少 6 個字元"
-                minLength={6}
-                className={inputClass}
-              />
-            </div>
-            <div>
-              <label htmlFor="confirm-new-password" className={labelClass}>確認密碼</label>
-              <input
-                id="confirm-new-password"
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="請再次輸入密碼"
-                className={inputClass}
-              />
-            </div>
-            <button
-              type="button"
-              onClick={handleSetPassword}
-              disabled={passwordSaving || !newPassword}
-              className={`${btnClass} w-full bg-sandrift-500 text-white hover:bg-sandrift-600`}
-            >
-              {passwordSaving ? <><BtnSpinner />設定中...</> : hasPassword ? '變更密碼' : '設定密碼'}
-            </button>
+            {/* 假 email 用戶：先設定 email */}
+            {isFakeEmail && !emailSaved && (
+              <>
+                <div>
+                  <label htmlFor="new-email" className={labelClass}>電子信箱</label>
+                  <input
+                    id="new-email"
+                    type="email"
+                    value={newEmail}
+                    onChange={(e) => setNewEmail(e.target.value)}
+                    placeholder="請輸入你的電子信箱"
+                    className={inputClass}
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={handleUpdateEmail}
+                  disabled={emailSaving || !newEmail}
+                  className={`${btnClass} w-full bg-sandrift-500 text-white hover:bg-sandrift-600`}
+                >
+                  {emailSaving ? <><BtnSpinner />儲存中...</> : '儲存信箱'}
+                </button>
+              </>
+            )}
+
+            {/* email 已設定完成的提示 */}
+            {isFakeEmail && emailSaved && (
+              <div className="flex items-center gap-2 rounded-xl bg-green-50/60 px-4 py-2.5">
+                <span className="text-green-500">✓</span>
+                <span className="text-[13px] text-green-700">{newEmail}</span>
+              </div>
+            )}
+
+            {/* 密碼欄位：真 email 用戶直接顯示，假 email 用戶要先設完 email */}
+            {(hasRealEmail || emailSaved) && (
+              <>
+                <div>
+                  <label htmlFor="new-password" className={labelClass}>
+                    {hasPassword ? '新密碼' : '密碼'}
+                  </label>
+                  <input
+                    id="new-password"
+                    type="password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder="至少 6 個字元"
+                    minLength={6}
+                    className={inputClass}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="confirm-new-password" className={labelClass}>確認密碼</label>
+                  <input
+                    id="confirm-new-password"
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="請再次輸入密碼"
+                    className={inputClass}
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={handleSetPassword}
+                  disabled={passwordSaving || !newPassword}
+                  className={`${btnClass} w-full bg-sandrift-500 text-white hover:bg-sandrift-600`}
+                >
+                  {passwordSaving ? <><BtnSpinner />設定中...</> : hasPassword ? '變更密碼' : '設定密碼'}
+                </button>
+              </>
+            )}
           </div>
         </section>
 
-        {/* 綁定帳號 */}
+        {/* 登入方式 */}
         <section className="glass rounded-3xl p-6 md:p-8 ring-1 ring-white/20">
-          <h2 className="mb-1 text-[15px] font-bold text-sandrift-950">綁定帳號</h2>
+          <h2 className="mb-1 text-[15px] font-bold text-sandrift-950">登入方式</h2>
           <p className="mb-5 text-[13px] text-sandrift-400">
-            綁定後可用多種方式登入同一帳號
+            管理你可以用來登入的方式
           </p>
 
           <div className="space-y-3">
-            {/* Email */}
+            {/* Email 密碼 */}
             <div className="flex items-center justify-between rounded-xl bg-white/50 px-4 py-3 ring-1 ring-sandrift-100/40">
               <div className="flex items-center gap-3">
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-sandrift-100">
@@ -561,83 +657,131 @@ function ProfileContent() {
                 <div>
                   <p className="text-[13px] font-medium text-sandrift-900">Email 密碼</p>
                   <p className="text-[11px] text-sandrift-400">
-                    {hasPassword ? '已設定' : '未設定 — 請在上方設定密碼'}
+                    {hasRealEmail && hasPassword
+                      ? profile.user.email
+                      : hasRealEmail
+                        ? `${profile.user.email} · 未設定密碼`
+                        : '尚未設定'}
                   </p>
                 </div>
               </div>
-              {hasPassword && (
+              {hasRealEmail && hasPassword ? (
                 <span className="rounded-full bg-green-50 px-2.5 py-0.5 text-[11px] font-medium text-green-600">
-                  已綁定
+                  已設定
                 </span>
+              ) : (
+                <button
+                  type="button"
+                  onClick={scrollToPasswordSection}
+                  className="cursor-pointer text-[12px] font-medium text-sandrift-500 hover:text-sandrift-700 transition-colors"
+                >
+                  去設定 ↑
+                </button>
               )}
             </div>
 
             {/* Google */}
-            <div className="flex items-center justify-between rounded-xl bg-white/50 px-4 py-3 ring-1 ring-sandrift-100/40">
-              <div className="flex items-center gap-3">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white">
-                  <svg className="h-4 w-4" viewBox="0 0 24 24">
-                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />
-                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
-                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
-                  </svg>
+            <div className="rounded-xl bg-white/50 px-4 py-3 ring-1 ring-sandrift-100/40">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white">
+                    <svg className="h-4 w-4" viewBox="0 0 24 24">
+                      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />
+                      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
+                      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-[13px] font-medium text-sandrift-900">Google</p>
+                    <p className="text-[11px] text-sandrift-400">
+                      {hasGoogle ? '已連結' : '未連結'}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-[13px] font-medium text-sandrift-900">Google</p>
-                  <p className="text-[11px] text-sandrift-400">
-                    {hasGoogle ? '已連結' : '未連結'}
-                  </p>
-                </div>
+                {hasGoogle ? (
+                  canUnlinkGoogle ? (
+                    <button
+                      type="button"
+                      onClick={handleUnlinkGoogle}
+                      className={`${btnClass} text-red-500 hover:bg-red-50`}
+                    >
+                      解除綁定
+                    </button>
+                  ) : (
+                    <span className="rounded-full bg-green-50 px-2.5 py-0.5 text-[11px] font-medium text-green-600">
+                      已綁定
+                    </span>
+                  )
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleLinkGoogle}
+                    className={`${btnClass} bg-white text-sandrift-700 ring-1 ring-sandrift-200/50 hover:bg-sandrift-50`}
+                  >
+                    綁定
+                  </button>
+                )}
               </div>
-              {hasGoogle ? (
-                <span className="rounded-full bg-green-50 px-2.5 py-0.5 text-[11px] font-medium text-green-600">
-                  已綁定
-                </span>
-              ) : (
-                <button
-                  type="button"
-                  onClick={handleLinkGoogle}
-                  className={`${btnClass} bg-white text-sandrift-700 ring-1 ring-sandrift-200/50 hover:bg-sandrift-50`}
-                >
-                  綁定
-                </button>
+              {hasGoogle && !canUnlinkGoogle && (
+                <p className="mt-2 text-[11px] text-sandrift-400">
+                  這是你目前唯一的登入方式，請先
+                  <button type="button" onClick={scrollToPasswordSection} className="cursor-pointer text-sandrift-600 underline underline-offset-2 hover:text-sandrift-800">
+                    設定 Email 和密碼
+                  </button>
+                </p>
               )}
             </div>
 
             {/* LINE */}
-            <div className="flex items-center justify-between rounded-xl bg-white/50 px-4 py-3 ring-1 ring-sandrift-100/40">
-              <div className="flex items-center gap-3">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#06C755]">
-                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="white">
-                    <path d="M24 10.304C24 4.916 18.615.535 12 .535S0 4.916 0 10.304c0 4.83 4.27 8.879 10.035 9.642.391.084.923.26 1.058.594.12.302.079.77.038 1.084l-.164 1.026c-.045.303-.24 1.192 1.049.649 1.291-.542 6.916-4.098 9.436-7.013C23.176 14.382 24 12.442 24 10.304M8.776 13.194H6.42a.532.532 0 01-.532-.532V8.106a.532.532 0 01.532-.532.532.532 0 01.532.532v4.024h1.824a.532.532 0 01.532.532.532.532 0 01-.532.532m1.63-.532a.532.532 0 01-.532.532.532.532 0 01-.532-.532V8.106a.532.532 0 01.532-.532.532.532 0 01.532.532v4.556zm4.674 0c0 .228-.148.43-.365.502a.523.523 0 01-.167.03.527.527 0 01-.43-.216l-2.064-2.81v2.494a.532.532 0 01-.532.532.532.532 0 01-.532-.532V8.106c0-.228.148-.43.365-.502a.521.521 0 01.167-.03c.17 0 .33.09.43.216l2.064 2.81V8.106a.532.532 0 01.532-.532.532.532 0 01.532.532v4.556zm3.695-3.092a.532.532 0 01.532.532.532.532 0 01-.532.532h-1.48v.952h1.48a.532.532 0 01.532.532.532.532 0 01-.532.532h-2.012a.532.532 0 01-.532-.532V8.106a.532.532 0 01.532-.532h2.012a.532.532 0 01.532.532.532.532 0 01-.532.532h-1.48v.932h1.48z" />
-                  </svg>
+            <div className="rounded-xl bg-white/50 px-4 py-3 ring-1 ring-sandrift-100/40">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#06C755]">
+                    <svg className="h-4 w-4" viewBox="0 0 24 24" fill="white">
+                      <path d="M24 10.304C24 4.916 18.615.535 12 .535S0 4.916 0 10.304c0 4.83 4.27 8.879 10.035 9.642.391.084.923.26 1.058.594.12.302.079.77.038 1.084l-.164 1.026c-.045.303-.24 1.192 1.049.649 1.291-.542 6.916-4.098 9.436-7.013C23.176 14.382 24 12.442 24 10.304M8.776 13.194H6.42a.532.532 0 01-.532-.532V8.106a.532.532 0 01.532-.532.532.532 0 01.532.532v4.024h1.824a.532.532 0 01.532.532.532.532 0 01-.532.532m1.63-.532a.532.532 0 01-.532.532.532.532 0 01-.532-.532V8.106a.532.532 0 01.532-.532.532.532 0 01.532.532v4.556zm4.674 0c0 .228-.148.43-.365.502a.523.523 0 01-.167.03.527.527 0 01-.43-.216l-2.064-2.81v2.494a.532.532 0 01-.532.532.532.532 0 01-.532-.532V8.106c0-.228.148-.43.365-.502a.521.521 0 01.167-.03c.17 0 .33.09.43.216l2.064 2.81V8.106a.532.532 0 01.532-.532.532.532 0 01.532.532v4.556zm3.695-3.092a.532.532 0 01.532.532.532.532 0 01-.532.532h-1.48v.952h1.48a.532.532 0 01.532.532.532.532 0 01-.532.532h-2.012a.532.532 0 01-.532-.532V8.106a.532.532 0 01.532-.532h2.012a.532.532 0 01.532.532.532.532 0 01-.532.532h-1.48v.932h1.48z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-[13px] font-medium text-sandrift-900">LINE</p>
+                    <p className="text-[11px] text-sandrift-400">
+                      {hasLine
+                        ? `已連結 (${profile.user.user_metadata.line_display_name || 'LINE 用戶'})`
+                        : '未連結'}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-[13px] font-medium text-sandrift-900">LINE</p>
-                  <p className="text-[11px] text-sandrift-400">
-                    {hasLine
-                      ? `已連結 (${profile.user.user_metadata.line_display_name || 'LINE 用戶'})`
-                      : '未連結'}
-                  </p>
-                </div>
+                {hasLine ? (
+                  canUnlinkLine ? (
+                    <button
+                      type="button"
+                      onClick={handleUnlinkLine}
+                      className={`${btnClass} text-red-500 hover:bg-red-50`}
+                    >
+                      解除綁定
+                    </button>
+                  ) : (
+                    <span className="rounded-full bg-green-50 px-2.5 py-0.5 text-[11px] font-medium text-green-600">
+                      已綁定
+                    </span>
+                  )
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleLinkLine}
+                    className={`${btnClass} bg-[#06C755] text-white hover:bg-[#05b64e]`}
+                  >
+                    綁定
+                  </button>
+                )}
               </div>
-              {hasLine ? (
-                <button
-                  type="button"
-                  onClick={handleUnlinkLine}
-                  className={`${btnClass} text-red-500 hover:bg-red-50`}
-                >
-                  解除綁定
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={handleLinkLine}
-                  className={`${btnClass} bg-[#06C755] text-white hover:bg-[#05b64e]`}
-                >
-                  綁定
-                </button>
+              {hasLine && !canUnlinkLine && (
+                <p className="mt-2 text-[11px] text-sandrift-400">
+                  這是你目前唯一的登入方式，請先
+                  <button type="button" onClick={scrollToPasswordSection} className="cursor-pointer text-sandrift-600 underline underline-offset-2 hover:text-sandrift-800">
+                    設定 Email 和密碼
+                  </button>
+                </p>
               )}
             </div>
           </div>
